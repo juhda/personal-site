@@ -1,0 +1,66 @@
+---
+import "../styles/tailwind.css";
+
+const {
+  title = "Dávid Juhász's Pages",
+  canonical = null
+} = Astro.props;
+const currentPath = Astro.url.pathname;
+const canonicalUrl = canonical ?? new URL(currentPath, Astro.site).toString();
+const isActive = (path) =>
+  path === '/'
+    ? currentPath === '/'
+    : currentPath.startsWith(path);
+---
+
+<html lang="en" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content="A personal portfolio site showcasing projects and sharing insights." />
+    <meta name="author" content="Dávid Juhász" />
+    <meta name="keywords" content="portfolio, projects, professional, compiler, developer tooling, embedded systems, systems engineer" />
+    <link rel="canonical" href={canonicalUrl} />
+    <!-- link rel="icon" type="image/svg+xml" href="/favicon.svg" / -->
+    <title>{title}</title>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Dávid Juhász",
+      "url": "https://davidjuhasz.dev",
+      "sameAs": [
+        "https://www.linkedin.com/in/juhaszdavid"
+      ],
+      "jobTitle": "Compiler & Systems Engineer"
+    }
+    </script>
+  </head>
+  <body class="flex flex-col h-screen bg-white text-primary font-sans">
+    <header class="bg-surface p-4 shadow-md border-b border-muted">
+      <nav class="flex justify-between items-center max-w-4xl mx-auto">
+        <h1 class="text-xl font-bold text-primary">{title}</h1>
+        <ul class="flex space-x-4">
+          <li>
+            <a href="/" class={`nav-link ${isActive('/') ? 'active' : ''}`}>Home</a>
+          </li>
+          <li>
+            <a href="/portfolio" class={`nav-link ${isActive('/portfolio') ? 'active' : ''}`}>Portfolio</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+
+    <!-- Main content takes remaining height -->
+    <main
+      class={`flex-1 overflow-hidden ${
+        Astro.props.noPadding ? 'w-full h-full' : 'p-4 max-w-4xl mx-auto'
+      }`}
+    >
+      <slot />
+    </main>
+  </body>
+</html>

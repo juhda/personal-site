@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.nav-link {
+  @apply text-gray-700 hover:underline transition;
+}
+
+.active {
+  @apply text-accent font-semibold underline;
+}

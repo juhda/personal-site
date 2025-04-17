@@ -1,11 +1,61 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout>
+<section class="flex flex-col sm:flex-row items-center justify-center gap-10 py-16 px-6 bg-surface rounded-xl shadow-md">
+
+  <!-- Profile Photo -->
+  <div class="flex-shrink-0">
+    <img
+      src="/images/me.jpg"
+      alt="Portrait of Dávid Juhász"
+      class="w-40 h-40 rounded-full object-cover shadow-md border-4 border-muted"
+      loading="lazy"
+    />
+  </div>
+
+  <!-- Text Content -->
+  <div class="max-w-xl sm:text-left text-center">
+    <h1 class="text-4xl font-extrabold text-primary mb-4">
+      Welcome to My Digital Space
+    </h1>
+    <p class="text-lg text-gray-600 mb-6">
+      My name is Dávid Juhász and I'm a Compiler & Systems Engnieer. I specialize in building compilers, toolchains, and low-level runtime systems where hardware and software meet. My work spans LLVM-based code generation, embedded firmware, system simulation, and performance-tuned tooling for hardware accelerators.
+    </p>
+    <p class="text-lg text-gray-600 mb-6">
+      This site is still early in its journey — I’ve recently decided to be more intentional about sharing my work and ideas publicly. While some sections may be light for now, I’ll be adding more over time, including technical deep-dives, project highlights, and insights on systems, developer tools, and software engineering.
+    </p>
+    <!-- p class="text-lg text-gray-600 mb-6">
+      This site is a space to share my work, insights, and engineering philosophy — from real-world projects to explorations in developer tooling and system design. I'll be expanding it with a blog in the near future.
+    </p -->
+    <p class="text-lg text-gray-600 mb-8">
+      If any of this resonates — whether you're curious about my work, exploring collaboration, or just want to connect — feel free to reach out or explore more using the buttons below.
+    </p>
+    <div class="flex flex-col sm:flex-row sm:justify-start gap-4">
+      <a
+        href="https://www.linkedin.com/in/juhaszdavid"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="bg-accent text-white px-5 py-2 rounded-full text-sm font-medium shadow hover:bg-opacity-90 transition"
+      >
+        Connect on LinkedIn
+      </a>
+      <a
+        href="/portfolio"
+        class="border border-accent text-accent px-5 py-2 rounded-full text-sm font-medium hover:bg-accent hover:text-white transition"
+      >
+        View Portfolio
+      </a>
+      <a
+        href="mailto:Dávid%20Juhász<&#x68;&#x65;&#x6C;&#x6C;&#x6F;&#x40;&#x64;&#x61;&#x76;&#x69;&#x64;&#x6A;&#x75;&#x68;&#x61;&#x73;&#x7A;&#x2E;&#x64;&#x65;&#x76;>"
+        class="border border-accent text-accent px-5 py-2 rounded-full text-sm font-medium hover:bg-accent hover:text-white transition"
+      >
+        Email Me
+      </a>
+    </div>
+  </div>
+
+</section>
+
+</BaseLayout>
