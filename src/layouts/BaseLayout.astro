@@ -39,6 +39,12 @@ const isActive = (path) =>
       "jobTitle": "Compiler & Systems Engineer"
     }
     </script>
+
+    {import.meta.env.MODE === 'production' && (
+      <script data-goatcounter="https://stats.davidjuhasz.dev/count"
+        async src="//gc.zgo.at/count.js"></script>
+    )}
+
   </head>
   <body class="flex flex-col h-screen bg-bg text-primary font-sans">
     <header class="bg-surface p-4 shadow-md border-b border-muted">
