@@ -22,8 +22,10 @@ const isActive = (path) =>
     <meta name="author" content="Dávid Juhász" />
     <meta name="keywords" content="portfolio, projects, professional, compiler, developer tooling, embedded systems, systems engineer" />
     <link rel="canonical" href={canonicalUrl} />
-    <!-- link rel="icon" type="image/svg+xml" href="/favicon.svg" / -->
-    <title>{title}</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.png" media="(prefers-color-scheme: light)" />
+    <link rel="icon" type="image/png" href="/favicon-dark.png" media="(prefers-color-scheme: dark)" />
 
     <script type="application/ld+json">
     {
@@ -38,7 +40,7 @@ const isActive = (path) =>
     }
     </script>
   </head>
-  <body class="flex flex-col h-screen bg-white text-primary font-sans">
+  <body class="flex flex-col h-screen bg-bg text-primary font-sans">
     <header class="bg-surface p-4 shadow-md border-b border-muted">
       <nav class="flex justify-between items-center max-w-4xl mx-auto">
         <h1 class="text-xl font-bold text-primary">{title}</h1>

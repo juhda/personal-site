@@ -2,8 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --primary: #1A202C;
+  --accent: #4F46E5;
+  --muted: #E2E8F0;
+  --surface: #F7FAFC;
+  --highlight: #10B981;
+  --text: #4B5563;
+  --heading: #374151;
+  --bg: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary: #F7FAFC;
+    --accent: #818CF8;
+    --muted: #2D3748;
+    --surface: #1A202C;
+    --highlight: #34D399;
+    --text: #D1D5DB;
+    --heading: #F3F4F6;
+    --bg: #111827;
+  }
+}
+
 .nav-link {
-  @apply text-gray-700 hover:underline transition;
+  @apply text-heading hover:underline transition;
 }
 
 .active {

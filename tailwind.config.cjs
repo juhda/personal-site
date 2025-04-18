@@ -1,16 +1,20 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'media', // use browser/system settings for dark mode
   content: [
     "./src/**/*.{astro,html,js,jsx,ts,tsx,vue,svelte}"
   ],
   theme: {
     extend: {
       colors: {
-        primary: '#1A202C',
-        accent: '#4F46E5',
-        muted: '#E2E8F0',
-        surface: '#F7FAFC',
-        highlight: '#10B981',
+        primary: 'var(--primary)',
+        accent: 'var(--accent)',
+        muted: 'var(--muted)',
+        surface: 'var(--surface)',
+        highlight: 'var(--highlight)',
+        text: 'var(--text)',
+        heading: 'var(--heading)',
+        bg: 'var(--bg)',
       }
     },
   },
