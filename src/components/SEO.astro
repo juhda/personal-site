@@ -1,0 +1,111 @@
+---
+// src/components/SEO.astro
+
+const {
+  title,
+  description,
+  keywords,
+  canonical,
+  image,
+  localImage,
+  type,
+  headline,
+  datePublished,
+  // -----
+  author,
+  siteName,
+  localMeImage,
+  structuredPersonSameAs,
+  jobTitle,
+  worksForOrgName
+} = Astro.props;
+
+const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).toString();
+const imageUrl = image ?? new URL(localImage, Astro.site).toString();
+const searchTarget = new URL("/search?q={search_term_string}", Astro.site).toString();
+const meImageUrl = new URL(localMeImage, Astro.site).toString();
+
+// Website and Person structured data for each page
+const structuredDataWebSite = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": siteName,
+  "url": Astro.site,
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": searchTarget,
+    "query-input": "required name=search_term_string"
+  }
+};
+
+const structuredDataPerson = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": author,
+  "url": Astro.site,
+  "image": meImageUrl,
+  "sameAs": structuredPersonSameAs,
+  "jobTitle": jobTitle,
+  ...(worksForOrgName && {
+    worksFor: {
+      "@type": "Organization",
+      "name": worksForOrgName
+    }
+  })
+};
+
+// BlogPosting OR WebPage structured data depending on type
+const isArticle = type === 'article';
+if (isArticle) {
+  if (!headline || !datePublished) {
+    throw new Error("Missing required fields for article structured data");
+  }
+};
+const structuredDataPage = isArticle
+  ? {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": headline,
+  "author": {
+    "@type": "Person",
+    "name": author
+  },
+  "datePublished": datePublished,
+  "url": canonicalUrl,
+  "image": imageUrl,
+  "description": description
+  }
+  : {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": title,
+  "url": canonicalUrl,
+  "description": description
+};
+
+---
+
+<!-- SEO tags -->
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="author" content="Dávid Juhász" />
+<meta name="keywords" content={keywords} />
+<link rel="canonical" href={canonicalUrl} />
+
+<!-- Open Graph -->
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonicalUrl} />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+
+<!-- Structured Data -->
+<script type="application/ld+json" set:html={JSON.stringify(structuredDataWebSite, null, 2 )} />
+<script type="application/ld+json" set:html={JSON.stringify(structuredDataPerson, null, 2 )} />
+<script type="application/ld+json" set:html={JSON.stringify(structuredDataPage, null, 2 )} />

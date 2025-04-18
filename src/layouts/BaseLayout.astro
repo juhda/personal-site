@@ -1,19 +1,31 @@
 ---
 import "../styles/tailwind.css";
+import SEO from '../components/SEO.astro';
 
 const {
   title = "Dávid Juhász's Pages",
   description = "A personal portfolio site showcasing projects and sharing insights.",
   keywords = "portfolio, projects, professional, compiler, developer tooling, embedded systems, systems engineer",
+  canonical = null,
   image = null, // Optional full URL for og:image
   localImage = "/og/default.png", // local path for og:image, used if image is null, relative to `public/`
   type = "website", // defines content type: e.g., website, article, profile (see og:type)
-  canonical = null
+  headline = null, // headline for blog posts, only used if type === "article"
+  datePublished = null, // publication date for blog posts, only used if type === "article"
+
+  // Below should not change normally. If any does, check also in the SEO component.
+  author = "Dávid Juhász",
+  siteName = "Dávid Juhász's Pages",
+  localMeImage = "/images/me.jpg",
+  structuredPersonSameAs = [
+    "https://www.linkedin.com/in/juhaszdavid",
+    "https://github.com/juhda"
+  ],
+  jobTitle = "Compiler & Systems Engineer",
+  worksForOrgName = null
 } = Astro.props;
 
-const imageUrl = image ?? new URL(localImage, Astro.site).toString()
 const currentPath = Astro.url.pathname;
-const canonicalUrl = canonical ?? new URL(currentPath, Astro.site).toString();
 const isActive = (path) =>
   path === '/'
     ? currentPath === '/'
@@ -26,49 +38,33 @@ const isActive = (path) =>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
 
-    <!-- SEO tags -->
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <meta name="author" content="Dávid Juhász" />
-    <meta name="keywords" content={keywords} />
-    <link rel="canonical" href={canonicalUrl} />
-
-    <!-- Open Graph -->
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={imageUrl} />
-    <meta property="og:type" content={type} />
-    <meta property="og:url" content={canonicalUrl} />
-
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/favicon.png" media="(prefers-color-scheme: light)" />
     <link rel="icon" type="image/png" href="/favicon-dark.png" media="(prefers-color-scheme: dark)" />
 
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Dávid Juhász",
-      "url": "https://davidjuhasz.dev",
-      "image": "https://davidjuhasz.dev/images/me.jpg",
-      "sameAs": [
-        "https://www.linkedin.com/in/juhaszdavid",
-        "https://github.com/juhda"
-      ],
-      "jobTitle": "Compiler & Systems Engineer"
-      <!--
-        , "worksFor": {
-          "@type": "Organization",
-          "name": "Your Freelance Brand or Company"
-        }
-      -->
-    }
-    </script>
-
+    <!-- Analytics -->
     {import.meta.env.MODE === 'production' && (
       <script data-goatcounter="https://stats.davidjuhasz.dev/count"
         async src="//gc.zgo.at/count.js"></script>
     )}
+
+    <SEO
+      title={title},
+      description={description},
+      keywords={keywords},
+      canonical={canonical},
+      image={image},
+      localImage={localImage},
+      type={type},
+      headline={headline},
+      datePublished={datePublished},
+      author={author},
+      siteName={siteName},
+      localMeImage={localMeImage},
+      structuredPersonSameAs={structuredPersonSameAs},
+      jobTitle={jobTitle},
+      worksForOrgName={worksForOrgName}
+    />
 
   </head>
   <body class="flex flex-col h-screen bg-bg text-primary font-sans">
