@@ -1,6 +1,8 @@
 ---
 // src/components/SEO.astro
 
+import { getBreadcrumbList } from '../utils/getBreadcrumbList';
+
 const {
   title,
   description,
@@ -25,7 +27,7 @@ const imageUrl = image ?? new URL(localImage, Astro.site).toString();
 const searchTarget = new URL("/search?q={search_term_string}", Astro.site).toString();
 const meImageUrl = new URL(localMeImage, Astro.site).toString();
 
-// Website and Person structured data for each page
+// Website, Person, and BreadcrumbList structured data for each page
 const structuredDataWebSite = {
   "@context": "https://schema.org",
   "@type": "WebSite",
@@ -53,6 +55,12 @@ const structuredDataPerson = {
     }
   })
 };
+
+const structuredDataBreadcrumbList = getBreadcrumbList({
+  pathname: Astro.url.pathname,
+  site: Astro.site,
+  title: title
+});
 
 // BlogPosting OR WebPage structured data depending on type
 const isArticle = type === 'article';
@@ -108,4 +116,5 @@ const structuredDataPage = isArticle
 <!-- Structured Data -->
 <script type="application/ld+json" set:html={JSON.stringify(structuredDataWebSite, null, 2 )} />
 <script type="application/ld+json" set:html={JSON.stringify(structuredDataPerson, null, 2 )} />
+<script type="application/ld+json" set:html={JSON.stringify(structuredDataBreadcrumbList, null, 2 )} />
 <script type="application/ld+json" set:html={JSON.stringify(structuredDataPage, null, 2 )} />
