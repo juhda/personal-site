@@ -1,48 +1,93 @@
-# Astro Starter Kit: Basics
+# davidjuhasz.dev
 
-```sh
-npm create astro@latest -- --template basics
-```
+This is my personal website, built with [Astro](https://astro.build/).
+It serves as my digital home — a place to showcase my portfolio, share ideas, and document my growth as a developer.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+## ✨ Features
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+- ✅ Clean, modern design using Astro + Tailwind CSS
+- ✅ Dark mode matching browser/system settings
+- ✅ Fully responsive layout
+- ✅ SEO-optimized with custom meta and structured data
+- ✅ Privacy-respecting analytics via GoatCounter
+- ✅ Integrated Notion-powered portfolio view
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+## 🧠 Goals
 
-## 🚀 Project Structure
+- Establish a professional and authentic online presence
+- Showcase selected projects and case studies
+- Share technical insights and personal learnings
 
-Inside of your Astro project, you'll see the following folders and files:
+## 🛠️ Tech Stack
 
-```text
-/
-├── public/
-│   └── favicon.svg
+- [Astro](https://astro.build/) – Static site framework
+- [Tailwind CSS](https://tailwindcss.com/) – Utility-first styling
+- [GoatCounter](https://www.goatcounter.com/) – Lightweight, privacy-first analytics
+- [Notion](https://notion.so/) – Embedded portfolio data
+- [Netlify](https://netlify.com/) – Hosting (free tier)
+
+## 📂 Project Structure
+
+```bash
+.
+├── public/             # Static assets (favicons, OG images)
 ├── src/
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── components/     # Reusable Astro/JSX components (e.g. SEO.astro)
+│   ├── layouts/        # Base layout with shared header and structure
+│   ├── pages/          # Astro page routes (/index, /portfolio, etc.)
+│   ├── styles/         # Tailwind config & custom styles
+│   └── utils/          # JavaScript helpers (e.g., breadcrumb generator)
+└── astro.config.mjs    # Astro site configuration
+└── tailwind.config.mjs # Tailwind site configuration
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## 📝 Setup & Development
 
-## 🧞 Commands
+To run this site locally:
 
-All commands are run from the root of the project, from a terminal:
+```bash
+# 1. Clone the repository
+$ git clone https://github.com/yourusername/your-repo-name.git
+$ cd your-repo-name
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+# 2. Install dependencies
+$ npm install
 
-## 👀 Want to learn more?
+# 3. Start the development server
+$ npm run dev
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+# The site will be available at http://localhost:4321
+```
+
+## 🚀 Deployment
+
+This project is deployed to [Netlify](https://netlify.com/).
+To deploy your own version:
+
+1. Push the repo to GitHub (or your preferred Git provider).
+2. Create a new site in Netlify and link it to your repo.
+3. Set the build command to `npm run build` and publish directory to `dist`.
+4. Netlify will auto-deploy on every push.
+
+Alternatively, you can export and host the static files yourself:
+
+```bash
+$ npm run build
+$ npx serve dist
+```
+
+## 📌 Customization Tips
+
+- Modify `BaseLayout.astro` to change site-wide structure and metadata defaults
+- Add new pages in `src/pages/`
+- Update Tailwind config to match your personal color palette
+- Update `SEO.astro` and `getBreadcrumbList()` for structured data enhancements
+
+## 🔮 Future Plans
+
+- Integrate blog via Hashnode RSS or API
+
+## 🔗 License
+
+This project is personal, open for inspiration. Feel free to fork and adapt.
+© Dávid Juhász, 2025
