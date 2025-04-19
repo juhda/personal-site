@@ -1,4 +1,4 @@
-# davidjuhasz.dev
+# Personal Site
 
 This is my personal website, built with [Astro](https://astro.build/).
 It serves as my digital home — a place to showcase my portfolio, share ideas, and document my growth as a developer.
