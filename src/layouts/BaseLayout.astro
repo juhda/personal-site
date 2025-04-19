@@ -3,9 +3,9 @@ import "../styles/tailwind.css";
 import SEO from '../components/SEO.astro';
 
 const {
-  title = "Dávid Juhász's Pages",
-  description = "A personal portfolio site showcasing projects and sharing insights.",
-  keywords = "portfolio, projects, professional, compiler, developer tooling, embedded systems, systems engineer",
+  title = "Dávid Juhász - Compiler & Systems Engineer",
+  description = "Welcome to the personal website of Dávid Juhász, a compiler and systems engineer specializing in compilation, toolchains, runtime systems, and hardware-software integration. Explore my work, insights, and blog.",
+  keywords = "Dávid Juhász, compiler engineer, systems engineer, code generation, embedded systems, runtime systems, toolchain developer, low-level software, systems programming, hardware acceleration, portfolio, blog",
   canonical = null,
   image = null, // Optional full URL for og:image
   localImage = "/og/default.png", // local path for og:image, used if image is null, relative to `public/`
@@ -15,14 +15,14 @@ const {
 
   // Below should not change normally. If any does, check also in the SEO component.
   author = "Dávid Juhász",
-  siteName = "Dávid Juhász's Pages",
   localMeImage = "/images/me.jpg",
   structuredPersonSameAs = [
     "https://www.linkedin.com/in/juhaszdavid",
     "https://github.com/juhda"
   ],
   jobTitle = "Compiler & Systems Engineer",
-  worksForOrgName = null
+  worksForOrgName = null,
+  siteName = `${author} - ${jobTitle}`
 } = Astro.props;
 
 const currentPath = Astro.url.pathname;
@@ -59,11 +59,11 @@ const isActive = (path) =>
       headline={headline},
       datePublished={datePublished},
       author={author},
-      siteName={siteName},
       localMeImage={localMeImage},
       structuredPersonSameAs={structuredPersonSameAs},
       jobTitle={jobTitle},
-      worksForOrgName={worksForOrgName}
+      worksForOrgName={worksForOrgName},
+      siteName={siteName}
     />
 
   </head>

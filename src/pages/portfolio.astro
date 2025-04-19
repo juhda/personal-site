@@ -1,8 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = "Project Portfolio | Dávid Juhász - Compiler & Systems Engineer";
+const description = "Explore selected projects by Dávid Juhász, showcasing work in compiler development, codegen, system simulation, runtime systems, firmware, and performance-optimized tools for hardware accelerators.";
+const keywords = "compiler development, toolchain engineering, system simulation, runtime systems, embedded systems, firmware development, low-level programming, performance engineering, Dávid Juhász, projects, portfolio";
 ---
 
-<BaseLayout title="Dávid Juhász's Portfolio" noPadding={true}>
+<BaseLayout noPadding={true}
+  title={title}
+  description={description}
+  keywords={keywords}
+>
   <div class="w-full h-full">
     <iframe
       src="https://juhaszdavid.notion.site/ebd/1d07a2153eff8022ab18e7c4208be2d9?v=1d67a2153eff80c7bf68000c92ee9408"

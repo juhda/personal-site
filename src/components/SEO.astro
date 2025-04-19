@@ -15,11 +15,11 @@ const {
   datePublished,
   // -----
   author,
-  siteName,
   localMeImage,
   structuredPersonSameAs,
   jobTitle,
-  worksForOrgName
+  worksForOrgName,
+  siteName
 } = Astro.props;
 
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).toString();
