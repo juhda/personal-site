@@ -89,5 +89,8 @@ $ npx serve dist
 
 ## 🔗 License
 
-This project is personal, open for inspiration. Feel free to fork and adapt.
-© Dávid Juhász, 2025
+- 🧩 **Code** (everything in `/src`, `/public`, `/astro.config.mjs`, etc.) is licensed under the [MIT License](./LICENSE).
+- ✍️ **Content** (text, articles, and written works) is © Dávid Juhász and available under the [Creative Commons Attribution-NonCommercial 4.0 License (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/), unless otherwise noted.
+
+Feel free to fork, adapt, and build upon the code for personal or commercial use.
+If you'd like to reuse written content, please reach out to me.
