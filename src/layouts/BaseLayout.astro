@@ -28,7 +28,7 @@ const {
 } = Astro.props;
 ---
 
-<html lang="en" class="h-full">
+<html lang="en" class="min-h-screen">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -63,14 +63,14 @@ const {
     />
 
   </head>
-  <body class="flex flex-col h-screen bg-bg text-primary font-sans">
+  <body class="flex flex-col min-h-screen bg-bg text-primary font-sans">
     <Header
       title={title}
     />
 
     <!-- Main content takes remaining height -->
     <main
-      class={`flex-1 overflow-hidden ${
+      class={`flex-1 ${
         Astro.props.noPadding ? 'w-full h-full' : 'p-4 max-w-4xl mx-auto'
       }`}
     >
