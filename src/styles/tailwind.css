@@ -33,3 +33,9 @@
 .active {
   @apply text-accent font-semibold underline;
 }
+
+@layer components {
+  .cta-button {
+    @apply px-5 py-2 rounded-full text-sm font-medium text-accent border border-accent hover:bg-accent hover:text-bg transition;
+  }
+}
