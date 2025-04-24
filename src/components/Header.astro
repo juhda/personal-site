@@ -1,0 +1,31 @@
+---
+const {
+  title
+} = Astro.props;
+
+const currentPath = Astro.url.pathname;
+const isActive = (path) =>
+  path === '/'
+    ? currentPath === '/'
+    : currentPath.startsWith(path);
+---
+
+<header class="bg-surface p-4 shadow-md border-b border-muted">
+  <nav class="flex justify-between items-center max-w-4xl mx-auto">
+    <h1 class="text-xl font-bold text-primary">{title}</h1>
+    <ul class="flex space-x-4">
+      <li>
+        <a href="/" class={`nav-link ${isActive('/') ? 'active' : ''}`}>Home</a>
+      </li>
+      <!-- li>
+        <a href="/about" class={`nav-link ${isActive('/about') ? 'active' : ''}`}>About</a>
+      </li -->
+      <li>
+        <a href="/portfolio" class={`nav-link ${isActive('/portfolio') ? 'active' : ''}`}>Portfolio</a>
+      </li>
+      <!-- li>
+        <a href="/blog" class={`nav-link ${isActive('/blog') ? 'active' : ''}`}>Blog</a>
+      </li -->
+    </ul>
+  </nav>
+</header>

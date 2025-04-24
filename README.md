@@ -82,6 +82,7 @@ $ npx serve dist
 - Add new pages in `src/pages/`
 - Update Tailwind config to match your personal color palette
 - Update `SEO.astro` and `getBreadcrumbList()` for structured data enhancements
+- Use named colors (like `text-primary`, `bg-surface`, `border-muted`) in your Tailwind classes for consistency and easier theme customization
 
 ## 🔮 Future Plans
 
