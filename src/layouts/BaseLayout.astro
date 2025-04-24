@@ -1,6 +1,8 @@
 ---
 import "../styles/tailwind.css";
 import SEO from '../components/SEO.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 
 const {
   title = "Dávid Juhász - Compiler & Systems Engineer",
@@ -24,12 +26,6 @@ const {
   worksForOrgName = null,
   siteName = `${author} - ${jobTitle}`
 } = Astro.props;
-
-const currentPath = Astro.url.pathname;
-const isActive = (path) =>
-  path === '/'
-    ? currentPath === '/'
-    : currentPath.startsWith(path);
 ---
 
 <html lang="en" class="h-full">
@@ -68,20 +64,9 @@ const isActive = (path) =>
 
   </head>
   <body class="flex flex-col h-screen bg-bg text-primary font-sans">
-    <header class="bg-surface p-4 shadow-md border-b border-muted">
-      <nav class="flex justify-between items-center max-w-4xl mx-auto">
-        <h1 class="text-xl font-bold text-primary">{title}</h1>
-        <ul class="flex space-x-4">
-          <li>
-            <a href="/" class={`nav-link ${isActive('/') ? 'active' : ''}`}>Home</a>
-          </li>
-          <li>
-            <a href="/portfolio" class={`nav-link ${isActive('/portfolio') ? 'active' : ''}`}>Portfolio</a>
-          </li>
-        </ul>
-      </nav>
-    </header>
-
+    <Header
+      title={title}
+    />
 
     <!-- Main content takes remaining height -->
     <main
@@ -91,5 +76,9 @@ const isActive = (path) =>
     >
       <slot />
     </main>
+
+    <Footer
+      author={author}
+    />
   </body>
 </html>
