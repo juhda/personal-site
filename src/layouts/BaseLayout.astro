@@ -3,28 +3,18 @@ import "../styles/tailwind.css";
 import SEO from '../components/SEO.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import {defaultOGImage} from '../config/site.ts';
 
 const {
-  title = "Dávid Juhász - Compiler & Systems Engineer",
-  description = "Welcome to the personal website of Dávid Juhász, a compiler and systems engineer specializing in compilation, toolchains, runtime systems, and hardware-software integration. Explore my work, insights, and blog.",
-  keywords = "Dávid Juhász, compiler engineer, systems engineer, code generation, embedded systems, runtime systems, toolchain developer, low-level software, systems programming, hardware acceleration, portfolio, blog",
+  title = null,
+  description = null,
+  keywords = null,
   canonical = null,
   image = null, // Optional full URL for og:image
-  localImage = "/og/default.png", // local path for og:image, used if image is null, relative to `public/`
+  localImage = {defaultOGImage}, // local path for og:image, used if image is null, relative to `public/`
   type = "website", // defines content type: e.g., website, article, profile (see og:type)
   headline = null, // headline for blog posts, only used if type === "article"
   datePublished = null, // publication date for blog posts, only used if type === "article"
-
-  // Below should not change normally. If any does, check also in the SEO component.
-  author = "Dávid Juhász",
-  localMeImage = "/images/me.jpg",
-  structuredPersonSameAs = [
-    "https://www.linkedin.com/in/juhaszdavid",
-    "https://github.com/juhda"
-  ],
-  jobTitle = "Compiler & Systems Engineer",
-  worksForOrgName = null,
-  siteName = `${author} - ${jobTitle}`
 } = Astro.props;
 ---
 
@@ -53,13 +43,7 @@ const {
       localImage={localImage},
       type={type},
       headline={headline},
-      datePublished={datePublished},
-      author={author},
-      localMeImage={localMeImage},
-      structuredPersonSameAs={structuredPersonSameAs},
-      jobTitle={jobTitle},
-      worksForOrgName={worksForOrgName},
-      siteName={siteName}
+      datePublished={datePublished}
     />
 
   </head>
@@ -77,8 +61,6 @@ const {
       <slot />
     </main>
 
-    <Footer
-      author={author}
-    />
+    <Footer />
   </body>
 </html>

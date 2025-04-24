@@ -1,7 +1,8 @@
 ---
-const {
+import {
+  socialLinks,
   author
-} = Astro.props;
+} from '../config/site.ts';
 
 const year = new Date().getFullYear();
 ---
@@ -10,10 +11,10 @@ const year = new Date().getFullYear();
   <div class="flex flex-wrap justify-center items-center gap-x-2 gap-y-1">
     <span>© {year} {author}</span>
     <span aria-hidden="true">•</span>
-    <a href="mailto:hello@davidjuhasz.dev" class="hover:underline text-primary">Email</a>
+    <a href={socialLinks.email} class="hover:underline text-primary">Email</a>
     <span aria-hidden="true">•</span>
-    <a href="https://linkedin.com/in/juhaszdavid" target="_blank" rel="noopener noreferrer" class="hover:underline text-primary">LinkedIn</a>
+    <a href={socialLinks.linkedin} target="_blank" rel="noopener noreferrer" class="hover:underline text-primary">LinkedIn</a>
     <!-- span aria-hidden="true">•</span>
-    <a href="https://github.com/juhda" target="_blank" rel="noopener noreferrer" class="hover:underline text-primary">GitHub</a -->
+    <a href={socialLinks.github} target="_blank" rel="noopener noreferrer" class="hover:underline text-primary">GitHub</a -->
   </div>
 </footer>

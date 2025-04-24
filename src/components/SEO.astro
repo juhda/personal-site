@@ -1,5 +1,13 @@
 ---
 import { getBreadcrumbList } from '../utils/getBreadcrumbList';
+import {
+  author,
+  localMeImage,
+  jobTitle,
+  socialLinks,
+  worksForOrgName,
+  siteName
+} from '../config/site.ts';
 
 const {
   title,
@@ -11,13 +19,6 @@ const {
   type,
   headline,
   datePublished,
-  // -----
-  author,
-  localMeImage,
-  structuredPersonSameAs,
-  jobTitle,
-  worksForOrgName,
-  siteName
 } = Astro.props;
 
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).toString();
@@ -44,7 +45,10 @@ const structuredDataPerson = {
   "name": author,
   "url": Astro.site,
   "image": meImageUrl,
-  "sameAs": structuredPersonSameAs,
+  "sameAs": [
+    socialLinks.linkedin
+    //, socialLinks.github
+  ],
   "jobTitle": jobTitle,
   ...(worksForOrgName && {
     worksFor: {
