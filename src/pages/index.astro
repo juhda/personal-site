@@ -5,6 +5,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <BaseLayout>
 <section class="flex flex-col sm:flex-row items-center justify-center gap-10 py-16 px-6 bg-surface rounded-xl shadow-md">
 
+const title = "Dávid Juhász - Compiler & Systems Engineer";
+const description = "Welcome to the personal website of Dávid Juhász, a compiler and systems engineer specializing in compilation, toolchains, runtime systems, and hardware-software integration. Explore my work, insights, and blog.";
+const keywords = "Dávid Juhász, compiler engineer, systems engineer, code generation, embedded systems, runtime systems, toolchain developer, low-level software, systems programming, hardware acceleration, portfolio, blog";
+---
+<BaseLayout title={title} description={description} keywords={keywords}>
+
   <!-- Profile Photo -->
   <div class="flex-shrink-0">
     <img
