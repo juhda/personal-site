@@ -15,7 +15,10 @@ module.exports = {
         text: 'var(--text)',
         heading: 'var(--heading)',
         bg: 'var(--bg)',
-      }
+      },
+      animation: {
+        spin: 'spin 1s linear infinite',
+      },
     },
   },
   plugins: [],
