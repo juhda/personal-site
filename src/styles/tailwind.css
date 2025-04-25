@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 :root {
+  --font-title: 'Inter', sans-serif;
+  --font-body: 'Lato', sans-serif;
+
+  /* Colors for light mode */
   --primary: #1A202C;
   --accent: #4F46E5;
   --muted: #E2E8F0;
@@ -15,6 +19,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    /* Color overrides for dark mode */
     --primary: #F7FAFC;
     --accent: #818CF8;
     --muted: #2D3748;
@@ -24,6 +29,14 @@
     --heading: #F3F4F6;
     --bg: #111827;
   }
+}
+
+body {
+  font-family: var(--font-body);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-title);
 }
 
 .nav-link {
