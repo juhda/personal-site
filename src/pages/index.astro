@@ -12,44 +12,48 @@ const title = author + " - " + jobTitle;
 const description = "Welcome to the personal website of " + author +", a compiler and systems engineer specializing in developer tooling, embedded firmware, runtime systems, and complex systems design. Explore his portfolio, blog, and background.";
 const keywords = author +", compiler engineer, systems engineer, embedded software, firmware development, developer tooling, toolchains, runtime systems, RISC-V, code generation, systems programming, hardware acceleration, portfolio, blog";
 ---
-<BaseLayout title={title} description={description} keywords={keywords}>
-<section class="flex flex-col sm:flex-row items-start gap-10 py-16 px-6 bg-surface rounded-xl shadow-md">
+<BaseLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+>
+  <section class="flex flex-col sm:flex-row items-start gap-10 py-16 px-6 bg-surface rounded-xl shadow-md">
 
-  <!-- Profile Photo -->
-  <div class="flex-shrink-0 mx-auto sm:mx-0">
-    <Image
-      src={meImage}
-      alt="Portrait of {author}"
-      width={160}
-      height={160}
-      loading="eager"
-      class="rounded-full object-cover shadow-md border-4 border-muted"
-    />
-  </div>
-
-  <!-- Text Content -->
-  <div class="max-w-3xl sm:max-w-4xl mx-auto sm:text-left text-center">
-    <h1 class="text-3xl sm:text-4xl font-extrabold text-primary mb-2">👋 Welcome — I'm <span class="whitespace-nowrap">{author}</span></h1>
-    <h2 class="text-xl text-text font-medium mb-4">{jobTitle}</h2>
-    <p class="italic text-text mb-4">
-      Empowering developer tools, embedded platforms, and complex systems with structured insight, clarity, and purpose.
-    </p>
-    <p class="text-text mb-4">
-      I build compilers, toolchains, and low-level runtime systems at the intersection of software and hardware. My work includes code generation (LLVM and beyond), embedded firmware for RISC-V-based systems, system simulation, and performance-focused developer tooling.
-    </p>
-    <p class="text-text mb-4">
-      This site is still early in its journey — I’ve recently made it a priority to share more of my work and ideas in public. Over time, you’ll find technical deep-dives, project highlights, and insights on systems engineering, developer tools, and software architecture.
-    </p>
-    <p class="text-text mb-8">
-      If any of this resonates — whether you're curious about my projects, exploring collaboration, or just want to connect — feel free to explore below.
-    </p>
-
-    <!-- Call-to-Action Buttons -->
-    <div class="flex flex-col sm:flex-row justify-center sm:justify-start gap-4">
-      <a href="/about" class="cta-button">About Me</a>
-      <a href="/portfolio" class="cta-button">View Portfolio</a>
-      <!-- a href="/blog" class="cta-button">Read Blog</a -->
+    <!-- Profile Photo -->
+    <div class="flex-shrink-0 mx-auto sm:mx-0">
+      <Image
+        src={meImage}
+        alt="Portrait of {author}"
+        width={160}
+        height={160}
+        loading="eager"
+        class="rounded-full object-cover shadow-md border-4 border-muted"
+      />
     </div>
-  </div>
-</section>
+
+    <!-- Text Content -->
+    <div class="max-w-3xl sm:max-w-4xl mx-auto sm:text-left text-center">
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-primary mb-2">👋 Welcome — I'm <span class="whitespace-nowrap">{author}</span></h1>
+      <h2 class="text-xl text-text font-medium mb-4">{jobTitle}</h2>
+      <p class="italic text-text mb-4">
+        Empowering developer tools, embedded platforms, and complex systems with structured insight, clarity, and purpose.
+      </p>
+      <p class="text-text mb-4">
+        I build compilers, toolchains, and low-level runtime systems at the intersection of software and hardware. My work includes code generation (LLVM and beyond), embedded firmware for RISC-V-based systems, system simulation, and performance-focused developer tooling.
+      </p>
+      <p class="text-text mb-4">
+        This site is still early in its journey — I’ve recently made it a priority to share more of my work and ideas in public. Over time, you’ll find technical deep-dives, project highlights, and insights on systems engineering, developer tools, and software architecture.
+      </p>
+      <p class="text-text mb-8">
+        If any of this resonates — whether you're curious about my projects, exploring collaboration, or just want to connect — feel free to explore below.
+      </p>
+  
+      <!-- Call-to-Action Buttons -->
+      <div class="flex flex-col sm:flex-row justify-center sm:justify-start gap-4">
+        <a href="/about" class="cta-button">About Me</a>
+        <a href="/portfolio" class="cta-button">View Portfolio</a>
+        <!-- a href="/blog" class="cta-button">Read Blog</a -->
+      </div>
+    </div>
+  </section>
 </BaseLayout>
