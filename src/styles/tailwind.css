@@ -48,9 +48,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @layer components {
-  p {
+  p, ul {
     @apply text-text mb-4;
   }
+
+  p + ul {
+    @apply mt-2;
+  }
+
   h1 {
     @apply text-3xl sm:text-4xl font-extrabold text-primary mb-6;
   }
