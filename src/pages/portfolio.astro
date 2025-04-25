@@ -1,9 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import {
+  author,
+  jobTitle
+} from '../config/site.ts';
 
-const title = "Project Portfolio | Dávid Juhász - Compiler & Systems Engineer";
-const description = "Explore selected projects by Dávid Juhász, showcasing work in compiler development, codegen, system simulation, runtime systems, firmware, and performance-optimized tools for hardware accelerators.";
-const keywords = "compiler development, toolchain engineering, system simulation, runtime systems, embedded systems, firmware development, low-level programming, performance engineering, Dávid Juhász, projects, portfolio";
+import { useState } from 'react';
+
+const title = "Project Portfolio | " + author + " - " + jobTitle;
+const description = "Explore selected projects by " + author + ", a compiler and systems engineer specializing in embedded software, toolchains, and runtime systems. Browse work in developer tooling, system simulation, firmware development, and hardware-software co-design.";
+const keywords = author + ", compiler development, developer tooling, toolchain engineering, systems engineering, system simulation, runtime systems, embedded software, firmware development, RISC-V, performance engineering, projects, engineering portfolio";
+const localImage = "/og/portfolio.png"
 ---
 
 <BaseLayout
@@ -11,13 +18,29 @@ const keywords = "compiler development, toolchain engineering, system simulation
   title={title}
   description={description}
   keywords={keywords}
-  localImage="/og/portfolio.png"
+  localImage={localImage}
 >
+
+  <!-- Spinner Overlay -->
+  <div id="iframe-loader" class="absolute inset-0 flex items-center justify-center bg-surface">
+    <svg class="animate-spin h-8 w-8 text-accent" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
+    </svg>
+  </div>
+
+  <!-- Notion Embed -->
   <div class="w-full h-full">
     <iframe
       src="https://juhaszdavid.notion.site/ebd/1d07a2153eff8022ab18e7c4208be2d9?v=1d67a2153eff80c7bf68000c92ee9408"
-      class="w-full h-full border-0"
+      title={title}
+      class="w-full min-h-screen border-0 opacity-0 transition-opacity duration-500"
+      loading="eager"
       allowfullscreen
+      onload="
+        this.classList.remove('opacity-0');
+        document.getElementById('iframe-loader')?.remove();
+      "
     ></iframe>
   </div>
 </BaseLayout>
