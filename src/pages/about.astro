@@ -1,0 +1,86 @@
+---
+import Layout from '../layouts/BaseLayout.astro';
+import {
+  author,
+  jobTitle,
+  socialLinks
+} from '../config/site.ts';
+
+import { Image } from 'astro:assets';
+import meImage from '../assets/me.jpg';
+
+const title = "About | " + author + " - " + jobTitle;
+const description = "Learn more about " + author + ", a compiler and systems engineer focused on developer tooling, embedded firmware, and systems co-design. Discover his background, principles, and approach to engineering.";
+const keywords = author +", compiler engineer, systems engineer, embedded software, firmware development, developer tooling, code generation, engineering principles, software architecture, teaching engineers";
+const localImage = "/og/about.png"
+---
+
+<Layout
+  title={title}
+  description={description}
+  keywords={keywords}
+  localImage={localImage}
+>
+  <section class="flex flex-col sm:flex-row items-start gap-10 py-16 px-6 bg-surface rounded-xl shadow-md">
+
+    <!-- Profile Photo -->
+    <div class="flex-shrink-0 mx-auto sm:mx-0">
+        <Image
+          src={meImage}
+          alt="Portrait of {author}"
+          width={160}
+          height={160}
+          loading="eager"
+          class="rounded-full object-cover shadow-md border-4 border-muted"
+        />
+    </div>
+
+    <!-- Text Content -->
+    <div class="max-w-3xl sm:max-w-4xl mx-auto sm:text-left text-center">
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-primary mb-6">About</h1>
+
+      <p class="text-text mb-4">
+        Hi — I’m <strong><span class="whitespace-nowrap">{author}</span></strong>, a compiler and systems engineer with a passion for developer tooling, embedded systems, and complex hardware-software ecosystems.
+      </p>
+
+      <p class="text-text mb-4">
+        From my early days programming on a computer without internet, I’ve been fascinated by the power of software and the compilers that make it possible. That fascination led me through a degree in computer science and a specialization in programming languages and compilers — and it continues to drive me in my work today.
+      </p>
+
+      <p class="text-text mb-4">
+        I specialize in building compilers, toolchains, runtime systems, and embedded software that make high-performance platforms possible. Over the years, I’ve worked across the entire stack — from code generation to system simulation to firmware development — and led hardware-software co-design efforts to bring everything together.
+      </p>
+
+      <h2 class="text-xl font-semibold text-primary mt-8 mb-4">How I Work</h2>
+
+      <p class="text-text mb-4">
+        I thrive in the design phase, where ideas flow freely and the solution space is wide open. But I also enjoy implementation and debugging — the process of making abstract designs real and refining them through investigation and insight.
+      </p>
+
+      <p class="text-text mb-4">
+        At my core, I believe good engineering is about more than elegant code. It's about <strong>delivering value</strong>. When we help others do better work, we make our work matter.
+      </p>
+
+      <h2 class="text-xl font-semibold text-primary mt-8 mb-4">Principles & Philosophy</h2>
+
+      <p class="text-text mb-4">
+        I aim for clarity, purpose, and structural integrity in everything I build — from tooling to APIs to team alignment.
+      </p>
+
+      <p class="text-text mb-4">
+        While elegant solutions are always ideal, I’ve learned to work pragmatically, making trade-offs based on real-world constraints while staying true to the broader goals. I emphasize <strong>shared understanding</strong>, clear communication, and interfaces that empower purposeful action.
+      </p>
+
+      <h2 class="text-xl font-semibold text-primary mt-8 mb-4">Beyond Code</h2>
+
+      <p class="text-text mb-4">
+        Outside of engineering, I enjoy explaining complex topics in simple ways. I’m interested in <strong>teaching</strong>, <strong>psychology</strong>, and the dynamics of communication — all of which influence how I collaborate and lead.
+      </p>
+
+      <p class="text-text mb-4">
+        For more technical context, check out my <a href="/portfolio" class="text-accent hover:underline">project portfolio</a>. <!-- <strong>REMOVE DOT BEFORE</strong> or explore my <a href="/blog" class="text-accent hover:underline">blog</a>. -->
+        Feel free to <a href={socialLinks.email} class="text-accent hover:underline">email me</a> or connect on <a href={socialLinks.linkedin} class="text-accent hover:underline" target="_blank" rel="noopener">LinkedIn</a>.
+      </p>
+    </div>
+  </section>
+</Layout>
