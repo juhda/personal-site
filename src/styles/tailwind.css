@@ -60,6 +60,10 @@ h1, h2, h3, h4, h5, h6 {
     @apply text-xl font-semibold text-primary text-center sm:text-left mt-8 mb-4;
   }
 
+  a {
+    @apply text-accent hover:underline;
+  }
+
   .cta-button {
     @apply px-5 py-2 rounded-full text-sm font-medium text-accent border border-accent hover:bg-accent hover:text-bg transition;
   }
