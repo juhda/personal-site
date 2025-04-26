@@ -32,7 +32,9 @@ It serves as my digital home — a place to showcase my portfolio, share ideas, 
 .
 ├── public/             # Static assets (favicons, OG images)
 ├── src/
+│   ├── assets/         # Internal static resources (images, fonts, etc.)
 │   ├── components/     # Reusable Astro/JSX components (e.g. SEO.astro)
+│   ├── config/         # Site-wide configuration (e.g., metadata)
 │   ├── layouts/        # Base layout with shared header and structure
 │   ├── pages/          # Astro page routes (/index, /portfolio, etc.)
 │   ├── styles/         # Tailwind config & custom styles
