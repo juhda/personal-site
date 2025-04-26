@@ -10,10 +10,10 @@ const isActive = (path) =>
     : currentPath.startsWith(path);
 ---
 
-<header class="sticky top-0 z-50 backdrop-blur bg-surface/80 p-4 border-b border-muted shadow-sm">
-  <nav class="flex justify-between items-center max-w-4xl mx-auto">
-    <h1 class="text-xl font-bold">{title}</h1>
-    <ul class="flex space-x-4">
+<header class="sticky top-0 z-50 backdrop-blur bg-surface/80 px-4 py-4 border-b border-muted shadow-sm">
+  <nav class="max-w-4xl mx-auto flex justify-between items-center">
+    <h1 class="text-xl font-bold leading-tight mb-0">{title}</h1>
+    <ul class="flex space-x-4 mb-0">
       <li>
         <a href="/" class={`nav-link ${isActive('/') ? 'active' : ''}`}>Home</a>
       </li>
