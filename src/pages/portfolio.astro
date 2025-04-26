@@ -3,11 +3,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import {
   author,
   jobTitle,
-  socialLinks
+  socialLinks,
+  cleanJobTitle
 } from '../config/site.ts';
 
 const title = "Project Portfolio | " + author + " - " + jobTitle;
-const description = "Explore selected projects by " + author + ", a compiler and systems engineer specializing in embedded software, toolchains, and runtime systems. Browse work in developer tooling, system simulation, firmware development, and hardware-software co-design.";
+const description = "Explore selected projects by " + author + ", a " + cleanJobTitle +" specializing in embedded software, toolchains, and runtime systems. Browse work in developer tooling, system simulation, firmware development, and hardware-software co-design.";
 const keywords = author + ", compiler development, developer tooling, toolchain engineering, systems engineering, system simulation, runtime systems, embedded software, firmware development, RISC-V, performance engineering, projects, engineering portfolio";
 const localImage = "/og/portfolio.png";
 ---
@@ -24,7 +25,7 @@ const localImage = "/og/portfolio.png";
       <h1>Project Portfolio</h1>
 
       <p>
-        Welcome to the project portfolio of <strong><span class="whitespace-nowrap">{author}</span></strong>, compiler and systems engineer. I specialize in low-level software, code generation, toolchains, runtime systems, and hardware-software co-design. This page showcases selected projects I've led or contributed to — spanning system architecture, embedded platforms, developer tooling, and AI acceleration.
+        Welcome to the project portfolio of <strong><span class="whitespace-nowrap">{author}</span></strong>, {cleanJobTitle}. I specialize in low-level software, code generation, toolchains, runtime systems, and hardware-software co-design. This page showcases selected projects I've led or contributed to — spanning system architecture, embedded platforms, developer tooling, and AI acceleration.
       </p>
 
       <p>

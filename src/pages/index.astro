@@ -3,13 +3,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import {
   author,
   jobTitle,
+  cleanJobTitle
 } from '../config/site.ts';
 
 import { Image } from 'astro:assets';
 import meImage from '../assets/me.jpg';
 
 const title = author + " - " + jobTitle;
-const description = "Welcome to the personal website of " + author +", a compiler and systems engineer specializing in developer tooling, embedded firmware, runtime systems, and complex systems design. Explore his portfolio, blog, and background.";
+const description = "Welcome to the personal website of " + author +", a " + cleanJobTitle + " specializing in developer tooling, embedded firmware, runtime systems, and complex systems design. Explore his portfolio, blog, and background.";
 const keywords = author +", compiler engineer, systems engineer, embedded software, firmware development, developer tooling, toolchains, runtime systems, RISC-V, code generation, systems programming, hardware acceleration, portfolio, blog";
 ---
 <BaseLayout

@@ -3,14 +3,15 @@ import Layout from '../layouts/BaseLayout.astro';
 import {
   author,
   jobTitle,
-  socialLinks
+  socialLinks,
+  cleanJobTitle
 } from '../config/site.ts';
 
 import { Image } from 'astro:assets';
 import meImage from '../assets/me.jpg';
 
 const title = "About | " + author + " - " + jobTitle;
-const description = "Learn more about " + author + ", a compiler and systems engineer focused on developer tooling, embedded firmware, and systems co-design. Discover his background, principles, and approach to engineering.";
+const description = "Learn more about " + author + ", a " + cleanJobTitle + " focused on developer tooling, embedded firmware, and systems co-design. Discover his background, principles, and approach to engineering.";
 const keywords = author +", compiler engineer, systems engineer, embedded software, firmware development, developer tooling, code generation, engineering principles, software architecture, teaching engineers";
 const localImage = "/og/about.png";
 ---
@@ -40,7 +41,7 @@ const localImage = "/og/about.png";
       <h1>About</h1>
 
       <p>
-        Hi — I’m <strong><span class="whitespace-nowrap">{author}</span></strong>, a compiler and systems engineer with a passion for developer tooling, embedded systems, and complex hardware-software ecosystems.
+        Hi — I’m <strong><span class="whitespace-nowrap">{author}</span></strong>, a {cleanJobTitle} with a passion for developer tooling, embedded systems, and complex hardware-software ecosystems.
       </p>
 
       <p>
