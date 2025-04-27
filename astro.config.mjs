@@ -9,9 +9,7 @@ export default defineConfig({
   site: 'https://davidjuhasz.dev',
   integrations: [tailwind(), sitemap()],
 
-  // Enable configured redirects only when your host supports dynamic routing.
-  // For static hosts, use public/_redirects instead, and keep this option disabled.
-  // NOTE: Keep the list in sync with public/_redirects!
+  // Adapter needed to handle redirects when deploying to Netlify
   adapter: netlify(),
   redirects: {
     "/resume": {
