@@ -1,5 +1,5 @@
 ---
-import Layout from '../layouts/BaseLayout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 import {
   author,
   jobTitle,
@@ -16,7 +16,7 @@ const keywords = author +", compiler engineer, systems engineer, embedded softwa
 const localImage = "/og/about.png";
 ---
 
-<Layout
+<BaseLayout
   title={title}
   description={description}
   keywords={keywords}
@@ -90,4 +90,4 @@ const localImage = "/og/about.png";
       </p>
     </div>
   </section>
-</Layout>
+</BaseLayout>
