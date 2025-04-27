@@ -1,1 +1,3 @@
-/resume  /resume/DavidJuhasz_Resume_2025.pdf  302
+# Static redirects for hosts that do not support dynamic routing.
+# NOTE: Keep the list in sync with configured redirects in astro.config.mjs!
+#/resume  /resume/DavidJuhasz_Resume_2025.pdf  302
