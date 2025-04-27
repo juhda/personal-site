@@ -7,4 +7,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://davidjuhasz.dev',
   integrations: [tailwind(), sitemap()],
+  redirects: {
+    "/resume": "/resume/DavidJuhasz_Resume_2025.pdf",
+  }
 });

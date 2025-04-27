@@ -1,4 +1,5 @@
 ---
+// NOTE: If changing the redirect target, also update the corresponding line in /public/_redirects for static hosting like Netlify!
 const resumeFileName = "DavidJuhasz_Resume_2025.pdf";
 const resumeUrl = `/resume/${resumeFileName}`;
 return Astro.redirect(resumeUrl, 302);
