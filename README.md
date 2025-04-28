@@ -9,8 +9,9 @@ It serves as my digital home — a place to showcase my portfolio, share ideas, 
 - ✅ Dark mode matching browser/system settings
 - ✅ Fully responsive layout
 - ✅ SEO-optimized with custom meta and structured data
-- ✅ Privacy-respecting analytics via GoatCounter
 - ✅ Integrated Notion-powered portfolio view
+- ✅ Privacy-respecting analytics via GoatCounter
+  - No personal data is collected. Analytics endpoint is public and safe to embed.
 
 ## 🧠 Goals
 
