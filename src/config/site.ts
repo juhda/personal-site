@@ -11,5 +11,8 @@ export const worksForOrgName = null;
 export const siteName = `${author} - ${jobTitle}`;
 export const defaultOGImage = "/og/default.png";
 
+// Your GoatCounter URL. You can find it in your GoatCounter settings.
+export const goatCounterUrl = "https://stats.davidjuhasz.dev/count";
+
 // Absolutely no need to change anything below this line.
 export const cleanJobTitle = jobTitle.replace(/&/g, 'and').toLowerCase();

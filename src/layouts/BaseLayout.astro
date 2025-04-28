@@ -4,7 +4,8 @@ import SEO from '../components/SEO.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import {
-  defaultOGImage
+  defaultOGImage,
+  goatCounterUrl
 } from '../config/site.ts';
 
 const {
@@ -33,9 +34,9 @@ const {
     <link rel="icon" type="image/png" href="/favicon.png" media="(prefers-color-scheme: light)" />
     <link rel="icon" type="image/png" href="/favicon-dark.png" media="(prefers-color-scheme: dark)" />
 
-    <!-- Analytics -->
     {import.meta.env.MODE === 'production' && (
-      <script data-goatcounter="https://stats.davidjuhasz.dev/count"
+      <!-- Analytics -->
+      <script data-goatcounter={goatCounterUrl}
         async src="//gc.zgo.at/count.js"></script>
     )}
 
