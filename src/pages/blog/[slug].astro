@@ -1,0 +1,85 @@
+---
+import BlogLayout from '../../layouts/BlogLayout.astro';
+import PostMetaBox from '../../components/PostMetaBox.astro';
+import MathJaxLoader from '../../components/MathJaxLoader.astro';
+import Link from '../../components/Link';
+
+import { getPost, getBlogInfo, isSearchEnabled } from '../../hashnode-lib/client';
+import type { BlogInfo, Post } from '../../hashnode-lib/schema';
+
+import { blogSubscribeAction, socialLinks } from '../../config/site';
+import { getStaticPaths_blog } from '../../utils/getStaticPaths';
+
+export const prerender = false
+
+// Generate static paths for all posts on case of prerender=true
+export const getStaticPaths = getStaticPaths_blog;
+
+const { slug } = Astro.params;
+const blogInfo: BlogInfo = await getBlogInfo();
+const post: Post | null = await getPost(slug);
+
+if (!post) {
+  return Astro.redirect("/404")
+}
+
+const title = (post.seo?.title ?? post.title) + " by " + post.author.name;
+const description = post.seo?.description ?? post.brief;
+const keywords = "defined behavior, " + post.tags.map(tag => tag.name).join(', ');
+const canonical = post.canonicalUrl;
+const image = post.ogMetaData?.image ?? blogInfo.ogMetaData?.image;
+const bannerImage = post.coverImage?.url ?? post.bannerImage?.url ?? blogInfo.ogMetaData?.image;
+---
+<BlogLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  canonical={canonical}
+  type="article"
+  headline={post.seo.title ?? post.title}
+  datePublished={post.publishedAt}
+  image={image}
+  bannerImage={bannerImage}
+  bannerTitle={post.title}
+  bannerDescription={post.subtitle}
+  sourceNoteUsername={post.author.username}
+  showNavLinks={false}
+>
+
+  <Fragment slot="head">
+    <MathJaxLoader content={post.content.html} />
+  </Fragment>
+
+  <!-- Post information -->
+  <div slot="blog-header">
+    <PostMetaBox post={post} />
+  </div>
+
+  <!-- Rendered blog content -->
+  <article class="max-w-none px-4 md:px-6 lg:px-8 py-8">
+    <div set:html={post.content.html} />
+  </article>
+
+  <!-- Post Footer -->
+  <section slot="blog-footer">
+    <p class="text-center">👉 <strong>Explore more:</strong>
+      <Link href="/blog/tags">Browse by Tags</Link>,
+      <Link href="/blog/series">Explore Series</Link>,
+      <Link href="/blog/archives">Browse Archives</Link>{isSearchEnabled && ","}
+      {isSearchEnabled && (
+        <Link href="/blog/search">Search the Blog</Link>
+      )}
+    </p>
+  
+    <p class="text-center">💬 <strong>Have thoughts or questions?</strong>
+      Feel free to <Link href={socialLinks.email}>reach out by email</Link> or
+      <Link href={socialLinks.linkedin}>connect on LinkedIn</Link>.
+    </p>
+
+    {blogSubscribeAction && (
+      <p class="text-center">✉️ <strong>Enjoyed this post?</strong>
+        <Link href="/blog/subscribe">Subscribe</Link> to get new articles straight to your inbox.
+      </p>
+    )}
+  </section>
+</BlogLayout>

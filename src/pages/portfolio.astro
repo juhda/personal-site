@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Link from '../components/Link';
+
 import {
   author,
   jobTitle,
@@ -12,7 +14,6 @@ const description = "Explore selected projects by " + author + ", a " + cleanJob
 const keywords = author + ", compiler development, developer tooling, toolchain engineering, systems engineering, system simulation, runtime systems, embedded software, firmware development, RISC-V, performance engineering, projects, engineering portfolio";
 const localImage = "/og/portfolio.png";
 ---
-
 <BaseLayout
   noPadding={true}
   title={title}
@@ -20,7 +21,7 @@ const localImage = "/og/portfolio.png";
   keywords={keywords}
   localImage={localImage}
 >
-  <section class="max-w-3xl sm:max-w-4xl mx-auto flex flex-col items-start gap-10 py-16 mt-4 px-6 bg-surface rounded-xl shadow-md">
+  <section class="card">
     <div>
       <h1>Project Portfolio</h1>
 
@@ -44,20 +45,20 @@ const localImage = "/og/portfolio.png";
       </p>
 
       <p>
-        To learn more about my background, visit my <a href="/about">About</a> page.
-        <br />Feel free to <a href={socialLinks.email}>email me</a> or connect on <a href={socialLinks.linkedin} target="_blank" rel="noopener noreferrer" data-goatcounter-click="linkedin-profile">LinkedIn</a>.
+        To learn more about my background, visit my <Link href="/about">About</Link> page.
+        <br />For insights into systems engineering, compiler development, and software tooling, check out <Link href="/blog">my blog</Link>.
+        <br />Feel free to <Link href={socialLinks.email}>email me</Link> or connect on <Link href={socialLinks.linkedin}>LinkedIn</Link>.
       </p>
     </div>
   </section>
 
   <!-- Portfolio Table Embed -->
-  <div class="relative w-full min-h-[80vh] px-6 mt-12 pt-2 border-t border-muted">
+  <div class="wide-embed">
     <iframe
       src="https://juhaszdavid.notion.site/ebd/1d07a2153eff8022ab18e7c4208be2d9?v=1d67a2153eff80c7bf68000c92ee9408"
       title={title}
-      class="block w-full min-h-[80vh] border-0"
       loading="eager"
       allowfullscreen
-    / >
+    ></iframe>
   </div>
 </BaseLayout>

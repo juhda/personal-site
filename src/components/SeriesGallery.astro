@@ -1,0 +1,18 @@
+---
+import type { SeriesInfo } from '../hashnode-lib/schema';
+import SeriesCard from './SeriesCard.astro';
+
+const { allSeriesInfo }: { allSeriesInfo: SeriesInfo[] } = Astro.props;
+
+const columns =
+  allSeriesInfo.length === 1
+    ? 'grid-cols-1'
+    : (allSeriesInfo.length ===2
+      ? 'grid-cols-2'
+      : 'sm:grid-cols-2 md:grid-cols-3');
+---
+<div class=`grid gap-6 w-full mx-auto items-center ${columns}`>
+  {allSeriesInfo.map(seriesInfo => (
+    <SeriesCard seriesInfo={seriesInfo} />
+  ))}
+</div>

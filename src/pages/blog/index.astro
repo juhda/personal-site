@@ -1,0 +1,67 @@
+---
+import BlogLayout from '../../layouts/BlogLayout.astro';
+import MathJaxLoader from '../../components/MathJaxLoader.astro';
+import PostGallery from '../../components/PostGallery';
+import PostCard from '../../components/PostCard';
+import EmptyState from '../../components/EmptyState';
+import Link from '../../components/Link';
+
+import { getBlogInfo, getPinnedPostInfo, getRecentPostInfo } from '../../hashnode-lib/client';
+import type { BlogInfo, PostInfo } from '../../hashnode-lib/schema';
+
+import { blogNumRecentPosts, blogOGImage, blogSubscribeAction } from '../../config/site';
+
+export const prerender = false
+
+const blogInfo: BlogInfo = await getBlogInfo();
+const pinnedPostInfo: PostInfo | null = await getPinnedPostInfo();
+const recentPostInfo: PostInfo[] = await getRecentPostInfo(blogNumRecentPosts);
+
+const title = blogInfo.displayTitle ?? (blogInfo.title + " by " + blogInfo.author.name);
+const description = "Welcome to " + blogInfo.title + " — a blog exploring systems engineering, developer tools, leadership, and structured thinking. Created by " + blogInfo.author.name +".";
+const keywords = "defined behavior, software engineering blog, compiler design, embedded systems, developer tooling, systems thinking, structured insight, technical reviews";
+const image = blogInfo.ogMetaData?.image;
+const bannerImage = image ?? blogOGImage;
+---
+<BlogLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  image={image}
+  bannerImage={bannerImage}
+  bannerTitle={blogInfo.title}
+  bannerDescription={blogInfo.about.text}
+  sourceNoteUsername={blogInfo.author.username}
+>
+  <Fragment slot="head">
+    <MathJaxLoader content={pinnedPostInfo?.brief + recentPostInfo.map(postInfo => postInfo.brief).join('\n')} />
+  </Fragment>
+
+  <!-- Featured Post Section -->
+  {pinnedPostInfo && (
+    <section class="card mb-8">
+      <h2>Featured Post</h2>
+      <PostCard postInfo={pinnedPostInfo} />
+    </section>
+  )}
+
+  <!-- Post List Section -->
+  <section class="card">
+    {recentPostInfo.length > 0 ? (
+      <h2>Recent Posts</h2>
+      <PostGallery allPostInfo={recentPostInfo} />
+    ) : (
+
+      <EmptyState
+        title="No posts yet"
+        message="New content is coming soon — stay tuned!"
+        ctaText={blogSubscribeAction ? "Subscribe" : undefined}
+        ctaHref={blogSubscribeAction ? "/blog/subscribe" : undefined}
+      />
+    )}
+  </section>
+
+  <section slot="blog-footer">
+    <p class="muted-note">📡 Prefer RSS? You can follow new posts via <Link href="/blog/rss.xml">/blog/rss.xml</Link>.</p>
+  </section>
+</BlogLayout>

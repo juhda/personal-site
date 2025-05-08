@@ -1,0 +1,31 @@
+---
+import BlogLayout from '../../../layouts/BlogLayout.astro';
+import Link from '../../../components/Link';
+
+import { author, blogTitle } from '../../../config/site';
+
+const title = "Confirm Your Subscription | " + blogTitle + " by " + author;
+const description = "Thanks for subscribing to " + blogTitle + ". Please check your inbox and confirm your email to start receiving new posts.";
+const keywords = "defined behavior, newsletter signup, confirm email, subscribe";
+---
+<BlogLayout
+  noindex={true}
+  title={title}
+  description={description}
+  keywords={keywords}
+  showBanner={false}
+  showSourceNote={false}
+>
+  <section class="card text-center">
+    <div class="text-4xl mb-4">✅</div>
+    <h2 class="text-center">Thanks for subscribing!</h2>
+    <h2 class="text-center">📩 One last step:</h2>
+    <p class="text-center">
+      Please check your inbox and click the confirmation link to complete your subscription to <em>{blogTitle}</em>.
+      <br />I only send brief notes when new posts go live — no noise, just structured insight.
+    </p>
+    <Link href="/blog" class="muted-top-rule pt-0 py-8">
+      Browse the latest posts while you wait
+    </Link>
+  </section>
+</BlogLayout>

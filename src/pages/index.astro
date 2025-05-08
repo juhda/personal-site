@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Link from '../components/Link';
+
 import {
   author,
   jobTitle,
@@ -18,22 +20,21 @@ const keywords = author +", compiler engineer, systems engineer, embedded softwa
   description={description}
   keywords={keywords}
 >
-  <section class="flex flex-col sm:flex-row items-start gap-10 py-16 px-6 bg-surface rounded-xl shadow-md">
+  <section class="flex-card">
 
     <!-- Profile Photo -->
-    <div class="flex-shrink-0 mx-auto sm:mx-0">
+    <div class="profile-image-floater">
       <Image
         src={meImage}
         alt="Portrait of {author}"
         width={160}
         height={160}
         loading="eager"
-        class="rounded-full object-cover shadow-md border-4 border-muted"
       />
     </div>
 
     <!-- Text Content -->
-    <div class="max-w-3xl sm:max-w-4xl mx-auto">
+    <div>
       <h1>👋 Welcome — I'm <span class="whitespace-nowrap">{author}</span></h1>
       <h2 class="text-text font-medium">{jobTitle}</h2>
       <p class="italic">
@@ -50,10 +51,10 @@ const keywords = author +", compiler engineer, systems engineer, embedded softwa
       </p>
 
       <!-- Call-to-Action Buttons -->
-      <div class="flex flex-col sm:flex-row justify-center sm:justify-start gap-4 mt-8">
-        <a href="/about" class="cta-button">About Me</a>
-        <a href="/portfolio" class="cta-button">View Portfolio</a>
-        <!-- a href="/blog" class="cta-button">Read Blog</a -->
+      <div class="cta-buttons">
+        <Link href="/about">About Me</Link>
+        <Link href="/portfolio">View Portfolio</Link>
+        <Link href="/blog">Read Blog</Link>
       </div>
     </div>
   </section>

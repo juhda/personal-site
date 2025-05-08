@@ -1,0 +1,146 @@
+---
+import "../styles/tailwind.css";
+import SEO from '../components/SEO.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Link from '../components/Link';
+
+import { isSearchEnabled } from "../hashnode-lib/client";
+
+import {
+  goatCounterUrl,
+  blogOGImage,
+  blogSubscribeAction
+} from '../config/site.ts';
+
+const hasBlogHeader = Boolean(Astro.slots['blog-header']);
+const hasBlogFooter = Boolean(Astro.slots['blog-footer']);
+
+const {
+  title = null,
+  description = null,
+  keywords = null,
+  canonical = null,
+  image = null,
+  localImage = blogOGImage,
+  type = "website",
+  headline = null,
+  datePublished = null,
+  noindex = false,
+
+  // Blog layout-specific props
+  showBanner = true,
+  showNavLinks = true,
+  showSourceNote = true,
+  sourceNoteUsername = null,
+  bannerImage = null,
+  bannerTitle = null,
+  bannerDescription = null,
+} = Astro.props;
+---
+
+<html lang="en" class="min-h-screen">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="/favicon.png" media="(prefers-color-scheme: light)" />
+    <link rel="icon" type="image/png" href="/favicon-dark.png" media="(prefers-color-scheme: dark)" />
+
+    <!-- Blog RSS -->
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/blog/rss.xml" />
+
+    {import.meta.env.MODE === 'production' && (
+      <!-- Analytics -->
+      <script data-goatcounter={goatCounterUrl} async src="//gc.zgo.at/count.js"></script>
+    )}
+
+    <SEO
+      title={title}
+      description={description}
+      keywords={keywords}
+      canonical={canonical}
+      image={image}
+      localImage={localImage}
+      type={type}
+      headline={headline}
+      datePublished={datePublished}
+      noindex={noindex}
+    />
+
+    <slot name="head" />
+  </head>
+
+  <body>
+    <Header title={title} />
+
+    {showNavLinks && (
+      <nav class="flex flex-wrap justify-center gap-4 text-sm font-medium py-4">
+        <Link href="/blog/tags">Browse by Tags</Link><span>·</span>
+        <Link href="/blog/series">Explore Series</Link><span>·</span>
+        <Link href="/blog/archives">Archives</Link><span>·</span>
+        {isSearchEnabled && (
+          <Link href="/blog/search">Search</Link><span>·</span>
+        )}
+        {blogSubscribeAction && (
+          <Link href="/blog/subscribe">Subscribe</Link><span>·</span>
+        )}
+        <Link href="/blog/about">About the Blog</Link>
+      </nav>
+    )}
+
+    {showBanner && (
+      <section class="card">
+        {bannerImage && (
+          <div class="banner-image-container">
+            <img
+              src={bannerImage}
+              alt={`Banner for ${title}`}
+            />
+          </div>
+        )}
+        <div class="text-center">
+          <h1>{bannerTitle}</h1>
+          <p class="text-lg" set:html={bannerDescription} />
+        </div>
+      </section>
+    )}
+
+    {/* Optional: for additional non-flex content at top */}
+    {hasBlogHeader && (
+      <section class="max-w-4xl mx-auto px-4 mt-12">
+        <slot name="blog-header" />
+      </section>
+    )}
+
+    <main class="padded-main">
+      <slot />
+    </main>
+
+    {/* Optional: for related articles, CTAs, etc. */}
+    {(showSourceNote || hasBlogFooter) && (
+      <section class="max-w-4xl mx-auto px-4 muted-top-rule pt-0 mt-12 text-center text-sm">
+        <slot name="blog-footer" />
+        {showSourceNote && (
+          <p class="muted-note text-xs">
+            Blog content is served from
+            <Link
+              href={`https://hashnode.com/@${sourceNoteUsername}`}
+              class="text-xs"
+            >
+              Hashnode
+            </Link>
+            via GraphQL.
+          </p>
+        )}
+      </section>
+    )}
+
+    <Footer />
+  </body>
+</html>

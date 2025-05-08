@@ -48,23 +48,134 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @layer components {
-  p, ul {
+  body {
+    @apply flex flex-col min-h-screen bg-bg text-primary;
+  }
+
+  p, ul, ol, article {
     @apply text-text text-left sm:text-justify mb-4;
   }
 
+  article table {
+    @apply table-auto border border-primary w-full;
+  }
+
+  article table thead {
+    @apply bg-muted;
+  }
+
+  article table thead td {
+    @apply text-center font-bold border border-primary px-4 py-2 align-middle;
+  }
+
+  article table tbody {
+    @apply bg-surface;
+  }
+
+  article table tbody td {
+    @apply text-left border border-primary px-4 py-2 align-middle;
+  }
+
   h1 {
-    @apply text-3xl sm:text-4xl font-extrabold text-primary text-center sm:text-left mb-6;
+    @apply text-3xl sm:text-4xl font-extrabold text-heading text-center sm:text-left mb-6;
   }
 
   h2 {
-    @apply text-xl font-semibold text-primary text-center sm:text-left mt-8 mb-4;
+    @apply text-xl font-semibold text-heading text-center sm:text-left mt-8 mb-4;
+  }
+
+  h3 {
+    @apply text-xl font-semibold text-primary text-center sm:text-left mt-4 mb-4;
   }
 
   a {
     @apply text-accent hover:underline;
   }
 
+  input {
+    @apply w-full px-4 py-2 border border-muted rounded bg-bg text-primary placeholder-muted;
+  }
+
+  button {
+    @apply cta-button;
+  }
+
+  details summary {
+    @apply cursor-pointer;
+  }
+
+  .muted-note {
+    @apply text-muted text-sm text-center mt-6;
+  }
+
+  .muted-top-rule {
+    @apply border-t border-muted pt-4;
+  }
+  .muted-bottom-rule {
+    @apply border-b border-muted pb-4;
+  }
+
+  .padded-main {
+    @apply flex-1 p-4 max-w-4xl mx-auto;
+  }
+
+  .wide-main {
+    @apply flex-1 w-full h-full;
+  }
+
   .cta-button {
-    @apply px-5 py-2 rounded-full text-sm font-medium text-accent border border-accent hover:bg-accent hover:text-bg transition;
+    @apply px-5 py-2 rounded-full text-sm text-center font-medium text-accent border border-accent hover:bg-accent hover:text-bg transition;
+  }
+
+  .cta-buttons {
+    @apply flex flex-col sm:flex-row justify-center sm:justify-start gap-4 mt-8;
+  }
+
+  .cta-buttons a {
+    @apply cta-button;
+  }
+
+  .card {
+    @apply max-w-3xl sm:max-w-4xl mx-auto items-start gap-10 px-8 py-12 bg-surface rounded-xl shadow-md;
+  }
+
+  .flex-card {
+    @apply flex flex-col sm:flex-row card;
+  }
+
+  .nested-card {
+    @apply bg-bg p-4 rounded shadow hover:shadow-lg transition;
+  }
+
+  .profile-image {
+    @apply rounded-full object-cover shadow-md border-4 border-muted;
+  }
+
+  .profile-image-floater {
+    @apply flex-shrink-0 mx-auto sm:mx-0;
+  }
+
+  .profile-image-floater img {
+    @apply profile-image;
+  }
+
+  .wide-embed {
+    @apply relative w-full min-h-[80vh] px-0 mt-12 pt-2 border-t border-muted;
+  }
+
+  .wide-embed iframe {
+    @apply block w-full min-h-[80vh] border-0;
+  }
+
+  .banner-image {
+    @apply w-full h-full object-cover object-center;
+  }
+
+  .banner-image-container {
+    @apply w-full aspect-[16/9] overflow-hidden rounded mb-2 shadow-sm;
+  }
+
+  .banner-image-container img {
+    @apply banner-image;
   }
 }
