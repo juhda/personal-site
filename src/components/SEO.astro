@@ -19,6 +19,7 @@ const {
   type,
   headline,
   datePublished,
+  noindex,
 } = Astro.props;
 
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).toString();
@@ -39,6 +40,13 @@ const structuredDataWebSite = {
   }
 };
 
+const worksForData = worksForOrgName ? {
+  worksFor: {
+    "@type": "Organization",
+    "name": worksForOrgName
+  }
+} : null;
+
 const structuredDataPerson = {
   "@context": "https://schema.org",
   "@type": "Person",
@@ -50,12 +58,7 @@ const structuredDataPerson = {
     socialLinks.github
   ],
   "jobTitle": jobTitle,
-  ...(worksForOrgName && {
-    worksFor: {
-      "@type": "Organization",
-      "name": worksForOrgName
-    }
-  })
+  ...worksForData
 };
 
 const structuredDataBreadcrumbList = getBreadcrumbList({
@@ -101,7 +104,7 @@ const structuredDataPage = isArticle
 <meta name="author" content="Dávid Juhász" />
 <meta name="keywords" content={keywords} />
 <link rel="canonical" href={canonicalUrl} />
-<link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="sitemap" href="/sitemap.xml" />
 
 <!-- Open Graph -->
 <meta property="og:title" content={title} />
@@ -121,3 +124,8 @@ const structuredDataPage = isArticle
 <script type="application/ld+json" set:html={JSON.stringify(structuredDataPerson, null, 2 )} />
 <script type="application/ld+json" set:html={JSON.stringify(structuredDataBreadcrumbList, null, 2 )} />
 <script type="application/ld+json" set:html={JSON.stringify(structuredDataPage, null, 2 )} />
+
+{noindex && (
+  <!-- Disable indexing -->
+  <meta name="robots" content="noindex" />
+)}
