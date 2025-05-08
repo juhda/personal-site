@@ -1,0 +1,41 @@
+---
+import BlogLayout from '../../../layouts/BlogLayout.astro';
+import SeriesGallery from '../../../components/SeriesGallery.astro';
+import EmptyState from '../../../components/EmptyState';
+
+import { getBlogInfo, getAllSeriesInfo } from '../../../hashnode-lib/client';
+import type { SeriesInfo } from '../../../hashnode-lib/schema';
+
+export const prerender = false
+
+const blogInfo = await getBlogInfo();
+const seriesList: SeriesInfo[] = await getAllSeriesInfo();
+
+const title = "Blog Series | " + blogInfo.title + " by " + blogInfo.author.name;
+const description = "Explore multi-part article series covering deeper topics.";
+const keywords = "blog, series, defined behavior, software engineering, structured insight";
+const image = blogInfo.ogMetaData?.image;
+---
+<BlogLayout
+  noindex={true}
+  title={title}
+  description={description}
+  keywords={keywords}
+  image={image}
+  showBanner={false}
+  sourceNoteUsername={blogInfo.author.username}
+>
+  {seriesList.length > 0 ? (
+    <div slot="blog-header">
+      <h1 class="text-center">Browse Series</h1>
+    </div>
+
+    <SeriesGallery allSeriesInfo={seriesList} />
+  ) : (
+    <EmptyState
+      icon="📚"
+      title="No series yet"
+      message="Once a series is created, it will appear here."
+    />
+  )}
+</BlogLayout>
