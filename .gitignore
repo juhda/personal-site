@@ -22,3 +22,9 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# netlify adaptor folder
+.netlify/
+
+# generated sources
+src/generated/
