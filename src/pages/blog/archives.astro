@@ -1,0 +1,70 @@
+---
+import BlogLayout from '../../layouts/BlogLayout.astro';
+import MathJaxLoader from '../../components/MathJaxLoader.astro';
+import PostGallery from '../../components/PostGallery';
+import EmptyState from '../../components/EmptyState';
+
+import { getBlogInfo, getAllPostInfo } from '../../hashnode-lib/client';
+import type { PostInfo } from '../../hashnode-lib/schema';
+
+export const prerender = false
+
+const blogInfo = await getBlogInfo();
+const allPostInfo: PostInfo[] = await getAllPostInfo();
+
+// Group posts by publication year
+function groupPostsByYear(posts: PostInfo[]): Record<number, PostInfo[]> {
+  return posts.reduce((acc, post) => {
+    const year = new Date(post.publishedAt).getFullYear();
+    if (!acc[year]) acc[year] = [];
+    acc[year].push(post);
+    return acc;
+  }, {} as Record<number, PostInfo[]>);
+}
+
+const postsByYear = groupPostsByYear(allPostInfo);
+
+// Sort years descending
+const sortedYears = Object.keys(postsByYear)
+  .map(Number)
+  .sort((a, b) => b - a);
+
+const title = "Blog Archives | " + blogInfo.title + " by " + blogInfo.author.name;
+const description = "Browse all published posts, grouped by year.";
+const keywords = "blog archives, defined behavior, software engineering, structured insight";
+const image = blogInfo.ogMetaData?.image;
+---
+<BlogLayout
+  noindex={true}
+  title={title}
+  description={description}
+  keywords={keywords}
+  image={image}
+  showBanner={false}
+  sourceNoteUsername={blogInfo.author.username}
+>
+  <Fragment slot="head">
+    <MathJaxLoader content={allPostInfo.map(postInfo => postInfo.brief).join('\n')} />
+  </Fragment>
+
+  <div slot="blog-header" class="card">
+    <h1 class="text-center">Blog Archives</h1>
+    <p class="text-center">
+      Browse all published posts, grouped by year.
+    </p>
+  </div>
+
+  {sortedYears.length > 0 ? (
+    sortedYears.map(year => (
+      <section class="mb-12">
+        <h2 class="text-2xl font-bold mb-4 muted-bottom-rule pb-1">{year}</h2>
+        <PostGallery allPostInfo={postsByYear[year]} />
+      </section>
+    ))
+    ) : (
+    <EmptyState
+      title="No posts yet"
+      message="Once posts are published, they'll appear here by year."
+    />
+  )}
+</BlogLayout>

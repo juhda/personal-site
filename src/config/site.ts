@@ -11,6 +11,17 @@ export const worksForOrgName = null;
 export const siteName = `${author} - ${jobTitle}`;
 export const defaultOGImage = "/og/default.png";
 
+// Blog-related settings.
+export const blogHashnodeUrl = "davidjuhasz.dev/blog";
+export const blogEnableMath = true; // Enable LaTeX math rendering in blog posts and previews.
+export const blogHashnodeMaxPosts = 50; // Maximum number of posts to fetch from Hashnode at once. This is limited by Hashnode to 50.
+export const blogHashnodeMaxSeries = 20; // Maximum number of series and posts within series to fetch from Hashnode at once. This is limited by Hashnode to 20.
+export const blogOGImage = "/og/blog.png";
+export const blogNumRecentPosts = 6; // Number of recent posts to show on the blog home. Should not be larger than blogHashnodeMaxPosts.
+export const blogNumRSSPosts = 10; // Number of posts to show in the RSS feed. Should not be larger than blogHashnodeMaxPosts.
+export const blogSearchLimit = 10; // Number of posts under which search is not enabled as it would not be useful for starting blogs with very few posts.
+export const blogSubscribeAction = null; // FIXME Action for blog subscribe form. Subscribe links are rendered only if provided.
+
 // Your GoatCounter URL. You can find it in your GoatCounter settings.
 export const goatCounterUrl = "https://stats.davidjuhasz.dev/count";
 

@@ -1,4 +1,6 @@
 ---
+import Link from './Link';
+
 const {
   title
 } = Astro.props;
@@ -10,22 +12,22 @@ const isActive = (path) =>
     : currentPath.startsWith(path);
 ---
 
-<header class="sticky top-0 z-50 backdrop-blur bg-surface/80 px-4 py-4 border-b border-muted shadow-sm">
+<header class="sticky top-0 z-50 backdrop-blur bg-surface/80 px-4 py-4 muted-bottom-rule shadow-sm">
   <nav class="max-w-4xl mx-auto flex justify-between items-center">
     <h1 class="text-xl font-bold leading-tight mb-0">{title}</h1>
     <ul class="flex space-x-4 mb-0">
       <li>
-        <a href="/" class={`nav-link ${isActive('/') ? 'active' : ''}`}>Home</a>
+        <Link href="/" class={`nav-link ${isActive('/') ? 'active' : ''}`}>Home</Link>
       </li>
       <li>
-        <a href="/about" class={`nav-link ${isActive('/about') ? 'active' : ''}`}>About</a>
+        <Link href="/about" class={`nav-link ${isActive('/about') ? 'active' : ''}`}>About</Link>
       </li>
       <li>
-        <a href="/portfolio" class={`nav-link ${isActive('/portfolio') ? 'active' : ''}`}>Portfolio</a>
+        <Link href="/portfolio" class={`nav-link ${isActive('/portfolio') ? 'active' : ''}`}>Portfolio</Link>
       </li>
-      <!-- li>
-        <a href="/blog" class={`nav-link ${isActive('/blog') ? 'active' : ''}`}>Blog</a>
-      </li -->
+      <li>
+        <Link href="/blog" class={`nav-link ${isActive('/blog') ? 'active' : ''}`}>Blog</Link>
+      </li>
     </ul>
   </nav>
 </header>

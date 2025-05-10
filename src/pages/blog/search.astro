@@ -1,0 +1,44 @@
+---
+import BlogLayout from '../../layouts/BlogLayout.astro';
+import MathJaxLoader from '../../components/MathJaxLoader.astro';
+import SearchResults from '../../components/SearchResults';
+
+import { getAllPostInfo, getBlogInfo } from '../../hashnode-lib/client';
+import type { BlogInfo, PostInfo } from '../../hashnode-lib/schema';
+
+export const prerender = false
+
+const blogInfo: BlogInfo = await getBlogInfo();
+const allPostInfo: PostInfo[] = await getAllPostInfo();
+
+const title = "Search | " + blogInfo.title + " by " + blogInfo.author.name;
+const description = "Find articles by keyword or tag.";
+const keywords = "defined behavior, software engineering, compiler design, embedded systems, developer tooling, systems thinking, structured insight";
+const image = blogInfo.ogMetaData?.image;
+---
+<BlogLayout
+  noindex={true}
+  title={title}
+  description={description}
+  keywords={keywords}
+  image={image}
+  showBanner={false}
+  sourceNoteUsername={blogInfo.author.username}
+>
+  <Fragment slot="head">
+    <MathJaxLoader content={allPostInfo.map(postInfo => postInfo.brief).join('\n')} />
+  </Fragment>
+
+  <div slot="blog-header">
+    <label for="search-input">
+      Search blog posts
+    </label>
+    <input
+      id="search-input"
+      type="search"
+      placeholder="Keywords or tags..."
+    />
+  </div>
+
+  <SearchResults client:load posts={allPostInfo} search_input={"search-input"} />
+</BlogLayout>
