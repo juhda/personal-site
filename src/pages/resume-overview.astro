@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Link from '../components/Link';
+
 import {
   author,
   jobTitle,
@@ -12,25 +14,24 @@ const description = "Download or view the résumé of " + author + ", " + cleanJ
 const keywords = author +", compiler engineer, systems engineer, résumé, cv, developer tooling, embedded systems, code generation, system simulation, hardware-software co-design";
 const localImage = "/og/resume.png";
 ---
-
 <BaseLayout
   title={title}
   description={description}
   keywords={keywords}
   localImage={localImage}
 >
-  <section class="flex flex-col sm:flex-row items-start gap-10 py-16 px-6 bg-surface rounded-xl shadow-md">
+  <section class="card">
     <!-- Text Content -->
-    <div class="max-w-3xl sm:max-w-4xl mx-auto">
+    <div>
       <h1>Résumé Overview</h1>
 
       <p>
         Welcome to the résumé overview of {author}, {cleanJobTitle} specializing in developer tooling, embedded platforms, and systems engineering. You may download the latest version of my résumé below, or explore selected project highlights for a deeper view into my work.
       </p>
 
-      <a href="/resume" download rel="noopener noreferrer" data-goatcounter-click="resume-download" class="cta-button">
+      <Link href="/resume" download class="cta-button">
         Download Résumé (PDF)
-      </a>
+      </Link>
 
       <h2>Résumé Highlights</h2>
 
@@ -40,12 +41,12 @@ const localImage = "/og/resume.png";
         <li><strong>Specialization:</strong> Compiler development, embedded software, hardware-software co-design</li>
         <li><strong>Expertise:</strong> Code generation, toolchains, runtime systems, system simulation</li>
         <li><strong>Key Roles:</strong> Lead Software Architect and Expert Software Engineer at Imsys</li>
-        <li><strong>Education:</strong> MSc in Computer Science, <a href="https://www.elte.hu/en/" target="_blank" rel="noopener noreferrer">Eötvös Loránd University</a> (Budapest, Hungary) — Graduated with distinction</li>
+        <li><strong>Education:</strong> MSc in Computer Science, <Link href="https://www.elte.hu/en/">Eötvös Loránd University</Link> (Budapest, Hungary) — Graduated with distinction</li>
         <li><strong>Technical Leadership:</strong> Cross-functional team leadership, system architecture definition, strategic project delivery</li>
       </ul>
 
       <p>
-        Looking for detailed project work? <a href="/portfolio">Explore my project portfolio</a>.
+        Looking for detailed project work? <Link href="/portfolio">Explore my project portfolio</Link>.
       </p>
     </div>
   </section>

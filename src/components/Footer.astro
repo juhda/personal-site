@@ -1,4 +1,6 @@
 ---
+import Link from './Link';
+
 import {
   socialLinks,
   author
@@ -7,14 +9,14 @@ import {
 const year = new Date().getFullYear();
 ---
 
-<footer class="mt-16 border-t border-muted py-6 text-sm text-muted text-center">
+<footer class="muted-note muted-top-rule mt-16 py-6">
   <div class="flex flex-wrap justify-center items-center gap-x-2 gap-y-1">
     <span>© {year} {author}</span>
     <span aria-hidden="true">•</span>
-    <a href={socialLinks.email} class="hover:underline text-primary">Email</a>
+    <Link href={socialLinks.email} class="hover:underline text-primary">Email</Link>
     <span aria-hidden="true">•</span>
-    <a href={socialLinks.linkedin} target="_blank" rel="noopener noreferrer" data-goatcounter-click="linkedin-profile" class="hover:underline text-primary">LinkedIn</a>
+    <Link href={socialLinks.linkedin} class="hover:underline text-primary">LinkedIn</Link>
     <span aria-hidden="true">•</span>
-    <a href={socialLinks.github} target="_blank" rel="noopener noreferrer" data-goatcounter-click="github-profile" class="hover:underline text-primary">GitHub</a>
+    <Link href={socialLinks.github} class="hover:underline text-primary">GitHub</Link>
   </div>
 </footer>
