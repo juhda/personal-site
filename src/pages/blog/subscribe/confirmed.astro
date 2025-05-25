@@ -1,0 +1,30 @@
+---
+import BlogLayout from '../../../layouts/BlogLayout.astro';
+import Link from '../../../components/Link';
+
+import { author, blogTitle } from '../../../config/site';
+
+const title = "You’re Subscribed | " + blogTitle + " by " + author;
+const description = "Welcome to " + blogTitle + ". You’ll now get a short email from " + author + " when new posts are published.";
+const keywords = "defined behavior, software engineering, compiler design, embedded systems, developer tooling, systems thinking, structured insight, subscription confirmed, newsletter, blog updates";
+---
+<BlogLayout
+  noindex={true}
+  title={title}
+  description={description}
+  keywords={keywords}
+  showBanner={false}
+  showSourceNote={false}
+>
+  <section class="card text-center">
+    <div class="text-4xl mb-4">🎉</div>
+    <h2 class="text-center"> You’re subscribed!</em></h2>
+    <p class="text-center">
+      From now on, you’ll get a short email from me whenever I publish a new post.
+      <br />Thanks for joining — I appreciate your time and attention.
+    </p>
+    <Link href="/blog" class="cta-button">
+      Start exploring the blog
+    </Link>
+  </section>
+</BlogLayout>

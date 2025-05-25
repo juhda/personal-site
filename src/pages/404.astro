@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Link from '../components/Link';
+
+const title = "Page Not Found";
+const description = "Sorry, we couldn’t find that page.";
+const keywords = "";
+---
+<BaseLayout
+  noindex={true}
+  title={title}
+  description={description}
+  keywords={keywords}
+>
+  <section class="card text-center">
+    <div class="text-5xl mb-4">🤷‍♂️</div>
+    <h2 class="text-center">Page not found</h2>
+    <p class="muted-note">
+      Sorry, we couldn’t find that page. It may have been moved, renamed, or never existed.
+    </p>
+
+    <div class="cta-buttons sm:justify-center">
+      <Link href="/">Return Home</Link>
+      <Link href="/blog">Explore Blog</Link>
+    </div>
+  </section>
+</BaseLayout>
