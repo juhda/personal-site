@@ -1,0 +1,86 @@
+---
+import Link from './Link';
+
+import type { Post } from '../hashnode-lib/schema';
+
+const { post }: { post: Post } = Astro.props;
+
+const {
+  publishedAt,
+  updatedAt,
+  author,
+  coAuthors,
+  tags,
+  series
+} = post;
+---
+
+<section class="flex-card flex-col gap-2 items-center text-sm py-4">
+  <!-- Dates -->
+  <div class="mb-2">
+    <time datetime={publishedAt}>
+      Published {new Date(publishedAt).toLocaleDateString()}
+    </time>
+    {updatedAt && (
+      <> · Updated {new Date(updatedAt).toLocaleDateString()}</>
+    )}
+  </div>
+
+  <!-- Authors -->
+  <div class="flex items-center gap-2 mb-2 flex-wrap">
+    <Link
+      href={`https://hashnode.com/@${author.username}`}
+      class="inline-flex items-center gap-1"
+    >
+      <img
+        src={author.profilePicture}
+        alt={author.name}
+        class="profile-image border w-8 h-8"
+      />
+      <strong>{author.name}</strong>
+    </Link>
+
+    {coAuthors.length > 0 && (
+      <>
+        <span>· with</span>
+        {coAuthors.map(co => (
+          <Link
+            href={`https://hashnode.com/@${co.username}`}
+            class="inline-flex items-center gap-1"
+          >
+            <img
+              src={co.profilePicture}
+              alt={co.name}
+              class="profile-image border w-8 h-8"
+            />
+            <strong>{co.name}</strong>
+          </Link>
+        ))}
+      </>
+    )}
+  </div>
+
+  <!-- Tags -->
+  {tags.length > 0 && (
+    <div class="flex flex-wrap gap-2 mb-2">
+      {tags.map(tag => (
+        <Link
+          href={`/blog/tags/${tag.slug}`}
+          class="bg-bg px-2 py-0.5 rounded border border-accent/30 text-accent text-xs hover:bg-surface/70 transition inline-block max-w-full truncate"
+        >
+          #{tag.name}
+        </Link>
+      ))}
+    </div>
+  )}
+
+  <!-- Series -->
+  {series && (
+    <div>
+      Part of the series:&nbsp;
+      <Link href={`/blog/series/${series.slug}`}>
+        {series.name}
+      </Link>
+    </div>
+  )}
+</section>

@@ -1,0 +1,93 @@
+---
+import BlogLayout from '../../layouts/BlogLayout.astro';
+import Link from '../../components/Link';
+
+import { getBlogInfo, isSearchEnabled } from '../../hashnode-lib/client';
+import type { BlogInfo } from '../../hashnode-lib/schema';
+
+import { blogSubscribeAction, socialLinks } from '../../config/site.ts';
+
+export const prerender = false
+
+const blogInfo: BlogInfo = await getBlogInfo();
+
+const authorUrl = "https://hashnode.com/@" + blogInfo.author.username
+
+const title = "About | " + blogInfo.title + " by " + blogInfo.author.name;
+const description = "The purpose behind Defined Behavior: thoughtful, precise, and structured reflections on software systems, technology, and technical leadership.";
+const keywords = "about blog, defined behavior, software engineering, structured insight";
+const image = blogInfo.ogMetaData?.image;
+const bannerImage = blogInfo.ogMetaData?.image;
+---
+<BlogLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  image={image}
+  bannerImage={bannerImage}
+  bannerTitle={`About ${blogInfo.title}`}
+  bannerDescription={blogInfo.about.text}
+  sourceNoteUsername={blogInfo.author.username}
+>
+  <section class="card">
+    <!-- Author info -->
+    <div class="flex items-center justify-center gap-4 mb-6 text-center">
+      <img
+        src={blogInfo.author.profilePicture}
+        alt={blogInfo.author.name}
+        class="profile-image border w-16 h-16"
+      />
+      <div class="flex flex-col justify-center items-center">
+        <h2 class="mt-0 mb-0">{blogInfo.author.name}</h2>
+        <Link
+          href={authorUrl}
+          class="text-sm"
+        >
+          View profile on Hashnode
+        </Link>
+      </div>
+    </div>
+
+    <!-- Custom about text -->
+    <div class="muted-top-rule">
+      <p>
+        <strong>Defined Behavior</strong> is a space for engineering thoughtfulness.
+      </p>
+      <p>
+        Authored by Dávid Juhász, this blog explores what it means to build and communicate complex systems with clarity, purpose, and precision. Whether you're diving into compilers, embedded platforms, developer tools, or navigating the nuances of software leadership, this is a place for structured thinking and meaningful dialogue.
+      </p>
+      <p>
+        “Defined Behavior” stands in contrast to <em>undefined behavior</em> — not just in code, but in thought and communication. It’s a statement of principle: that clarity is a choice, precision is a discipline, and complexity deserves structure, not surrender.
+      </p>
+      <p>
+        This mindset — <em>engineering precision in a complex world</em> — is what defines my work, and what this blog exists to explore.
+      </p>
+      {!isSearchEnabled && (
+        <p class="muted-top-rule">
+          If you’re reading this early on, you might notice that the archive is still light. That’s by design — I’m focused on publishing deliberately, not frequently. Defined Behavior will grow over time with writing that reflects its principles: clarity, structure, and purpose.
+        </p>
+      )}
+    </div>
+  </section>
+
+  <section class="card mt-8">
+    <h2>How to Follow This Blog</h2>
+    <p>
+      If you'd like to stay updated when I publish new posts on compilers, systems, developer tools, or technical leadership,
+      {blogSubscribeAction ? (
+        <>there are a couple of ways to follow along:</>
+      ) : (
+        <>you can follow the blog via <Link href="/blog/rss.xml">RSS</Link> using your favorite feed reader.</>
+      )}
+    </p>
+    {blogSubscribeAction && (
+      <ul>
+        <li>✉️ <strong><Link href="/blog/subscribe">Subscribe by email</Link></strong> — Get new posts delivered straight to your inbox.</li>
+        <li>📡 <strong><Link href="/blog/rss.xml">Subscribe via RSS</Link></strong> — For readers who prefer feed readers.</li>
+      </ul>
+    )}
+    <p>
+      You can also follow me on <Link href={socialLinks.linkedin}>LinkedIn</Link> where I share updates and discuss new articles.
+    </p>
+  </section>
+</BlogLayout>

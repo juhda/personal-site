@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Link from '../components/Link';
+
 import {
   author,
   jobTitle,
@@ -15,29 +17,27 @@ const description = "Learn more about " + author + ", a " + cleanJobTitle + " fo
 const keywords = author +", compiler engineer, systems engineer, embedded software, firmware development, developer tooling, code generation, engineering principles, software architecture, teaching engineers";
 const localImage = "/og/about.png";
 ---
-
 <BaseLayout
   title={title}
   description={description}
   keywords={keywords}
   localImage={localImage}
 >
-  <section class="flex flex-col sm:flex-row items-start gap-10 py-16 px-6 bg-surface rounded-xl shadow-md">
+  <section class="flex-card">
 
     <!-- Profile Photo -->
-    <div class="flex-shrink-0 mx-auto sm:mx-0">
+    <div class="profile-image-floater">
         <Image
           src={meImage}
           alt="Portrait of {author}"
           width={160}
           height={160}
           loading="eager"
-          class="rounded-full object-cover shadow-md border-4 border-muted"
         />
     </div>
 
     <!-- Text Content -->
-    <div class="max-w-3xl sm:max-w-4xl mx-auto">
+    <div>
       <h1>About</h1>
 
       <p>
@@ -81,13 +81,13 @@ const localImage = "/og/about.png";
       <h2>Next Steps</h2>
 
       <p>
-        For more technical context, check out my <a href="/portfolio">project portfolio</a>. <!-- <strong>REMOVE DOT BEFORE</strong> or explore my <a href="/blog">blog</a>. -->
-        Feel free to <a href={socialLinks.email}>email me</a> or connect on <a href={socialLinks.linkedin} target="_blank" rel="noopener noreferrer" data-goatcounter-click="linkedin-profile">LinkedIn</a>.
+        For more technical context, check out my <Link href="/portfolio">project portfolio</Link> or explore my <Link href="/blog">blog</Link>.
+        Feel free to <Link href={socialLinks.email}>email me</Link> or connect on <Link href={socialLinks.linkedin}>LinkedIn</Link>.
       </p>
 
       <p>
-        You can also <a href="/resume" download rel="noopener noreferrer" data-goatcounter-click="resume-download">download my résumé (PDF)</a> for a concise overview of my background and experience.
-        If you prefer, you can <a href="/resume-overview">view résumé details online</a>.
+        You can also <Link href="/resume" download>download my résumé (PDF)</Link> for a concise overview of my background and experience.
+        If you prefer, you can <Link href="/resume-overview">view résumé details online</Link>.
       </p>
     </div>
   </section>

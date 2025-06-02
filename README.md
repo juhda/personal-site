@@ -9,9 +9,15 @@ It serves as my digital home — a place to showcase my portfolio, share ideas, 
 - ✅ Dark mode matching browser/system settings
 - ✅ Fully responsive layout
 - ✅ SEO-optimized with custom meta and structured data
+- ✅ `robots.txt` and dynamically generated `sitemap.xml`
 - ✅ Integrated Notion-powered portfolio view
 - ✅ Privacy-respecting analytics via GoatCounter
   - No personal data is collected. Analytics endpoint is public and safe to embed.
+- ✅ Optional blog subscription form with redirect pages for double opt-in.
+- ✅ Integrated blog via [Hashnode](https://hashnode.com/)
+  - Uses the official GraphQL API to fetch blog metadata and posts
+  - Renders dynamic routes (`/blog/[slug]`) and listing pages (`/blog/tags`, `/blog/series`, etc.)
+  - All blog pages are server-rendered on demand without caching or prerendering; suitable for low traffic, with the option to add caching later
 
 ## 🧠 Goals
 
@@ -25,21 +31,25 @@ It serves as my digital home — a place to showcase my portfolio, share ideas, 
 - [Tailwind CSS](https://tailwindcss.com/) – Utility-first styling
 - [Notion](https://notion.so/) – Embedded portfolio data
 - [GoatCounter](https://www.goatcounter.com/) – Lightweight, privacy-first analytics
+- [Buttondown](https://buttondown.email) – Lightweight newsletter platform used for optional blog post subscriptions
 - [Netlify](https://netlify.com/) – Hosting (free tier)
+- [Hashnode GraphQL API](https://hashnode.com/) – Blog content source
 
 ## 📂 Project Structure
 
 ```bash
 .
 ├── public/             # Static assets (favicons, OG images)
+├── scripts/            # JavaScript/TypeScript helpers for static generation
 ├── src/
 │   ├── assets/         # Internal static resources (images, fonts, etc.)
 │   ├── components/     # Reusable Astro/JSX components (e.g. SEO.astro)
 │   ├── config/         # Site-wide configuration (e.g., metadata)
+│   ├── hashnode-lib/   # GraphQL client definitions to fetch blog data
 │   ├── layouts/        # Base layout with shared header and structure
 │   ├── pages/          # Astro page routes (/index, /portfolio, etc.)
 │   ├── styles/         # Tailwind config & custom styles
-│   └── utils/          # JavaScript helpers (e.g., breadcrumb generator)
+│   └── utils/          # JavaScript/TypeScript helpers (e.g., breadcrumb generator)
 └── astro.config.mjs    # Astro site configuration
 └── tailwind.config.mjs # Tailwind site configuration
 ```
@@ -115,6 +125,121 @@ This project uses Astro’s built-in `redirects` configuration to manage server-
 4. Save your changes and rebuild the project for deployment.
    - No manual `_redirects` file is needed.
 
+## 🌐 Sitemap Generation
+
+This project includes dynamic sitemap generation to ensure that all relevant pages — including those rendered with on-demand rendering — are accurately included in `sitemap.xml`. This supports better SEO indexing, even for dynamic routes that aren't prerendered at build time.
+
+### 🧠 Why it's needed
+
+Astro's default sitemap plugin only includes statically generated pages. Since this site uses on-demand rendering (ODR) for blog content, we generate the sitemap ourselves to include:
+- Static pages (e.g. /about, /portfolio)
+- Dynamic pages (e.g. /blog/[slug], /blog/tags/[tag]) by running getStaticPaths() at runtime
+
+### ⚙️ How it works
+
+- `scripts/generate-sitemap-data.ts` runs during both build and dev to:
+  - Traverse `src/pages/`
+  - Collect all static routes
+  - Add `sitemapAdditionalUrls` from `src/config/site.ts` to static routes
+  - Identify dynamic route modules
+  - Save them to `src/generated/sitemap-data.json`
+- Dynamic route logic lives in `src/utils/getStaticPaths.ts` with named exports like `getStaticPaths_blog()`
+  - Each dynamic `.astro` page imports its matching function for `getStaticPaths`
+- `src/pages/sitemap.xml.ts` reads the generated JSON file and calls these functions to build a live `sitemap.xml` at runtime
+
+This approach works with any server adapter (static or SSR) and ensures the sitemap is always up-to-date when dynamic rendering is supported.
+
+## 📰 Blog Integration (Hashnode)
+
+This site integrates with [Hashnode](https://hashnode.com/) as a headless blog source using their public GraphQL API.
+
+- Dynamic blog pages are generated under `/blog` (e.g. `/blog/my-article`)
+- Blog content is fetch dynamically and blog pages are created with Astro's [on-demand rendering](https://docs.astro.build/en/guides/on-demand-rendering/)
+- The integration handles posts (respecting canonical URL if defined in Hashnode), tags, and series
+- GraphQL queries are modular, using fragments and clean types
+- Blog descriptions and metadata are rendered using trusted HTML from Hashnode and safely injected with Astro’s `set:html`
+- LaTeX math content is conditionally rendered using MathJax (see below)
+
+### Implementation Notes
+
+- On-Demand Rendering
+  - Blog pages are rendered dynamically on every request — prerendering is disabled for all blog routes
+  - No server-side caching is configured via the Netlify adapter; each page request fetches fresh content from the Hashnode API
+  - This is acceptable for low-traffic use, but traffic levels should be monitored and caching configured if request volume increases
+- Hashnode API and Features
+  - Posts are displayed in the order returned by Hashnode’s API — newest first by default, though series may use oldest-first sorting depending on settings
+  - Blog post slugs are matched directly — no post redirect support is implemented
+  - Not all metadata (e.g. author bios, reactions, visibility flags) from Hashnode is used
+  - No static pages and custom redirects from Hashnode are handled — implement any static content and redirects directly with Astro
+  - Reactions and commenting are not supported, as Hashnode does not expose interaction features in headless mode
+- Conditional Navigation Items
+  - The **Search page** is linked in blog pages only if the number of posts meets or exceeds the configured `blogSearchLimit` in the global config (`/src/config/site.ts`)
+    - The page includes all posts and performs client-side filtering
+  - The **Subscribe page** is active and linked in blog pages only if `blogSubscribeAction` is defined in the global config (`/src/config/site.ts`)
+
+## ✉️ Subscription Support
+
+This site includes **optional newsletter subscription support**.
+
+- A subscribe form is rendered at `/blog/subscribe`
+- When configured, readers can subscribe by submitting the form
+- Branded success and confirmation pages are defined at:
+  - `/blog/subscribe/pending`
+  - `/blog/subscribe/confirmed`
+
+### 🔧 Configuration
+
+Newsletter support is enabled via the following config options in `src/config/site.ts`:
+
+| Option | Description |
+|--------|-------------|
+| `blogSubscribeAction` | If set, enables the subscription form and submission logic |
+| `blogSubscribeNameField` | Optional label for a name input to personalize messages |
+
+
+## ➕ MathJax Support for LaTeX (Optional)
+
+This site optionally supports LaTeX-style math rendering via [MathJax](https://www.mathjax.org/), which is also used by Hashnode for embedded math expressions.
+
+- Inline math uses `$...$`, and block math uses `$$...$$`.
+- MathJax is **only enabled if `blogEnableMath` is set to `true`** in the global config (`src/config/site.ts`)
+- When enabled, MathJax is loaded **dynamically and only when math is detected** in post content or previews
+  - Pages pass `content` (e.g. a post’s `html` or `brief`) into `MathJaxLoader`.
+  - The loader component scans for LaTeX syntax and conditionally injects the MathJax script.
+  - This works on both full post pages (`/blog/[slug]`) and previews (`/blog`, `/tags`, etc.).
+- `MathJaxLoader` is injected into pages using Astro's `<Fragment slot name="head">`.
+
+
+### 🔧 Configuration Details
+
+When math rendering is enabled:
+
+- MathJax is configured to recognize `$...$` (inline) and `$$...$$` (block) math
+- Escaped dollar signs (`\$`) are treated as literal dollar symbols (`processEscapes: true`)
+- Content inside `<pre>`, `<code>`, `<style>`, etc., is safely ignored
+- The configuration is injected before MathJax loads in `src/components/MathJaxLoader.astro`
+
+If math rendering is disabled via `blogEnableMath = false`, no MathJax scripts or config are included, and dollar signs will be displayed as-is.
+
+### ✍️ To use math in a post
+
+To include math, when math rendering is enabled, write LaTeX in your Hashnode post using:
+
+```latex
+$...$       // for inline math
+$$...$$     // for block math
+\$          // for a literal dollar sign
+```
+
+Math will render automatically wherever it's used in post content or previews.
+
+### 📦 Implementation Notes
+
+- Math rendering is globally enabled/disabled for blog posts and previews by `blogEnableMath` in `src/config/site.ts`.
+- Uses [MathJax v3](https://www.mathjax.org/#gettingstarted) from CDN with the default `tex-mml-chtml` loader.
+- Configuration and conditional loading are handled in `src/components/MathJaxLoader.astro`.
+- No MathJax code is loaded on pages that don’t include LaTeX syntax — for optimal performance.
+
 ## 📌 Customization Tips
 
 - Adjust site config at `src/config/site.ts` and content in pages in `src/pages`
@@ -128,8 +253,11 @@ This project uses Astro’s built-in `redirects` configuration to manage server-
 
 - Dark mode toggle with default to follow system
 - Use Tailwind `prose` for unified professional typography
-- Bring in text content to pages from Markdown
-- Integrate blog via Hashnode RSS or API
+- Bring in text content to static and blog pages from Markdown
+- Improve blog integration
+  - Configure caching reasonable policies if request volume increases
+  - Optimize GraphQL queries if needed to reduce latency and request frequency under higher load
+
 
 ## 🔗 License
 

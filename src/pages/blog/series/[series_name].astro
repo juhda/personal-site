@@ -1,0 +1,74 @@
+---
+import BlogLayout from '../../../layouts/BlogLayout.astro';
+import MathJaxLoader from '../../../components/MathJaxLoader.astro';
+import PostGallery from '../../../components/PostGallery';
+import EmptyState from '../../../components/EmptyState';
+import Link from '../../../components/Link';
+
+import { getBlogInfo, getSeries, isSearchEnabled } from '../../../hashnode-lib/client';
+import type { BlogInfo, Series } from '../../../hashnode-lib/schema';
+
+import { blogSubscribeAction } from '../../../config/site';
+import { getStaticPaths_blog_series } from '../../../utils/getStaticPaths';
+
+export const prerender = false
+
+// Generate static paths for all series on case of prerender=true
+export const getStaticPaths = getStaticPaths_blog_series;
+
+const { series_name } = Astro.params;
+
+const blogInfo: BlogInfo = await getBlogInfo();
+const series: Series | null = await getSeries(series_name);
+
+if (!series) {
+  return Astro.redirect("/404")
+}
+
+const title = "Posts in " + series.name + " | " + blogInfo.title + " by " + blogInfo.author.name;
+const description = "Explore the " + series.name + " series — a focused dive, reflecting structured insight and engineering precision.";
+const keywords = series.name + ", blog series, defined behavior, software engineering, structured insight";
+const image = series.coverImage;
+const bannerImage = series.coverImage ?? blogInfo.ogMetaData?.image;
+---
+<BlogLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  image={image}
+  bannerImage={bannerImage}
+  bannerTitle={series.name}
+  bannerDescription={series.description?.html}
+  sourceNoteUsername={blogInfo.author.username}
+>
+  <Fragment slot="head">
+    <MathJaxLoader content={series.posts.map(postInfo => postInfo.brief).join('\n')} />
+  </Fragment>
+
+  {series.posts.length > 0 ? (
+    <PostGallery allPostInfo={series.posts} />
+  ) : (
+    <EmptyState
+      icon="📕"
+      title="No posts in this series yet"
+      message="This series has been defined but doesn't contain any published posts yet."
+    />
+  )}
+
+    <!-- Series Footer -->
+    <section slot="blog-footer">
+      {blogSubscribeAction && (
+        <p>✉️ <strong>Enjoying this series?</strong> 
+          <Link href="/blog/subscribe">Subscribe</Link> to get future posts on this and related topics.
+        </p>
+      )}
+
+      <p class="text-center">👉 <strong>{blogSubscribeAction ? "Or e" : "E"}xplore more:</strong>
+        <Link href="/blog/series">Other Series</Link>,
+        <Link href="/blog/tags">Browse Tags</Link>{isSearchEnabled && ","}
+        {isSearchEnabled && (
+          <Link href="/blog/search">Search the Blog</Link>
+        )}
+      </p>
+    </section>
+</BlogLayout>

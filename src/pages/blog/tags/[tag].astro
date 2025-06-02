@@ -1,0 +1,74 @@
+---
+import BlogLayout from '../../../layouts/BlogLayout.astro';
+import MathJaxLoader from '../../../components/MathJaxLoader.astro';
+import PostGallery from '../../../components/PostGallery';
+import EmptyState from '../../../components/EmptyState';
+import Link from '../../../components/Link';
+
+import { getBlogInfo, getAllTaggedPostInfo, isSearchEnabled } from '../../../hashnode-lib/client';
+import type { PostInfo } from '../../../hashnode-lib/schema';
+
+import { blogSubscribeAction } from '../../../config/site';
+import { getStaticPaths_blog_tags } from '../../../utils/getStaticPaths';
+
+export const prerender = false
+
+// Generate static paths for all tags on case of prerender=true
+export const getStaticPaths = getStaticPaths_blog_tags;
+
+const { tag } = Astro.params;
+
+const blogInfo = await getBlogInfo();
+const allPostInfo: PostInfo[] = await getAllTaggedPostInfo([ tag ], 'OR');
+const postCount = allPostInfo.length;
+const tagLabel = allPostInfo[0]?.tags.find(t => t.slug === tag)?.name ?? tag;
+
+const title = `Posts tagged #${tagLabel} | ${blogInfo.title}`;
+const description = `Explore blog posts tagged with #${tagLabel} from ${blogInfo.title}.`;
+const keywords = `${tagLabel}, defined behavior, software engineering, structured insight`;
+const image = blogInfo.ogMetaData?.image;
+---
+<BlogLayout
+  noindex={true}
+  title={title}
+  description={description}
+  keywords={keywords}
+  image={image}
+  showBanner={false}
+  sourceNoteUsername={blogInfo.author.username}
+>
+  <Fragment slot="head">
+    <MathJaxLoader content={allPostInfo.map(postInfo => postInfo.brief).join('\n')} />
+  </Fragment>
+
+  <div slot="blog-header">
+    <h1 class="text-center">Posts tagged #{tagLabel}</h1>
+  </div>
+
+  {postCount > 0 ? (
+    <PostGallery allPostInfo={allPostInfo} />
+  ) : (
+    <EmptyState
+      icon="🔖"
+      title={`No posts tagged #${tagLabel}`}
+      message="Try another tag or check back later!"
+    />
+  )}
+
+  <!-- Tag Footer -->
+  <section slot="blog-footer">
+    <p class="text-center">👉 <strong>Looking for more?</strong>
+      <Link href="/blog/tags">Browse all Tags</Link>,
+      <Link href="/blog/series">Explore Series</Link>{isSearchEnabled && ","}
+      {isSearchEnabled && (
+        <Link href="/blog/search">Search the Blog</Link>
+      )}
+    </p>
+
+    {blogSubscribeAction && (
+      <p>✉️ <strong>Like content like this?</strong> 
+        <Link href="/blog/subscribe">Subscribe</Link> to get future posts on this and related topics.
+      </p>
+    )}
+  </section>
+</BlogLayout>
