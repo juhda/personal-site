@@ -56,6 +56,18 @@ h1, h2, h3, h4, h5, h6 {
     @apply text-text text-left sm:text-justify mb-4;
   }
 
+  ul {
+    @apply list-disc list-inside;
+  }
+
+  ol {
+    @apply list-decimal list-inside;
+  }
+
+  li p {
+    @apply inline;
+  }
+
   article table {
     @apply table-auto border border-primary w-full;
   }
