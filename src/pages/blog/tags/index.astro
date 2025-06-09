@@ -11,13 +11,6 @@ export const prerender = false
 const blogInfo = await getBlogInfo();
 const tags: TagCountInfo[] = await getAllTags();
 
-const columns =
-  tags.length === 1
-    ? 'grid-cols-1'
-    : (tags.length ===2
-      ? 'grid-cols-2'
-      : 'sm:grid-cols-2 md:grid-cols-3');
-
 const title = "Blog Tags | " + blogInfo.title + " by " + blogInfo.author.name;
 const description = "Explore topics covered in this blog.";
 const keywords = "blog tags, defined behavior, software engineering, structured insight";
@@ -46,14 +39,14 @@ const image = blogInfo.ogMetaData?.image;
     </div>
 
     <!-- Tag grid -->
-    <div id="tag-grid" class=`grid gap-4 max-w-xl mx-auto items-center ${columns}`>
+    <div id="tag-grid" class=`grid gap-4 max-w-xl mx-auto items-center grid-cols-[repeat(auto-fit,minmax(12rem,1fr))]`>
       {tags.map(tag => (
         <div
           class="card p-4"
           data-name={tag.name.toLowerCase()}
           data-count={tag.count}
         >
-          <Link href={`/blog/tags/${tag.slug}`}>
+          <Link href={`/blog/tags/${tag.slug}`} class="truncate">
             #{tag.name}
           </Link>
           <p class="text-sm text-muted mt-1">{tag.count} post{tag.count > 1 ? 's' : ''}</p>
