@@ -14,7 +14,7 @@ const isActive = (path) =>
 
 <header class="sticky top-0 z-50 backdrop-blur bg-surface/80 px-4 py-4 muted-bottom-rule shadow-sm">
   <nav class="max-w-4xl mx-auto flex justify-between items-center">
-    <h1 class="text-xl font-bold leading-tight mb-0">{title}</h1>
+    <p class="font-title text-heading text-xl font-bold leading-tight mb-0">{title}</p>
     <ul class="flex list-none space-x-4 mb-0">
       <li>
         <Link href="/" class={`nav-link ${isActive('/') ? 'active' : ''}`}>Home</Link>

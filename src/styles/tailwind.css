@@ -31,14 +31,6 @@
   }
 }
 
-body {
-  font-family: var(--font-body);
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-title);
-}
-
 .nav-link {
   @apply text-heading hover:underline transition;
 }
@@ -49,7 +41,11 @@ h1, h2, h3, h4, h5, h6 {
 
 @layer components {
   body {
-    @apply flex flex-col min-h-screen bg-bg text-primary;
+    @apply flex flex-col min-h-screen bg-bg text-primary font-body;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-title;
   }
 
   p, ul, ol, article {

@@ -16,6 +16,10 @@ module.exports = {
         heading: 'var(--heading)',
         bg: 'var(--bg)',
       },
+      fontFamily: {
+        title: ['var(--font-title)'],
+        body: ['var(--font-body)'],
+      },
     },
   },
   plugins: [],
