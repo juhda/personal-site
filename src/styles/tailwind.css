@@ -88,6 +88,18 @@
     @apply border-l-4 border-accent pl-4 my-4 italic;
   }
 
+  article pre {
+    @apply bg-muted p-4 rounded overflow-x-auto;
+  }
+
+  article pre code {
+    @apply bg-transparent rounded p-0 m-0 text-left font-mono;
+  }
+
+  article code:not(pre code) {
+    @apply bg-muted rounded px-1 font-mono;
+  }
+
   h1 {
     @apply text-3xl sm:text-4xl font-extrabold text-heading text-center sm:text-left mb-6;
   }
