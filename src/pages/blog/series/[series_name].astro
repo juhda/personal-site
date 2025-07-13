@@ -1,6 +1,7 @@
 ---
 import BlogLayout from '../../../layouts/BlogLayout.astro';
 import MathJaxLoader from '../../../components/MathJaxLoader.astro';
+import HighlightJSLoader from '../../../components/HighlightJSLoader.astro';
 import PostGallery from '../../../components/PostGallery';
 import EmptyState from '../../../components/EmptyState';
 import Link from '../../../components/Link';
@@ -43,6 +44,7 @@ const bannerImage = series.coverImage ?? blogInfo.ogMetaData?.image;
 >
   <Fragment slot="head">
     <MathJaxLoader content={series.posts.map(postInfo => postInfo.brief).join('\n')} />
+    <HighlightJSLoader content={series.posts.map(postInfo => postInfo.brief).join('\n')} />
   </Fragment>
 
   {series.posts.length > 0 ? (
