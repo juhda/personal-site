@@ -1,0 +1,14 @@
+---
+import { blogEnableSyntaxHighlighting } from "../config/site";
+
+function containsHighlightJsClasses(str: string): boolean {
+  return /class="hljs/i.test(str);
+}
+
+const { content } = Astro.props;
+const load = blogEnableSyntaxHighlighting && containsHighlightJsClasses(content)
+---
+
+{load && (
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css">
+)}

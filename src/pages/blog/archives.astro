@@ -1,6 +1,7 @@
 ---
 import BlogLayout from '../../layouts/BlogLayout.astro';
 import MathJaxLoader from '../../components/MathJaxLoader.astro';
+import HighlightJSLoader from '../../components/HighlightJSLoader.astro';
 import PostGallery from '../../components/PostGallery';
 import EmptyState from '../../components/EmptyState';
 
@@ -45,6 +46,7 @@ const image = blogInfo.ogMetaData?.image;
 >
   <Fragment slot="head">
     <MathJaxLoader content={allPostInfo.map(postInfo => postInfo.brief).join('\n')} />
+    <HighlightJSLoader content={allPostInfo.map(postInfo => postInfo.brief).join('\n')} />
   </Fragment>
 
   <div slot="blog-header" class="card">

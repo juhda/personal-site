@@ -206,9 +206,20 @@ This site optionally supports LaTeX-style math rendering via [MathJax](https://w
 - When enabled, MathJax is loaded **dynamically and only when math is detected** in post content or previews
   - Pages pass `content` (e.g. a post’s `html` or `brief`) into `MathJaxLoader`.
   - The loader component scans for LaTeX syntax and conditionally injects the MathJax script.
-  - This works on both full post pages (`/blog/[slug]`) and previews (`/blog`, `/tags`, etc.).
+  - This works on both full post pages (`/blog/[slug]`) and previews (`/blog`, `/blog/tags`, etc.).
 - `MathJaxLoader` is injected into pages using Astro's `<Fragment slot name="head">`.
 
+## 🎨 Highlight.js Support for Syntax Highlighting (Optional)
+
+This site supports syntax highlighting for code blocks via [Highlight.js](https://highlightjs.org/). The HTML content fetched from Hashnode is already preprocessed with Highlight.js, so no additional JavaScript is required. However, you can optionally include the Highlight.js stylesheet for proper rendering of the syntax-highlighted code.
+
+- Syntax highlighting is applied to code blocks within `<pre><code>` tags and includes `hljs` classes.
+- Highlight.js styles are **only enabled if `blogEnableSyntaxHighlighting` is set to `true`** in the global config (`src/config/site.ts`).
+- When enabled, Highlight.js is stylesheet is loaded dynamically.
+  - Pages pass `content` (e.g., a post's `html` or `brief`) into `HighlightJSLoader`.
+  - The loader component scans for `hljs` classes and conditionally injects the Highlight.js stylesheet.
+  - This works on both full post pages (`/blog/[slug]`) and previews (`/blog`, `/blog/tags`, etc.).
+- `HighlightJSLoader` is injected into pages using Astro's `<Fragment slot="head">`.
 
 ### 🔧 Configuration Details
 
