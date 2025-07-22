@@ -93,7 +93,7 @@
   }
 
   article pre code {
-    @apply bg-transparent rounded p-0 m-0 text-left font-mono;
+    @apply block bg-transparent rounded p-0 m-0 text-left font-mono;
   }
 
   article code:not(pre code) {
@@ -201,5 +201,17 @@
 
   .banner-image-container img {
     @apply banner-image;
+  }
+
+  .codeblock-header {
+    @apply flex justify-end items-center gap-4 bg-transparent rounded m-0 p-0;
+  }
+
+  .codeblock-language {
+    @apply font-mono text-xs text-accent;
+  }
+
+  .codeblock-copy-button {
+    @apply px-2 py-1 m-0 cursor-pointer font-mono text-xs text-accent border border-accent hover:bg-primary;
   }
 }

@@ -1,0 +1,66 @@
+---
+import { blogEnhanceCodeblocks } from "../config/site";
+
+const load = blogEnhanceCodeblocks
+---
+
+{load && (
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Select all pre elements that contain code blocks
+      const preElements = document.querySelectorAll('pre');
+
+      preElements.forEach(pre => {
+        // Check if the pre element has exactly one child and it's a code element
+        if (pre.children.length !== 1 || pre.children[0].tagName !== 'CODE') {
+          return; // Skip this pre element if it does not meet the criteria
+        }
+
+        const code = pre.children[0];
+
+        // Create a header container for the language indicator and copy button
+        const codeHeader = document.createElement('div');
+        codeHeader.className = 'codeblock-header';
+
+        // Extract the language from the class of the code element
+        const className = code.className;
+        const languageMatch = className.match(/language-(\w+)/) || className.match(/lang-(\w+)/);
+        const language = languageMatch ? languageMatch[1] : null;
+
+        // Create and append the language indicator only if a language is found
+        if (language) {
+          const languageIndicator = document.createElement('span');
+          languageIndicator.className = 'codeblock-language';
+          languageIndicator.textContent = language;
+          codeHeader.appendChild(languageIndicator);
+        }
+
+        // Create a button for copying the code
+        const copyButton = document.createElement('button');
+        copyButton.className = 'codeblock-copy-button';
+        copyButton.textContent = 'Copy';
+
+        // Add click event to the copy button
+        copyButton.addEventListener('click', () => {
+          const codeText = code.textContent;
+          if (codeText !== null) {
+            navigator.clipboard.writeText(codeText).then(() => {
+              copyButton.textContent = 'Copied!';
+              setTimeout(() => {
+                copyButton.textContent = 'Copy';
+              }, 2000);
+            }).catch(err => {
+              console.error('Failed to copy text: ', err);
+            });
+          }
+        });
+
+        // Append the copy button to the header.
+        codeHeader.appendChild(copyButton);
+
+        // Insert the header before the code element
+        pre.insertBefore(codeHeader, code);
+      });
+    });
+  </script>
+)}
