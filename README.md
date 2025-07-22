@@ -209,6 +209,25 @@ This site optionally supports LaTeX-style math rendering via [MathJax](https://w
   - This works on both full post pages (`/blog/[slug]`) and previews (`/blog`, `/blog/tags`, etc.).
 - `MathJaxLoader` is injected into pages using Astro's `<Fragment slot name="head">`.
 
+### ✍️ To use math in a post
+
+To include math, when math rendering is enabled, write LaTeX in your Hashnode post using:
+
+```latex
+$...$       // for inline math
+$$...$$     // for block math
+\$          // for a literal dollar sign
+```
+
+Math will render automatically wherever it's used in post content or previews.
+
+### 📦 Implementation Notes
+
+- Math rendering is globally enabled/disabled for blog posts and previews by `blogEnableMath` in `src/config/site.ts`.
+- Uses [MathJax v3](https://www.mathjax.org/#gettingstarted) from CDN with the default `tex-mml-chtml` loader.
+- Configuration and conditional loading are handled in `src/components/MathJaxLoader.astro`.
+- No MathJax code is loaded on pages that don’t include LaTeX syntax — for optimal performance.
+
 ## 🎨 Highlight.js Support for Syntax Highlighting (Optional)
 
 This site supports syntax highlighting for code blocks via [Highlight.js](https://highlightjs.org/). The HTML content fetched from Hashnode is already preprocessed with Highlight.js, so no additional JavaScript is required. However, you can optionally include the Highlight.js stylesheet for proper rendering of the syntax-highlighted code.
@@ -231,25 +250,6 @@ When math rendering is enabled:
 - The configuration is injected before MathJax loads in `src/components/MathJaxLoader.astro`
 
 If math rendering is disabled via `blogEnableMath = false`, no MathJax scripts or config are included, and dollar signs will be displayed as-is.
-
-### ✍️ To use math in a post
-
-To include math, when math rendering is enabled, write LaTeX in your Hashnode post using:
-
-```latex
-$...$       // for inline math
-$$...$$     // for block math
-\$          // for a literal dollar sign
-```
-
-Math will render automatically wherever it's used in post content or previews.
-
-### 📦 Implementation Notes
-
-- Math rendering is globally enabled/disabled for blog posts and previews by `blogEnableMath` in `src/config/site.ts`.
-- Uses [MathJax v3](https://www.mathjax.org/#gettingstarted) from CDN with the default `tex-mml-chtml` loader.
-- Configuration and conditional loading are handled in `src/components/MathJaxLoader.astro`.
-- No MathJax code is loaded on pages that don’t include LaTeX syntax — for optimal performance.
 
 ## 📌 Customization Tips
 
