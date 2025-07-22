@@ -251,6 +251,20 @@ When math rendering is enabled:
 
 If math rendering is disabled via `blogEnableMath = false`, no MathJax scripts or config are included, and dollar signs will be displayed as-is.
 
+## 🎨 Code Block Enhancements (Optional)
+
+This site includes an optional feature to enhance the appearance and functionality of code blocks within blog posts. When enabled, this feature adds language indicators and copy buttons to code blocks.
+
+- **Automatic Language Detection**: The script automatically detects the programming language of each code block by examining the class attribute of the `<code>` element. It looks for patterns like `language-(\w+)` or `lang-(\w+)` to extract the language name. If a match is found, the language name is displayed in a styled span element within the code block header. If no match is found, the language indicator is skipped for that code block.
+- **Copy Button**: Allows users to easily copy the code block content to the clipboard.
+
+### 📦 Implementation Notes
+
+- Only enabled if `blogEnhanceCodeblocks` is set to `true` in the global config (`src/config/site.ts`).
+- The enhancement is implemented in `src/components/CodeblockEnhancer.astro`.
+- The script adds a header with the additional elements for a `<code>` element when the element is the only directly child of a `<pre>` element.
+- The script is injected into `src/pages/blog/[slug].astro` using Astro's `<Fragment slot="head">`.
+
 ## 📌 Customization Tips
 
 - Adjust site config at `src/config/site.ts` and content in pages in `src/pages`

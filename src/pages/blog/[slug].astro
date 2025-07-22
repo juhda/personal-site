@@ -3,6 +3,7 @@ import BlogLayout from '../../layouts/BlogLayout.astro';
 import PostMetaBox from '../../components/PostMetaBox.astro';
 import MathJaxLoader from '../../components/MathJaxLoader.astro';
 import HighlightJSLoader from '../../components/HighlightJSLoader.astro';
+import CodeblockEnhancer from '../../components/CodeblockEnhancer.astro';
 import Link from '../../components/Link';
 
 import { getPost, getBlogInfo, isSearchEnabled } from '../../hashnode-lib/client';
@@ -50,6 +51,7 @@ const bannerImage = post.coverImage?.url ?? post.bannerImage?.url ?? blogInfo.og
   <Fragment slot="head">
     <MathJaxLoader content={post.content.html} />
     <HighlightJSLoader content={post.content.html} />
+    <CodeblockEnhancer />
   </Fragment>
 
   <!-- Post information -->

@@ -18,6 +18,7 @@ export const blogHashnodeUrl = "davidjuhasz.dev/blog"; // Hashnode URL of the bl
 export const blogTitle = "Defined Behavior"; // Title of the blog. This is used as title in prerendered pages. On-demand pages use the blog title from Hashnode.
 export const blogEnableMath = true; // Enable LaTeX math rendering in blog posts and previews.
 export const blogEnableSyntaxHighlighting = true; // Enable syntax highlighting in blog posts and previews.
+export const blogEnhanceCodeblocks = true; // Enable code block enhancements in blog posts.
 export const blogHashnodeMaxPosts = 50; // Maximum number of posts to fetch from Hashnode at once. This is limited by Hashnode to 50.
 export const blogHashnodeMaxSeries = 20; // Maximum number of series and posts within series to fetch from Hashnode at once. This is limited by Hashnode to 20.
 export const blogOGImage = "/og/blog.png";
