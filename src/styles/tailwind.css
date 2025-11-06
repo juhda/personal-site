@@ -65,7 +65,7 @@
   }
 
   article table {
-    @apply table-auto border border-primary w-full;
+    @apply table-auto border border-primary w-full my-4;
   }
 
   article table thead {
@@ -89,7 +89,7 @@
   }
 
   article pre {
-    @apply bg-muted p-4 rounded overflow-x-auto;
+    @apply bg-muted p-4 my-4 rounded overflow-x-auto;
   }
 
   article pre code {
@@ -98,6 +98,14 @@
 
   article code:not(pre code) {
     @apply bg-muted rounded px-1 font-mono;
+  }
+
+  article img {
+    @apply my-4 rounded shadow;
+  }
+
+  article hr {
+    @apply my-4;
   }
 
   h1 {
