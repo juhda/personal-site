@@ -10,8 +10,8 @@ import {
 } from '../config/site.ts';
 
 const title = "Project Portfolio | " + author + " - " + jobTitle;
-const description = "Explore selected projects by " + author + ", a " + cleanJobTitle +" specializing in embedded software, toolchains, and runtime systems. Browse work in developer tooling, system simulation, firmware development, and hardware-software co-design.";
-const keywords = author + ", compiler development, developer tooling, toolchain engineering, systems engineering, system simulation, runtime systems, embedded software, firmware development, RISC-V, performance engineering, projects, engineering portfolio";
+const description = "Explore selected projects by " + author + ", a " + cleanJobTitle + " specializing in edge AI, embedded systems, and firmware development. Browse work in low-power solutions, runtime systems, and hardware-software co-design.";
+const keywords = author + ", edge AI engineer, embedded systems engineer, firmware development, developer tooling, runtime systems, RISC-V, low-power computing, sustainable edge solutions, projects, engineering portfolio";
 const localImage = "/og/portfolio.png";
 ---
 <BaseLayout
@@ -26,7 +26,7 @@ const localImage = "/og/portfolio.png";
       <h1>Project Portfolio</h1>
 
       <p>
-        Welcome to the project portfolio of <strong><span class="whitespace-nowrap">{author}</span></strong>, {cleanJobTitle}. I specialize in low-level software, code generation, toolchains, runtime systems, and hardware-software co-design. This page showcases selected projects I've led or contributed to — spanning system architecture, embedded platforms, developer tooling, and AI acceleration.
+        Welcome to the project portfolio of <strong><span class="whitespace-nowrap">{author}</span></strong>, an <em>{cleanJobTitle}</em>. I specialize in <em>firmware, developer tools, runtime systems, and hardware-software co-design</em>, with a focus on <em>low-power, sustainable edge solutions</em>. This page showcases selected projects I've led or contributed to—spanning <em>system architecture, embedded platforms, edge AI, and developer tooling</em>.
       </p>
 
       <p>
@@ -41,13 +41,13 @@ const localImage = "/og/portfolio.png";
       </ul>
 
       <p>
-        You can explore entries by domain, contribution type, or leadership role using the predefined views. For a complete overview, see the full <strong>Portfolio Table</strong>.
+        You can explore entries by <em>domain, contribution type, or leadership role</em> using the predefined views. For a complete overview, see the full <em>Portfolio Table</em>.
       </p>
 
       <p>
-        To learn more about my background, visit my <Link href="/about">About</Link> page.
-        <br />For insights into systems engineering, compiler development, and software tooling, check out <Link href="/blog">my blog</Link>.
-        <br />Feel free to <Link href={socialLinks.email}>email me</Link> or connect on <Link href={socialLinks.linkedin}>LinkedIn</Link>.
+        To learn more about my background, visit my <Link href="/about">About page</Link>.
+        <br />For insights into <em>edge AI, embedded systems, and developer tooling</em>, check out my <Link href="/blog">blog</Link>.
+        <br />Feel free to <Link href={socialLinks.email}>email me</Link> or <Link href={socialLinks.linkedin}>connect on LinkedIn</Link>.
       </p>
     </div>
   </section>

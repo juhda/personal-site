@@ -19,8 +19,8 @@ const pinnedPostInfo: PostInfo | null = await getPinnedPostInfo();
 const recentPostInfo: PostInfo[] = await getRecentPostInfo(blogNumRecentPosts);
 
 const title = blogInfo.displayTitle ?? (blogInfo.title + " by " + blogInfo.author.name);
-const description = "Welcome to " + blogInfo.title + " — a blog exploring systems engineering, developer tools, leadership, and structured thinking. Created by " + blogInfo.author.name +".";
-const keywords = "defined behavior, software engineering blog, compiler design, embedded systems, developer tooling, systems thinking, structured insight, technical reviews";
+const description = "Welcome to " + blogInfo.title + " — a blog exploring edge AI, embedded systems, developer tools, and structured thinking. Created by " + blogInfo.author.name + ".";
+const keywords = "defined behavior, edge AI, embedded systems, developer tooling, systems thinking, structured insight, technical reviews, sustainable computing";
 const image = blogInfo.ogMetaData?.image;
 const bannerImage = image ?? blogOGImage;
 ---
