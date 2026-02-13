@@ -18,7 +18,7 @@ export default defineConfig({
     },
     "/resume": {
       status: 302,
-      destination: "/resume/DavidJuhasz_Resume_2025.pdf",
+      destination: "/resume/DavidJuhasz_Resume_2026.pdf",
     },
   },
 });
