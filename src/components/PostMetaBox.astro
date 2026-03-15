@@ -3,7 +3,11 @@ import Link from './Link';
 
 import type { Post, Draft } from '../hashnode-lib/schema';
 
-const { post }: { post: Post | Draft } = Astro.props;
+interface Props {
+  post: Post | Draft;
+}
+
+const { post } = Astro.props;
 
 const {
   updatedAt,

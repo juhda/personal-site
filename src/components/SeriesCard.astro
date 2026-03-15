@@ -3,7 +3,11 @@ import Link from './Link';
 
 import type { SeriesInfo } from "../hashnode-lib/schema";
 
-const { seriesInfo }: { seriesInfo: SeriesInfo } = Astro.props;
+interface Props {
+  seriesInfo: SeriesInfo;
+}
+
+const { seriesInfo } = Astro.props;
 ---
 <section class="nested-card">
   <Link href={`/blog/series/${seriesInfo.slug}`}>
