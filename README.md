@@ -54,6 +54,16 @@ It serves as my digital home — a place to showcase my portfolio, share ideas, 
 └── tailwind.config.mjs # Tailwind site configuration
 ```
 
+## 🔑 Environment Variables
+
+To enable private features like Drafts, create a `.env` file in the root of your project:
+
+| Variable | Description |
+|----------|-------------|
+| `HASHNODE_TOKEN` | (Optional) Your Hashnode Personal Access Token. Enables the `/blog/drafts` route. |
+
+> **Note:** Without `HASHNODE_TOKEN`, the drafts routes will be disabled and return a 404 redirect.
+
 ## 📝 Setup & Development
 
 To run this site locally:
@@ -72,6 +82,17 @@ $ npm run dev
 
 # The site will be available at http://localhost:4321
 ```
+
+### 💡 Development Notes
+
+- **Environment Variables:** The dev server will automatically load variables from a `.env` file in the root directory if it exists.
+- **Enabling Drafts:** To preview your Hashnode drafts, you must provide a `HASHNODE_TOKEN`. You can do this in two ways:
+  - **Option A (Recommended):** Create a `.env` file and add `HASHNODE_TOKEN=your_token_here`.
+  - **Option B (Direct):** Provide it directly in your terminal when starting the server:
+    ```bash
+    $ HASHNODE_TOKEN=your_token_here npm run dev
+    ```
+  - If the token is valid, you can navigate to `/blog/drafts` to see your unpublished work.
 
 ## 🚀 Deployment
 
@@ -176,6 +197,10 @@ This site integrates with [Hashnode](https://hashnode.com/) as a headless blog s
   - The **Search page** is linked in blog pages only if the number of posts meets or exceeds the configured `blogSearchLimit` in the global config (`/src/config/site.ts`)
     - The page includes all posts and performs client-side filtering
   - The **Subscribe page** is active and linked in blog pages only if `blogSubscribeAction` is defined in the global config (`/src/config/site.ts`)
+- **Drafts Support (Private)**
+  - If a `HASHNODE_TOKEN` is provided via environment variables, the site enables the `/blog/drafts` and `/blog/drafts/[id]` routes.
+  - This allows you to preview how your Hashnode drafts will look in your custom UI before hitting "Publish."
+  - For security, these routes are only functional when the API token is present.
 
 ## ✉️ Subscription Support
 

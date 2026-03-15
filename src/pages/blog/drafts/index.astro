@@ -1,0 +1,50 @@
+---
+import BlogLayout from '../../../layouts/BlogLayout.astro';
+import PostGallery from '../../../components/PostGallery';
+import EmptyState from '../../../components/EmptyState';
+
+import { getBlogInfo, getAllDraftInfo } from '../../../hashnode-lib/client';
+import { blogEnableDrafts } from '../../../config/site';
+import type { DraftInfo } from '../../../hashnode-lib/schema';
+
+export const prerender = false
+
+const blogInfo = await getBlogInfo();
+
+if (!blogEnableDrafts) {
+  return Astro.redirect("/404");
+}
+
+const allDraftInfo: DraftInfo[] = await getAllDraftInfo();
+
+const title = "Draft Posts | " + blogInfo.title + " by " + blogInfo.author.name;
+const description = "Browse all draft posts.";
+const keywords = "blog drafts, defined behavior, edge AI, embedded systems, developer tooling, systems thinking, structured insight";
+const image = blogInfo.ogMetaData?.image;
+---
+<BlogLayout
+  noindex={true}
+  title={title}
+  description={description}
+  keywords={keywords}
+  image={image}
+  showBanner={false}
+  sourceNoteUsername={blogInfo.author.username}
+>
+
+  <div slot="blog-header" class="card">
+    <h1 class="text-center">Draft Posts</h1>
+    <p class="text-center">
+      Browse all draft posts.
+    </p>
+  </div>
+
+  {allDraftInfo.length > 0 ? (
+    <PostGallery allPostInfo={allDraftInfo} />
+    ) : (
+    <EmptyState
+      title="No drafts yet"
+      message="Draft posts will appear here once created."
+    />
+  )}
+</BlogLayout>

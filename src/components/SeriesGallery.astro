@@ -2,7 +2,11 @@
 import type { SeriesInfo } from '../hashnode-lib/schema';
 import SeriesCard from './SeriesCard.astro';
 
-const { allSeriesInfo }: { allSeriesInfo: SeriesInfo[] } = Astro.props;
+interface Props {
+  allSeriesInfo: SeriesInfo[];
+}
+
+const { allSeriesInfo } = Astro.props;
 
 const columns =
   allSeriesInfo.length === 1
