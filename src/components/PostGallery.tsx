@@ -1,8 +1,8 @@
-import type { PostInfo } from '../hashnode-lib/schema';
+import type { PostInfo, DraftInfo } from '../hashnode-lib/schema';
 import PostCard from './PostCard';
 
 interface Props {
-  allPostInfo: PostInfo[]
+  allPostInfo: (PostInfo | DraftInfo)[];
 }
 
 export default function PostGallery({ allPostInfo }: Props) {

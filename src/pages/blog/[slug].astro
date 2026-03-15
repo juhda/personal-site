@@ -14,7 +14,7 @@ import { getStaticPaths_blog } from '../../utils/getStaticPaths';
 
 export const prerender = false
 
-// Generate static paths for all posts on case of prerender=true
+// Generate static paths for all posts in case of prerender=true
 export const getStaticPaths = getStaticPaths_blog;
 
 const { slug } = Astro.params;

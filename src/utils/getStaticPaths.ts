@@ -1,4 +1,4 @@
-import { getAllSeriesInfo, getAllTags, getPostSlugs } from "../hashnode-lib/client";
+import { getAllSeriesInfo, getAllTags, getDraftIds, getPostSlugs } from "../hashnode-lib/client";
 
 export function pathToFunctionName(path: String) {
   return `getStaticPaths${path.replace(/\//g, '_')}`
@@ -25,9 +25,17 @@ export async function getStaticPaths_blog_series() {
   }));
 }
 
+export async function getStaticPaths_blog_drafts() {
+  const draftIds = await getDraftIds();
+  return draftIds.map(id => ({
+    params: { id }
+  }));
+}
+
 export default {
   pathToFunctionName,
   getStaticPaths_blog,
   getStaticPaths_blog_tags,
-  getStaticPaths_blog_series
+  getStaticPaths_blog_series,
+  getStaticPaths_blog_drafts
 };

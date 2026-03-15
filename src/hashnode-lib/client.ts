@@ -1,12 +1,16 @@
 import { gql, GraphQLClient } from "graphql-request";
-import { blogInfoFragment, postSlugFragment, postTagInfoFragment, postInfoFragment, pageInfoFragment, postFragment, seriesInfoFragment, seriesInitFragment, seriesContFragment } from "./schema";
-import type { BlogInfo, BlogInfoQuery, TagCountInfo, PostTagsQuery, PostInfo, PostInfoQuery, PinnedPostInfoQuery, PostSlugsQuery, PageInfo, Post, PostQuery, SeriesInfo, SeriesInfoQuery, Series, SeriesInitQuery, SeriesContQuery } from "./schema";
-import { blogHashnodeUrl, blogHashnodeMaxPosts, blogHashnodeMaxSeries, blogSearchLimit } from "../config/site";
+import { blogInfoFragment, postSlugFragment, postTagInfoFragment, postInfoFragment, pageInfoFragment, postFragment, draftIdFragment, draftInfoFragment, draftFragment, seriesInfoFragment, seriesInitFragment, seriesContFragment } from "./schema";
+import type { BlogInfo, BlogInfoQuery, TagCountInfo, PostTagsQuery, PostInfo, PostInfoQuery, PinnedPostInfoQuery, PostSlugsQuery, PageInfo, Post, PostQuery, DraftInfo, DraftInfoQuery, DraftIdsQuery, Draft, DraftQuery, SeriesInfo, SeriesInfoQuery, Series, SeriesInitQuery, SeriesContQuery } from "./schema";
+import { blogHashnodeUrl, blogHashnodeMaxPosts, blogHashnodeMaxSeries, blogSearchLimit, blogHashnodeToken, blogEnableDrafts } from "../config/site";
 
 // NOTE: Hashnode GraphQL Caching: See NOTE in schema.ts about the id fields.
 
 export const getClient = () => {
-  return new GraphQLClient("https://gql.hashnode.com")
+  const client = new GraphQLClient("https://gql.hashnode.com");
+  if (blogHashnodeToken) {
+    client.setHeader('Authorization', `Bearer ${blogHashnodeToken}`);
+  }
+  return client;
 }
 
 export const getBlogInfo = async (): Promise<BlogInfo> => {
@@ -122,6 +126,57 @@ export const getAllPostInfo = async (): Promise<PostInfo[]> => {
   return allInfo;
 };
 
+export const getAllDraftInfo = async (): Promise<DraftInfo[]> => {
+  if (!blogEnableDrafts) {
+    return [];
+  }
+
+  const client = getClient();
+
+  const allInfo: DraftInfo[] = [];
+  let hasNextPage = true;
+  let after: string | null = null;
+
+  const query = gql`
+    ${pageInfoFragment}
+    ${draftInfoFragment}
+    query allDraftInfo($after: String) {
+      publication(host: "${blogHashnodeUrl}") {
+        id
+        drafts(first: ${blogHashnodeMaxPosts}, after: $after) {
+          pageInfo {
+            ...PageInfoFields
+          }
+          edges {
+            node {
+              ...DraftInfoFields
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  while (hasNextPage) {
+    const data: DraftInfoQuery = await client.request<DraftInfoQuery>(query, { after: after });
+
+    const draftsData = data.publication?.drafts;
+    if (!draftsData || !draftsData.edges) {
+      break; // no drafts found — exit cleanly
+    }
+
+    const edges = draftsData.edges;
+    const pageInfo: PageInfo = data.publication.drafts.pageInfo;
+
+    allInfo.push(...edges.map(edge => edge.node));
+
+    hasNextPage = pageInfo.hasNextPage;
+    after = pageInfo.endCursor;
+  }
+
+  return allInfo;
+};
+
 export const getPostSlugs = async (): Promise<string[]> => {
   const client = getClient();
 
@@ -167,6 +222,57 @@ export const getPostSlugs = async (): Promise<string[]> => {
   }
 
   return allSlugs;
+};
+
+export const getDraftIds = async (): Promise<string[]> => {
+  if (!blogEnableDrafts) {
+    return [];
+  }
+
+  const client = getClient();
+
+  const allIds: string[] = [];
+  let hasNextPage = true;
+  let after: string | null = null;
+
+  const query = gql`
+    ${pageInfoFragment}
+    ${draftIdFragment}
+    query draftIds($after: String) {
+      publication(host: "${blogHashnodeUrl}") {
+        id
+        drafts(first: ${blogHashnodeMaxPosts}, after: $after) {
+          pageInfo {
+            ...PageInfoFields
+          }
+          edges {
+            node {
+              ...DraftIdFields
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  while (hasNextPage) {
+    const data: DraftIdsQuery = await client.request<DraftIdsQuery>(query, { after: after });
+
+    const draftsData = data.publication?.drafts;
+    if (!draftsData || !draftsData.edges) {
+      break; // no drafts found — exit cleanly
+    }
+
+    const edges = draftsData.edges;
+    const pageInfo: PageInfo = data.publication.drafts.pageInfo;
+
+    allIds.push(...edges.map(edge => edge.node.id));
+
+    hasNextPage = pageInfo.hasNextPage;
+    after = pageInfo.endCursor;
+  }
+
+  return allIds;
 };
 
 export const getAllTags = async (): Promise<TagCountInfo[]> => {
@@ -301,6 +407,28 @@ export const getPost = async (slug: string): Promise<Post | null> => {
   );
 
   return data.publication.post;
+};
+
+export const getDraft = async (id: string): Promise<Draft | null> => {
+  if (!blogEnableDrafts) {
+    return null;
+  }
+
+  const client = getClient();
+
+  const data = await client.request<DraftQuery>(
+    gql`
+      ${draftFragment}
+      query draft($id: ObjectId!) {
+        draft(id: $id) {
+          ...DraftFields
+        }
+      }
+    `,
+    { id: id }
+  );
+
+  return data.draft;
 };
 
 export const getAllSeriesInfo = async (): Promise<SeriesInfo[]> => {

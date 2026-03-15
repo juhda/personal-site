@@ -118,7 +118,29 @@ export const postBannerImageFragment = gql`
   }
 `;
 
-export interface PostBannerImage {
+export const draftBannerImageFragment = gql`
+  fragment DraftBannerImageFields on DraftBannerImage {
+    url
+  }
+`;
+
+export interface BannerImage {
+  url: string;
+}
+
+export const postCoverImageFragment = gql`
+  fragment PostCoverImageFields on PostCoverImage {
+    url
+  }
+`;
+
+export const draftCoverImageFragment = gql`
+  fragment DraftCoverImageFields on DraftCoverImage {
+    url
+  }
+`;
+
+export interface CoverImage {
   url: string;
 }
 
@@ -126,6 +148,7 @@ export const postInfoFragment = gql`
   ${postSlugFragment}
   ${postTagInfoFragment}
   ${postBannerImageFragment}
+  ${postCoverImageFragment}
   fragment PostInfoFields on Post {
     id
     ...PostSlugFields
@@ -137,6 +160,9 @@ export const postInfoFragment = gql`
     bannerImage {
       ...PostBannerImageFields
     }
+    coverImage {
+      ...PostCoverImageFields
+    }
   }
 `;
 
@@ -145,7 +171,45 @@ export interface PostInfo extends Slug, PostTagInfo {
     title: string;
     subtitle: string;
     brief: string;
-    bannerImage: PostBannerImage;
+    bannerImage: BannerImage;
+    coverImage: CoverImage;
+}
+
+export const draftIdFragment = gql`
+  fragment DraftIdFields on Draft {
+    id
+  }
+`;
+
+export interface DraftId {
+  id: string;
+}
+
+export const draftInfoFragment = gql`
+  ${draftIdFragment}
+  ${draftBannerImageFragment}
+  ${draftCoverImageFragment}
+  fragment DraftInfoFields on Draft {
+    id
+    ...DraftIdFields
+    title
+    subtitle
+    updatedAt
+    bannerImage {
+      ...DraftBannerImageFields
+    }
+    coverImage {
+      ...DraftCoverImageFields
+    }
+  }
+`;
+
+export interface DraftInfo extends DraftId {
+    title: string;
+    subtitle: string;
+    updatedAt: string;
+    bannerImage: BannerImage;
+    coverImage: CoverImage;
 }
 
 export const pageInfoFragment = gql`
@@ -166,6 +230,17 @@ export interface PostSlugsQuery {
       pageInfo: PageInfo;
       edges: {
           node: Slug;
+      }[];
+    };
+  };
+}
+
+export interface DraftIdsQuery {
+  publication: {
+    drafts: {
+      pageInfo: PageInfo;
+      edges: {
+          node: DraftId;
       }[];
     };
   };
@@ -193,22 +268,22 @@ export interface PostInfoQuery {
     };
 }
 
+export interface DraftInfoQuery {
+    publication: {
+        drafts: {
+            pageInfo: PageInfo;
+            edges: {
+                node: DraftInfo;
+            }[];
+        };
+    };
+}
+
 export interface PinnedPostInfoQuery {
   publication: {
       pinnedPost: PostInfo;
   };
 }
-
-export const postCoverImageFragment = gql`
-  fragment PostCoverImageFields on PostCoverImage {
-    url
-  }
-`;
-
-export interface PostCoverImage {
-  url: string;
-}
-
 
 export const seriesBaseInfoFragment = gql`
   fragment SeriesBaseInfoFields on Series {
@@ -247,7 +322,6 @@ export interface Seo {
 export const postFragment = gql`
   ${postInfoFragment}
   ${authorFragment}
-  ${postCoverImageFragment}
   ${seriesBaseInfoFragment}
   ${contentFragment}
   ${seoFragment}
@@ -263,9 +337,6 @@ export const postFragment = gql`
     }
     updatedAt
     canonicalUrl
-    coverImage {
-      ...PostCoverImageFields
-    }
     series {
       ...SeriesBaseInfoFields
     }
@@ -286,7 +357,6 @@ export interface Post extends PostInfo {
     coAuthors: Author[];
     updatedAt: string;
     canonicalUrl: string;
-    coverImage: PostCoverImage;
     series: SeriesBaseInfo;
     content: Content;
     seo: Seo;
@@ -297,6 +367,40 @@ export interface PostQuery {
   publication: {
       post: Post;
   };
+}
+
+export const draftFragment = gql`
+  ${draftInfoFragment}
+  ${authorFragment}
+  ${seriesBaseInfoFragment}
+  ${contentFragment}
+  fragment DraftFields on Draft {
+    id
+    ...DraftInfoFields
+    author {
+      ...AuthorFields
+    }
+    coAuthors {
+      ...AuthorFields
+    }
+    series {
+      ...SeriesBaseInfoFields
+    }
+    content {
+      ...ContentFields
+    }
+  }
+`;
+
+export interface Draft extends DraftInfo {
+    author: Author;
+    coAuthors: Author[];
+    series: SeriesBaseInfo;
+    content: Content;
+}
+
+export interface DraftQuery {
+  draft: Draft;
 }
 
 export const seriesInfoFragment = gql`

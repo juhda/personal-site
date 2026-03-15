@@ -10,7 +10,8 @@ import { isSearchEnabled } from "../hashnode-lib/client";
 import {
   goatCounterUrl,
   blogOGImage,
-  blogSubscribeAction
+  blogSubscribeAction,
+  blogEnableDrafts
 } from '../config/site.ts';
 
 const hasBlogHeader = Boolean(Astro.slots['blog-header']);
@@ -91,6 +92,9 @@ const {
           <Link href="/blog/subscribe">Subscribe</Link><span>·</span>
         )}
         <Link href="/blog/about">About the Blog</Link>
+        {blogEnableDrafts && (
+          <span>·</span><Link href="/blog/drafts">Drafts</Link>
+        )}
       </nav>
     )}
 
