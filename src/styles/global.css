@@ -1,10 +1,23 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  /* Mapping your CSS variables to Tailwind utility names */
+  --color-primary: var(--primary);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
+  --color-surface: var(--surface);
+  --color-highlight: var(--highlight);
+  --color-text: var(--text);
+  --color-heading: var(--heading);
+  --color-bg: var(--bg);
+
+  --font-title: var(--font-title);
+  --font-body: var(--font-body);
+}
 
 :root {
-  --font-title: 'Inter', sans-serif;
-  --font-body: 'Lato', sans-serif;
+  --font-title: "Inter", sans-serif;
+  --font-body: "Lato", sans-serif;
 
   /* Colors for light mode */
   --primary: #1A202C;
@@ -31,15 +44,17 @@
   }
 }
 
-.nav-link {
-  @apply text-heading hover:underline transition;
-}
-
-.active {
-  @apply text-accent font-semibold underline;
-}
-
+/* Global utility-like classes */
 @layer components {
+  .nav-link {
+    @apply text-heading hover:underline transition;
+  }
+
+  .active {
+    @apply text-accent font-semibold underline;
+  }
+
+  /* Base Element Styles */
   body {
     @apply flex flex-col min-h-screen bg-bg text-primary font-body;
   }
@@ -72,6 +87,7 @@
     @apply inline;
   }
 
+  /* Article / Markdown Styles */
   article table {
     @apply table-auto border border-primary w-full my-4;
   }
@@ -116,6 +132,7 @@
     @apply my-4;
   }
 
+  /* Typography Sizes */
   h1 {
     @apply text-3xl sm:text-4xl font-extrabold text-heading text-center sm:text-left mb-6;
   }
@@ -132,12 +149,9 @@
     @apply text-accent hover:underline;
   }
 
+  /* UI Components */
   input {
     @apply w-full px-4 py-2 border border-muted rounded bg-bg text-primary placeholder-muted;
-  }
-
-  button {
-    @apply cta-button;
   }
 
   details summary {
@@ -151,6 +165,7 @@
   .muted-top-rule {
     @apply border-t border-muted pt-4;
   }
+
   .muted-bottom-rule {
     @apply border-b border-muted pb-4;
   }
@@ -163,7 +178,9 @@
     @apply flex-1 w-full h-full;
   }
 
-  .cta-button {
+  button,
+  .cta-button,
+  .cta-buttons a {
     @apply px-5 py-2 rounded-full text-sm text-center font-medium text-accent border border-accent hover:bg-accent hover:text-bg transition;
   }
 
@@ -171,32 +188,26 @@
     @apply flex flex-col sm:flex-row justify-center sm:justify-start gap-4 mt-8;
   }
 
-  .cta-buttons a {
-    @apply cta-button;
-  }
-
-  .card {
+  .card,
+  .flex-card {
     @apply max-w-3xl sm:max-w-4xl mx-auto items-start gap-10 px-8 py-12 bg-surface rounded-xl shadow-md;
   }
 
   .flex-card {
-    @apply flex flex-col sm:flex-row card;
+    @apply flex flex-col sm:flex-row;
   }
 
   .nested-card {
     @apply bg-bg p-4 rounded shadow hover:shadow-lg transition;
   }
 
-  .profile-image {
+  .profile-image,
+  .profile-image-floater img {
     @apply rounded-full object-cover shadow-md border-4 border-muted;
   }
 
   .profile-image-floater {
     @apply flex-shrink-0 mx-auto sm:mx-0;
-  }
-
-  .profile-image-floater img {
-    @apply profile-image;
   }
 
   .wide-embed {
@@ -207,16 +218,13 @@
     @apply block w-full min-h-[80vh] border-0;
   }
 
-  .banner-image {
-    @apply w-full h-full object-cover object-center;
-  }
-
   .banner-image-container {
     @apply w-full aspect-[16/9] overflow-hidden rounded mb-2 shadow-sm;
   }
 
+  .banner-image,
   .banner-image-container img {
-    @apply banner-image;
+    @apply w-full h-full object-cover object-center;
   }
 
   .codeblock-header {

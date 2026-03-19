@@ -27,31 +27,32 @@ It serves as my digital home — a place to showcase my portfolio, share ideas, 
 
 ## 🛠️ Tech Stack
 
-- [Astro](https://astro.build/) – Static site framework
-- [Tailwind CSS](https://tailwindcss.com/) – Utility-first styling
-- [Notion](https://notion.so/) – Embedded portfolio data
+- [Astro v6](https://astro.build/) – Modern web framework
+- [Tailwind CSS v4](https://tailwindcss.com/) – CSS-first utility engine (Vite plugin)
+- [Preact](https://preactjs.com/) – Fast 3kB alternative to React for interactive components
+- [Notion](https://notion.so/) – Embedded portfolio data source
 - [GoatCounter](https://www.goatcounter.com/) – Lightweight, privacy-first analytics
 - [Buttondown](https://buttondown.email) – Lightweight newsletter platform used for optional blog post subscriptions
-- [Netlify](https://netlify.com/) – Hosting (free tier)
-- [Hashnode GraphQL API](https://hashnode.com/) – Blog content source
+- [Netlify](https://netlify.com/) – Hosting with adapter-based redirect handling (free tier)
+- [Hashnode GraphQL API](https://hashnode.com/) – Headless blog content source
 
 ## 📂 Project Structure
 
 ```bash
 .
-├── public/             # Static assets (favicons, OG images)
-├── scripts/            # JavaScript/TypeScript helpers for static generation
+├── public/               # Static assets (favicons, OG images)
+├── scripts/              # JavaScript/TypeScript helpers for static generation
 ├── src/
-│   ├── assets/         # Internal static resources (images, fonts, etc.)
-│   ├── components/     # Reusable Astro/JSX components (e.g. SEO.astro)
-│   ├── config/         # Site-wide configuration (e.g., metadata)
-│   ├── hashnode-lib/   # GraphQL client definitions to fetch blog data
-│   ├── layouts/        # Base layout with shared header and structure
-│   ├── pages/          # Astro page routes (/index, /portfolio, etc.)
-│   ├── styles/         # Tailwind config & custom styles
-│   └── utils/          # JavaScript/TypeScript helpers (e.g., breadcrumb generator)
-└── astro.config.mjs    # Astro site configuration
-└── tailwind.config.mjs # Tailwind site configuration
+│   ├── assets/           # Internal static resources (images, fonts, etc.)
+│   ├── components/       # Reusable Astro/JSX components (e.g. SEO.astro)
+│   ├── config/           # Site-wide configuration (e.g., metadata)
+│   ├── hashnode-lib/     # GraphQL client definitions to fetch blog data
+│   ├── layouts/          # Base layout with shared header and structure
+│   ├── pages/            # Astro page routes (/index, /portfolio, etc.)
+│   ├── styles/           # Tailwind config, themes, and custom styles
+│   ├── utils/            # JavaScript/TypeScript helpers (e.g., breadcrumb generator)
+│   └── content.config.ts # Content Layer configuration -- empty (for Astro v6)
+└── astro.config.mjs      # Astro site configuration
 ```
 
 ## 🔑 Environment Variables

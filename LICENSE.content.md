@@ -7,4 +7,4 @@ You are free to share and adapt the material for non-commercial purposes, with p
 
 More info: https://creativecommons.org/licenses/by-nc/4.0/
 
-© 2025 Dávid Juhász
+© 2025–Present Dávid Juhász
