@@ -27,13 +27,14 @@ It serves as my digital home — a place to showcase my portfolio, share ideas, 
 
 ## 🛠️ Tech Stack
 
-- [Astro](https://astro.build/) – Static site framework
+- [Astro v6](https://astro.build/) – Modern web framework
 - [Tailwind CSS v4](https://tailwindcss.com/) – CSS-first utility engine (Vite plugin)
-- [Notion](https://notion.so/) – Embedded portfolio data
+- [Preact](https://preactjs.com/) – Fast 3kB alternative to React for interactive components
+- [Notion](https://notion.so/) – Embedded portfolio data source
 - [GoatCounter](https://www.goatcounter.com/) – Lightweight, privacy-first analytics
 - [Buttondown](https://buttondown.email) – Lightweight newsletter platform used for optional blog post subscriptions
-- [Netlify](https://netlify.com/) – Hosting (free tier)
-- [Hashnode GraphQL API](https://hashnode.com/) – Blog content source
+- [Netlify](https://netlify.com/) – Hosting with adapter-based redirect handling (free tier)
+- [Hashnode GraphQL API](https://hashnode.com/) – Headless blog content source
 
 ## 📂 Project Structure
 
