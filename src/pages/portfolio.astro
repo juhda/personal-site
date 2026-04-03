@@ -10,8 +10,8 @@ import {
 } from '../config/site.ts';
 
 const title = "Project Portfolio | " + author + " - " + jobTitle;
-const description = "Explore selected projects by " + author + ", a " + cleanJobTitle + " specializing in edge AI, embedded systems, and firmware development. Browse work in low-power solutions, runtime systems, and hardware-software co-design.";
-const keywords = author + ", edge AI engineer, embedded systems engineer, firmware development, developer tooling, runtime systems, RISC-V, low-power computing, sustainable edge solutions, projects, engineering portfolio";
+const description = "Explore selected projects by " + author + ", focusing on compilers, simulators, and platform enablement. High-impact work in hardware-software co-design and system-level architecture.";
+const keywords = "project portfolio, " + author + ", LLVM, RISC-V, system simulators, compiler design, firmware development, toolchain integration, platform architecture";
 const localImage = "/og/portfolio.png";
 ---
 <BaseLayout
@@ -26,28 +26,34 @@ const localImage = "/og/portfolio.png";
       <h1>Project Portfolio</h1>
 
       <p>
-        Welcome to the project portfolio of <strong><span class="whitespace-nowrap">{author}</span></strong>, an <em>{cleanJobTitle}</em>. I specialize in <em>firmware, developer tools, runtime systems, and hardware-software co-design</em>, with a focus on <em>low-power, sustainable edge solutions</em>. This page showcases selected projects I've led or contributed to—spanning <em>system architecture, embedded platforms, edge AI, and developer tooling</em>.
+        This portfolio is a curated look at my work in <strong>Hardware-Software Co-Design</strong>. I specialize in building the core system layers — <strong>compilers, simulators, and embedded firmware</strong> — that turn complex hardware constraints into reliable, high-performance ecosystems.
       </p>
 
       <p>
-        Each portfolio entry includes:
+        I am at my best during the <strong>"0 to 1" phase</strong> of a project, where the foundation of a system is built. My contributions focus on creating <strong>shared understanding</strong> between disciplines, ensuring that silicon architecture and system software evolve together with clarity and purpose.
       </p>
 
-      <ul class="list-disc pl-6">
-        <li>A brief overview of the project scope</li>
-        <li>My role and technical contributions</li>
-        <li>Tools, languages, and technologies used</li>
-        <li>Delivered results and impact (e.g., platform enablement, improved workflows, or validation support)</li>
-      </ul>
+      <h2>How to Navigate My Work</h2>
 
       <p>
-        You can explore entries by <em>domain, contribution type, or leadership role</em> using the predefined views. For a complete overview, see the full <em>Portfolio Table</em>.
+        The table below provides a detailed view of my projects. Each entry is structured to highlight:
+        <ul class="list-disc pl-6">
+          <li><strong>The Challenge:</strong> The architectural or engineering bottleneck I was tasked to solve.</li>
+          <li><strong>The Solution:</strong> My technical approach across the hardware-software stack.</li>
+          <li><strong>The Impact:</strong> The resulting platform enablement, workflow efficiency, or system-level clarity.</li>
+        </ul>
+      </p>
+      
+      <p>
+        You can use the predefined views to explore by domain (e.g., System Architecture, Developer Tooling) or project role (e.g., Compiler Engineer, Technical Lead).
+      </p>
+
+      <p class="muted-top-rule">
+        <strong>Looking for more context?</strong> > Visit my <Link href="/about">About page</Link> to learn about my engineering philosophy, or check out my <Link href="/blog">blog</Link> for deep-dives into systems engineering and tech leadership.
       </p>
 
       <p>
-        To learn more about my background, visit my <Link href="/about">About page</Link>.
-        <br />For insights into <em>edge AI, embedded systems, and developer tooling</em>, check out my <Link href="/blog">blog</Link>.
-        <br />Feel free to <Link href={socialLinks.email}>email me</Link> or <Link href={socialLinks.linkedin}>connect on LinkedIn</Link>.
+        Feel free to <Link href={socialLinks.email}>email me</Link> or <Link href={socialLinks.linkedin}>connect on LinkedIn</Link>.
       </p>
     </div>
   </section>

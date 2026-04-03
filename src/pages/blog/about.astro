@@ -14,8 +14,8 @@ const blogInfo: BlogInfo = await getBlogInfo();
 const authorUrl = "https://hashnode.com/@" + blogInfo.author.username
 
 const title = "About | " + blogInfo.title + " by " + blogInfo.author.name;
-const description = "The purpose behind Defined Behavior: thoughtful, precise, and structured reflections on edge AI, embedded systems, and sustainable computing.";
-const keywords = "about blog, defined behavior, edge AI, embedded systems, developer tooling, systems thinking, structured insight, sustainable computing";
+const description = "The philosophy behind Defined Behavior: A space for engineering thoughtfulness in the development of complex systems, from hardware to human collaboration.";
+const keywords = "about blog, defined behavior philosophy, systems thinking, engineering precision, structural integrity, hardware-software bridge";
 const image = blogInfo.ogMetaData?.image;
 const bannerImage = blogInfo.ogMetaData?.image;
 ---
@@ -51,20 +51,32 @@ const bannerImage = blogInfo.ogMetaData?.image;
     <!-- Custom about text -->
     <div class="muted-top-rule">
       <p>
-        <strong>Defined Behavior</strong> is a space for <em>engineering thoughtfulness in edge AI, embedded systems, and beyond</em>.
+        <strong>Defined Behavior</strong> is a space for engineering thoughtfulness in the development of complex systems.
       </p>
+
       <p>
-        Authored by Dávid Juhász, this blog explores what it means to <em>build and communicate complex systems with clarity, purpose, and precision</em>. Whether you're diving into <em>edge AI, embedded platforms, developer tools, or software leadership</em>, this is a place for structured thinking and meaningful dialogue.
+        Authored by <strong>Dávid Juhász</strong>, this blog explores the intersection of hardware, software, and human systems. Whether diving into <strong>tooling, architecture, or the nuances of technical leadership</strong>, this is a place for structured thinking and meaningful dialogue.
       </p>
+
+      <h2>The Philosophy</h2>
+
       <p>
-        “Defined Behavior” stands in contrast to undefined behavior—not just in code, but in thought and communication. It’s a statement of principle: that <em>clarity is a choice, precision is a discipline, and complexity deserves structure, not surrender</em>.
+        The name “Defined Behavior” stands in contrast to undefined behavior — not just in code, but in thought and communication. It is a statement of principle: that <strong>clarity is a choice, precision is a discipline, and complexity deserves structure, not surrender.</strong>
       </p>
+
       <p>
-        This mindset—<em>engineering precision in a complex world</em>—is what defines my work, and what this blog exists to explore.
+        In the "0 to 1" phase of deep-tech engineering, ambiguity is the default. This blog exists to explore how we move from that chaos toward a <strong>joint ecosystem</strong> of hardware and software, built on a foundation of shared understanding.
       </p>
+
+      <h2>A Deliberate Pace</h2>
       {!isSearchEnabled && (
-        <p class="muted-top-rule">
-          If you’re reading this early on, you might notice that the archive is still light. That’s by design—I’m focused on publishing <em>deliberately, not frequently</em>. Defined Behavior will grow over time with writing that reflects its principles: <em>clarity, structure, and purpose</em>.
+        <p>
+          If the archive is still light, that is by design. I focus on <strong>thinking and publishing deliberately</strong>, not frequently. Defined Behavior will grow over time with writing that reflects its core principles: <strong>clarity, structure, and purpose</strong>.
+        </p>
+      )}
+      {isSearchEnabled && (
+        <p>
+          I focus on <strong>depth over frequency</strong>. This archive is built deliberately, with each piece reflecting a commitment to clarity and structural integrity. I write when there is a complex system to deconstruct or a meaningful insight to share, ensuring every post serves a purpose for the reader.
         </p>
       )}
     </div>

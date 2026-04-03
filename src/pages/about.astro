@@ -13,8 +13,8 @@ import { Image } from 'astro:assets';
 import meImage from '../assets/me.jpg';
 
 const title = "About | " + author + " - " + jobTitle;
-const description = "Learn more about " + author + ", a " + cleanJobTitle + " focused on edge AI, embedded systems, and hardware-software co-design. Discover his background, principles, and approach to engineering.";
-const keywords = author + ", edge AI engineer, embedded systems engineer, firmware development, developer tooling, code generation, engineering principles, software architecture, teaching engineers, sustainable computing";
+const description = "Learn about " + author + "’s approach to building joint ecosystems of hardware and software. Discover his principles of shared understanding, structural integrity, and architectural clarity.";
+const keywords = author + ", engineering philosophy, systems architecture, hardware-software bridge, shared understanding, 0-to-1 phase, software engineering rigor, tech leadership";
 const localImage = "/og/about.png";
 ---
 <BaseLayout
@@ -38,57 +38,61 @@ const localImage = "/og/about.png";
 
     <!-- Text Content -->
     <div>
-      <h1>About</h1>
+      <h1>About Me</h1>
 
       <p>
-        Hi—I’m <strong><span class="whitespace-nowrap">{author}</span></strong>, an <em>{cleanJobTitle}</em> with a passion for <em>sustainable computing, developer tooling, and complex hardware-software ecosystems</em>.
+        I am a <strong><span class="whitespace-nowrap">{cleanJobTitle}</span></strong> specializing in the intersection of hardware and software. My work is driven by a single conviction: the most impactful technology is built when we treat silicon and code as a <strong>joint ecosystem</strong>.
+      </p>
+
+      <h2>The Journey to the "Bridge"</h2>
+
+      <p>
+        My fascination with systems began with a computer and no internet — a constraint that forced me to understand how software actually talks to the machine. That early curiosity evolved into a career focused on <strong>Hardware-Software Co-Design</strong>.
       </p>
 
       <p>
-        From my early days programming on a computer without internet, I’ve been fascinated by how software and hardware come together to solve real-world problems. That curiosity led me through a degree in computer science and into the world of <em>embedded systems, compilers, and edge AI</em>—where I continue to push the boundaries of what’s possible in resource-constrained environments.
+        Today, I build the core system layers — spanning <strong>compilers, simulators, and embedded firmware</strong> — that eliminate the inefficient handovers between disciplines.
+        I believe that by bringing software engineering rigor to <strong>hardware-software co-design</strong>, we enable a joint ecosystem where silicon architecture and system software are developed in harmony. This ensures that the final systems are not just high-performance, but also sustainable and built on a foundation of shared clarity.
+      </p>
+
+      <h2>Where I Thrive: The "0 to 1" Phase</h2>
+
+      <p>
+        I am at my best in the <strong>design and innovation phases</strong>, where the solution space is wide open and the architecture is yet to be defined. I find deep professional fulfillment in "0 to 1" projects, where I can:
+        <ul>
+          <li>Establish a holistic system architecture from the start.</li>
+          <li>Build the tooling and CI pipelines that enable rapid, reliable iteration.</li>
+          <li>Turn abstract hardware constraints into opportunities for software elegance.</li>
+        </ul>
+      </p>
+
+      <h2>Engineering with Purpose</h2>
+
+      <p>
+        At my core, I believe good engineering is about <strong>shared understanding</strong>. Technical excellence matters, but its true value is unlocked when a team moves forward with clarity and purpose.
       </p>
 
       <p>
-        I specialize in <em>building firmware, toolchains, and runtime systems</em> that enable high-performance, low-power platforms. Over the years, I’ve worked across the entire stack—from <em>code generation and system simulation to firmware development and hardware-software co-design</em>—always with an eye toward <em>evaluating new technologies and architecting solutions from the ground up</em>.
+        I work pragmatically, navigating real-world trade-offs without losing sight of the broader goal. Whether I am architecting an API or aligning a cross-functional team, I aim for <strong>logical clarity and reliability</strong> — ensuring the systems we build are resilient, purposeful, and easy for others to build upon.
       </p>
 
-      <h2>How I Work</h2>
+      <h2>Beyond the Code</h2>
 
       <p>
-        I thrive in the <em>design and innovation phases</em>, where ideas flow freely and the solution space is wide open. But I also enjoy implementation and debugging—the process of making abstract designs real and refining them through investigation and insight.
-      </p>
-
-      <p>
-        At my core, I believe good engineering is about more than elegant code. It’s about <em>delivering value and empowering others to do their best work</em>. When we help others build better systems, we make our work matter.
-      </p>
-
-      <h2>Principles & Philosophy</h2>
-
-      <p>
-        I aim for <em>clarity, purpose, and structural integrity</em> in everything I build—from tooling and APIs to team alignment.
+        Outside of engineering, I explore the human side of technology. I am fascinated by psychology, the dynamics of communication, and the art of explaining complex topics simply. These interests directly influence my leadership style and my approach to remote-first collaboration.
       </p>
 
       <p>
-        While elegant solutions are ideal, I work pragmatically, making trade-offs based on real-world constraints while staying true to broader goals. I emphasize <em>shared understanding, clear communication, and interfaces that empower purposeful action</em>.
+        I share my evolving thoughts on engineering efficiency and leadership on my <Link href="/blog">blog</Link>.
       </p>
 
-      <h2>Beyond Code</h2>
+      <h2 class="muted-top-rule">Next Steps</h2>
 
-      <p>
-        Outside of engineering, I enjoy explaining complex topics in simple ways. I’m interested in teaching, psychology, and the dynamics of communication—all of which influence how I collaborate and lead.
-      </p>
-
-      <h2>Next Steps</h2>
-
-      <p>
-        For more technical context, check out my <Link href="/portfolio">project portfolio</Link> or explore my <Link href="/blog">blog</Link>.
-        Feel free to <Link href={socialLinks.email}>email me</Link> or <Link href={socialLinks.linkedin}>connect on LinkedIn</Link>.
-      </p>
-
-      <p>
-        You can also <Link href="/resume" download>download my résumé (PDF)</Link> for a concise overview of my background.
-        If you prefer, you can <Link href="/resume-overview">view résumé details online</Link>.
-      </p>
+      <ul>
+        <li><strong>Technical Context:</strong> Explore my <Link href="/portfolio">project portfolio</Link></li>
+        <li><strong>Professional Background:</strong> <Link href="/resume" download>Download my Résumé (PDF)</Link> or <Link href="/resume-overview">view details online</Link></li>
+        <li><strong>Let's Connect:</strong> I am always open to discussing complex system architectures, RISC-V, or remote-first collaborations. Reach out via <Link href={socialLinks.email}>email</Link> or <Link href={socialLinks.linkedin}>LinkedIn</Link>.</li>
+      </ul>
     </div>
   </section>
 </BaseLayout>
