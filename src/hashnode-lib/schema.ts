@@ -48,9 +48,7 @@ export const blogInfoFragment = gql`
     id
     title
     displayTitle
-    about {
-      ...TextContentFields
-    }
+    descriptionSEO
     ogMetaData {
       ...OgMetaDataFields
     }
@@ -63,7 +61,7 @@ export const blogInfoFragment = gql`
 export interface BlogInfo {
     title: string;
     displayTitle: string;
-    about: TextContent;
+    descriptionSEO: string;
     ogMetaData: OgMetaData;
     author: Author;
 }
