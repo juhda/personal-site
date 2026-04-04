@@ -18,15 +18,11 @@ if (!blogEnableDrafts) {
 const allDraftInfo: DraftInfo[] = await getAllDraftInfo();
 
 const title = "Draft Posts | " + blogInfo.title + " by " + blogInfo.author.name;
-const description = "Browse all draft posts.";
-const keywords = "blog drafts, defined behavior, edge AI, embedded systems, developer tooling, systems thinking, structured insight";
 const image = blogInfo.ogMetaData?.image;
 ---
 <BlogLayout
   noindex={true}
   title={title}
-  description={description}
-  keywords={keywords}
   image={image}
   showBanner={false}
   sourceNoteUsername={blogInfo.author.username}

@@ -1,7 +1,7 @@
 // Below should not change normally. If any does, check also in the SEO component.
 export const author = "Dávid Juhász";
 export const localMeImage = "/images/me.jpg"; // Relative to public folder. If you change the image, change src/assets/me.jpg as well!
-export const jobTitle = "Edge AI & Embedded Systems Engineer"; // This and cleanJobTitle are used at multiple places, so be careful when changing them.
+export const jobTitle = "Software Engineer"; // This and cleanJobTitle are used at multiple places, so be careful when changing them.
 export const socialLinks = {
   email: "mailto:Dávid%20Juhász<hello@davidjuhasz.dev>",
   linkedin: "https://linkedin.com/in/juhaszdavid",

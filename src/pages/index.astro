@@ -12,8 +12,8 @@ import { Image } from 'astro:assets';
 import meImage from '../assets/me.jpg';
 
 const title = author + " - " + jobTitle;
-const description = "Welcome to the personal website of " + author + ", a " + cleanJobTitle + " specializing in edge AI, embedded systems, and sustainable edge solutions. Explore his portfolio, blog, and background.";
-const keywords = author + ", edge AI engineer, embedded systems engineer, firmware development, developer tooling, runtime systems, RISC-V, code generation, low-power computing, sustainable edge solutions, portfolio, blog";
+const description = "The personal website of " + author + ", a " + cleanJobTitle + " specializing in the hardware-software bridge. Exploring the 0-to-1 phase of compilers, systems architecture, and co-design.";
+const keywords = author + ", systems engineer, software engineer, hardware-software co-design, compiler development, RISC-V, system simulation, 0-to-1 engineering, technical leadership, portfolio, blog";
 ---
 <BaseLayout
   title={title}
@@ -35,19 +35,22 @@ const keywords = author + ", edge AI engineer, embedded systems engineer, firmwa
 
     <!-- Text Content -->
     <div>
-      <h1>👋 Welcome — I'm <span class="whitespace-nowrap">{author}</span></h1>
+      <h1>👋 Welcome  —  I'm <span class="whitespace-nowrap">{author}</span></h1>
       <h2 class="text-text font-medium">{jobTitle}</h2>
-      <p class="italic">
-        Empowering Low-Power, Sustainable Edge Learning Solutions with Structured Insight, Clarity, and Purpose.
+      <p class="italic text-primary">
+        Building the Hardware-Software Bridge
       </p>
       <p>
-        I build <em>firmware, developer tools, and runtime systems</em> at the intersection of software and hardware, with a focus on <em>edge AI, embedded platforms, and hardware-software co-design</em>. My work spans <em>code generation, RISC-V-based platforms, and resource-constrained systems</em>, turning constraints into opportunities for efficiency and impact.
+        I am a software engineer focused on <strong>Hardware-Software Co-Design</strong>. I build the infrastructure — specifically <em>compilers, simulators, and co-design frameworks</em> — that allows silicon and code to evolve as a <strong>joint ecosystem</strong>.
       </p>
       <p>
-        This site is still early in its journey—I’ve recently made it a priority to share more of my work and ideas in public. Over time, you’ll find <em>technical deep-dives, project highlights, and insights on edge AI, embedded systems, and systems engineering</em>.
+        I specialize in the <strong>"0 to 1" phase</strong> of deep-tech systems, bringing modern software engineering rigor to RISC-V platforms and resource-constrained environments. I thrive on turning architectural constraints into opportunities for system-level clarity.
       </p>
       <p>
-        If any of this resonates—whether you're curious about my projects, exploring collaboration, or just want to connect—feel free to explore below.
+        This site is a space for me to share my work and ideas in public. On my <Link href="/blog">blog</Link>, I write about the intersection of technology and human systems — from technical deep-dives into <strong>embedded systems and toolchain development</strong> to broader insights on <strong>software engineering and tech leadership</strong>.
+      </p>
+      <p>
+        My goal is to build a <strong>shared understanding</strong> across disciplines, enabling teams to move forward with clarity and purpose. If this approach to engineering resonates with you, I invite you to explore my work or reach out for a conversation.
       </p>
 
       <!-- Call-to-Action Buttons -->

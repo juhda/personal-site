@@ -12,8 +12,8 @@ const blogInfo = await getBlogInfo();
 const seriesList: SeriesInfo[] = await getAllSeriesInfo();
 
 const title = "Blog Series | " + blogInfo.title + " by " + blogInfo.author.name;
-const description = "Explore multi-part article series covering deeper topics in edge AI, embedded systems, and structured thinking.";
-const keywords = "blog, series, defined behavior, edge AI, embedded systems, developer tooling, systems thinking, structured insight";
+const description = "Explore multi-part article series on " + blogInfo.title + ". A deep dive into the 0-to-1 phase of compilers, systems architecture, and the human side of technical leadership.";
+const keywords = "blog series, defined behavior, hardware-software co-design, compilers, systems architecture, technical leadership, engineering principles, deep-tech strategy";
 const image = blogInfo.ogMetaData?.image;
 ---
 <BlogLayout

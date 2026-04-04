@@ -13,8 +13,8 @@ const blogInfo: BlogInfo = await getBlogInfo();
 const allPostInfo: PostInfo[] = await getAllPostInfo();
 
 const title = "Search | " + blogInfo.title + " by " + blogInfo.author.name;
-const description = "Find articles by keyword or tag.";
-const keywords = "defined behavior, edge AI, embedded systems, developer tooling, systems thinking, structured insight, sustainable computing";
+const description = "Search " + blogInfo.title + " for deep-dives into systems architecture, compilers, and the hardware-software bridge.";
+const keywords = "search blog, defined behavior, hardware-software co-design, systems thinking, engineering precision, technical leadership, deep-tech strategy, RISC-V, LLVM";
 const image = blogInfo.ogMetaData?.image;
 ---
 <BlogLayout
