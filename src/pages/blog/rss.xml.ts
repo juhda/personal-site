@@ -15,7 +15,7 @@ export async function GET() {
 
   return generateRSS({
     title: `${blogInfo.title} RSS Feed`,
-    description: blogInfo.about.text.trim(),
+    description: blogInfo.descriptionSEO.trim(),
     site: baseUrl,
     items: posts.map(post => ({
       title: post.title,
