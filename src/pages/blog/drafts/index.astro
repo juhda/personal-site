@@ -2,6 +2,7 @@
 import BlogLayout from '../../../layouts/BlogLayout.astro';
 import PostGallery from '../../../components/PostGallery';
 import EmptyState from '../../../components/EmptyState';
+import HashnodeError from '../../../components/HashnodeError.astro';
 
 import { getBlogInfo, getAllDraftInfo } from '../../../hashnode-lib/client';
 import { blogEnableDrafts } from '../../../config/site';
@@ -9,38 +10,51 @@ import type { DraftInfo } from '../../../hashnode-lib/schema';
 
 export const prerender = false
 
-const blogInfo = await getBlogInfo();
-
 if (!blogEnableDrafts) {
   return Astro.redirect("/404");
 }
 
-const allDraftInfo: DraftInfo[] = await getAllDraftInfo();
+let blogInfo = null;
+let allDraftInfo: DraftInfo[] = [];
+let error: string | null = null;
 
-const title = "Draft Posts | " + blogInfo.title + " by " + blogInfo.author.name;
-const image = blogInfo.ogMetaData?.image;
+try {
+  blogInfo = await getBlogInfo();
+  allDraftInfo = await getAllDraftInfo();
+} catch (e: unknown) {
+  error = (e instanceof Error ? e.message : String(e)) || 'Unknown error occurred while fetching blog data.';
+}
+
+const title = blogInfo ? ("Draft Posts | " + blogInfo.title + " by " + blogInfo.author.name) : "Draft Posts";
+const image = blogInfo?.ogMetaData?.image;
 ---
 <BlogLayout
   noindex={true}
   title={title}
   image={image}
   showBanner={false}
-  sourceNoteUsername={blogInfo.author.username}
+  sourceNoteUsername={blogInfo?.author.username}
 >
 
-  <div slot="blog-header" class="card">
-    <h1 class="text-center">Draft Posts</h1>
-    <p class="text-center">
-      Browse all draft posts.
-    </p>
-  </div>
+  {error ? (
+    <HashnodeError error={error} />
+  ) : (
+    <>
+      <div slot="blog-header" class="card">
+        <h1 class="text-center">Draft Posts</h1>
+        <p class="text-center">
+          Browse all draft posts.
+        </p>
+      </div>
 
-  {allDraftInfo.length > 0 ? (
-    <PostGallery allPostInfo={allDraftInfo} />
-    ) : (
-    <EmptyState
-      title="No drafts yet"
-      message="Draft posts will appear here once created."
-    />
+      {allDraftInfo.length > 0 ? (
+        <PostGallery allPostInfo={allDraftInfo} />
+      ) : (
+        <EmptyState
+          title="No drafts yet"
+          message="Draft posts will appear here once created."
+        />
+      )}
+    </>
   )}
 </BlogLayout>

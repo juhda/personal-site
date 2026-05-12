@@ -4,14 +4,23 @@ import MathJaxLoader from '../../components/MathJaxLoader.astro';
 import HighlightJSLoader from '../../components/HighlightJSLoader.astro';
 import PostGallery from '../../components/PostGallery';
 import EmptyState from '../../components/EmptyState';
+import HashnodeError from '../../components/HashnodeError.astro';
 
 import { getBlogInfo, getAllPostInfo } from '../../hashnode-lib/client';
 import type { PostInfo } from '../../hashnode-lib/schema';
 
 export const prerender = false
 
-const blogInfo = await getBlogInfo();
-const allPostInfo: PostInfo[] = await getAllPostInfo();
+let blogInfo = null;
+let allPostInfo: PostInfo[] = [];
+let error: string | null = null;
+
+try {
+  blogInfo = await getBlogInfo();
+  allPostInfo = await getAllPostInfo();
+} catch (e: unknown) {
+  error = (e instanceof Error ? e.message : String(e)) || 'Unknown error occurred while fetching blog data.';
+}
 
 // Group posts by publication year
 function groupPostsByYear(posts: PostInfo[]): Record<number, PostInfo[]> {
@@ -30,10 +39,10 @@ const sortedYears = Object.keys(postsByYear)
   .map(Number)
   .sort((a, b) => b - a);
 
-const title = "Blog Archives | " + blogInfo.title + " by " + blogInfo.author.name;
+const title = blogInfo ? ("Blog Archives | " + blogInfo.title + " by " + blogInfo.author.name) : "Blog Archives";
 const description = "Browse all published posts, grouped by year.";
 const keywords = "blog archives, defined behavior, hardware-software co-design, compilers, systems architecture, technical leadership, engineering principles, deep-tech strategy";
-const image = blogInfo.ogMetaData?.image;
+const image = blogInfo?.ogMetaData?.image;
 ---
 <BlogLayout
   noindex={true}
@@ -42,31 +51,37 @@ const image = blogInfo.ogMetaData?.image;
   keywords={keywords}
   image={image}
   showBanner={false}
-  sourceNoteUsername={blogInfo.author.username}
+  sourceNoteUsername={blogInfo?.author.username}
 >
   <Fragment slot="head">
     <MathJaxLoader content={allPostInfo.map(postInfo => postInfo.brief).join('\n')} />
     <HighlightJSLoader content={allPostInfo.map(postInfo => postInfo.brief).join('\n')} />
   </Fragment>
 
-  <div slot="blog-header" class="card">
-    <h1 class="text-center">Blog Archives</h1>
-    <p class="text-center">
-      Browse all published posts, grouped by year.
-    </p>
-  </div>
+  {error ? (
+    <HashnodeError error={error} />
+  ) : (
+    <>
+      <div slot="blog-header" class="card">
+        <h1 class="text-center">Blog Archives</h1>
+        <p class="text-center">
+          Browse all published posts, grouped by year.
+        </p>
+      </div>
 
-  {sortedYears.length > 0 ? (
-    sortedYears.map(year => (
-      <section class="mb-12">
-        <h2 class="text-2xl font-bold mb-4 muted-bottom-rule pb-1">{year}</h2>
-        <PostGallery allPostInfo={postsByYear[year]} />
-      </section>
-    ))
-    ) : (
-    <EmptyState
-      title="No posts yet"
-      message="Once posts are published, they'll appear here by year."
-    />
+      {sortedYears.length > 0 ? (
+        sortedYears.map(year => (
+          <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4 muted-bottom-rule pb-1">{year}</h2>
+            <PostGallery allPostInfo={postsByYear[year]} />
+          </section>
+        ))
+        ) : (
+        <EmptyState
+          title="No posts yet"
+          message="Once posts are published, they'll appear here by year."
+        />
+      )}
+    </>
   )}
 </BlogLayout>

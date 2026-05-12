@@ -3,19 +3,28 @@ import BlogLayout from '../../layouts/BlogLayout.astro';
 import MathJaxLoader from '../../components/MathJaxLoader.astro';
 import HighlightJSLoader from '../../components/HighlightJSLoader.astro';
 import SearchResults from '../../components/SearchResults';
+import HashnodeError from '../../components/HashnodeError.astro';
 
 import { getAllPostInfo, getBlogInfo } from '../../hashnode-lib/client';
 import type { BlogInfo, PostInfo } from '../../hashnode-lib/schema';
 
 export const prerender = false
 
-const blogInfo: BlogInfo = await getBlogInfo();
-const allPostInfo: PostInfo[] = await getAllPostInfo();
+let blogInfo: BlogInfo | null = null;
+let allPostInfo: PostInfo[] = [];
+let error: string | null = null;
 
-const title = "Search | " + blogInfo.title + " by " + blogInfo.author.name;
-const description = "Search " + blogInfo.title + " for deep-dives into systems architecture, compilers, and the hardware-software bridge.";
+try {
+  blogInfo = await getBlogInfo();
+  allPostInfo = await getAllPostInfo();
+} catch (e: unknown) {
+  error = (e instanceof Error ? e.message : String(e)) || 'Unknown error occurred while fetching blog data.';
+}
+
+const title = blogInfo ? ("Search | " + blogInfo.title + " by " + blogInfo.author.name) : "Blog Search";
+const description = blogInfo ? ("Search " + blogInfo.title + " for deep-dives into systems architecture, compilers, and the hardware-software bridge.") : "Search the blog";
 const keywords = "search blog, defined behavior, hardware-software co-design, systems thinking, engineering precision, technical leadership, deep-tech strategy, RISC-V, LLVM";
-const image = blogInfo.ogMetaData?.image;
+const image = blogInfo?.ogMetaData?.image;
 ---
 <BlogLayout
   noindex={true}
@@ -24,23 +33,29 @@ const image = blogInfo.ogMetaData?.image;
   keywords={keywords}
   image={image}
   showBanner={false}
-  sourceNoteUsername={blogInfo.author.username}
+  sourceNoteUsername={blogInfo?.author.username}
 >
   <Fragment slot="head">
     <MathJaxLoader content={allPostInfo.map(postInfo => postInfo.brief).join('\n')} />
     <HighlightJSLoader content={allPostInfo.map(postInfo => postInfo.brief).join('\n')} />
   </Fragment>
 
-  <div slot="blog-header">
-    <label for="search-input">
-      Search blog posts
-    </label>
-    <input
-      id="search-input"
-      type="search"
-      placeholder="Keywords or tags..."
-    />
-  </div>
+  {error ? (
+    <HashnodeError error={error} />
+  ) : (
+    <>
+      <div slot="blog-header">
+        <label for="search-input">
+          Search blog posts
+        </label>
+        <input
+          id="search-input"
+          type="search"
+          placeholder="Keywords or tags..."
+        />
+      </div>
 
-  <SearchResults client:load posts={allPostInfo} search_input={"search-input"} />
+      <SearchResults client:load posts={allPostInfo} search_input={"search-input"} />
+    </>
+  )}
 </BlogLayout>

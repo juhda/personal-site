@@ -189,6 +189,7 @@ This site integrates with [Hashnode](https://hashnode.com/) as a headless blog s
   - No server-side caching is configured via the Netlify adapter; each page request fetches fresh content from the Hashnode API
   - This is acceptable for low-traffic use, but traffic levels should be monitored and caching configured if request volume increases
 - Hashnode API and Features
+  - Hashnode GraphQL failures are handled gracefully with a user-friendly error page, and error details are shown in development
   - Posts are displayed in the order returned by Hashnode’s API — newest first by default, though series may use oldest-first sorting depending on settings
   - Blog post slugs are matched directly — no post redirect support is implemented
   - Not all metadata (e.g. author bios, reactions, visibility flags) from Hashnode is used

@@ -2,19 +2,28 @@
 import BlogLayout from '../../../layouts/BlogLayout.astro';
 import EmptyState from '../../../components/EmptyState';
 import Link from '../../../components/Link';
+import HashnodeError from '../../../components/HashnodeError.astro';
 
 import { getBlogInfo, getAllTags } from '../../../hashnode-lib/client';
 import type { TagCountInfo } from '../../../hashnode-lib/schema';
 
 export const prerender = false
 
-const blogInfo = await getBlogInfo();
-const tags: TagCountInfo[] = await getAllTags();
+let blogInfo = null;
+let tags: TagCountInfo[] = [];
+let error: string | null = null;
 
-const title = "Blog Tags | " + blogInfo.title + " by " + blogInfo.author.name;
+try {
+  blogInfo = await getBlogInfo();
+  tags = await getAllTags();
+} catch (e: unknown) {
+  error = (e instanceof Error ? e.message : String(e)) || 'Unknown error occurred while fetching blog data.';
+}
+
+const title = blogInfo ? ("Blog Tags | " + blogInfo.title + " by " + blogInfo.author.name) : "Blog Tags";
 const description = "Explore topics covered in this blog.";
 const keywords = "blog tags, defined behavior, hardware-software co-design, compilers, systems architecture, technical leadership, engineering principles, deep-tech strategy";
-const image = blogInfo.ogMetaData?.image;
+const image = blogInfo?.ogMetaData?.image;
 ---
 <BlogLayout
   noindex={true}
@@ -23,9 +32,11 @@ const image = blogInfo.ogMetaData?.image;
   keywords={keywords}
   image={image}
   showBanner={false}
-  sourceNoteUsername={blogInfo.author.username}
+  sourceNoteUsername={blogInfo?.author.username}
 >
-  {tags.length > 0 ? (
+  {error ? (
+    <HashnodeError error={error} />
+  ) : tags.length > 0 ? (
     <!-- Sort toggle -->
     <div slot="blog-header" class="mb-4">
       <h1 class="text-center">Browse Tags</h1>
