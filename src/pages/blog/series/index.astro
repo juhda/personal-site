@@ -2,19 +2,28 @@
 import BlogLayout from '../../../layouts/BlogLayout.astro';
 import SeriesGallery from '../../../components/SeriesGallery.astro';
 import EmptyState from '../../../components/EmptyState';
+import HashnodeError from '../../../components/HashnodeError.astro';
 
 import { getBlogInfo, getAllSeriesInfo } from '../../../hashnode-lib/client';
 import type { SeriesInfo } from '../../../hashnode-lib/schema';
 
 export const prerender = false
 
-const blogInfo = await getBlogInfo();
-const seriesList: SeriesInfo[] = await getAllSeriesInfo();
+let blogInfo = null;
+let seriesList: SeriesInfo[] = [];
+let error: string | null = null;
 
-const title = "Blog Series | " + blogInfo.title + " by " + blogInfo.author.name;
-const description = "Explore multi-part article series on " + blogInfo.title + ". A deep dive into the 0-to-1 phase of compilers, systems architecture, and the human side of technical leadership.";
+try {
+  blogInfo = await getBlogInfo();
+  seriesList = await getAllSeriesInfo();
+} catch (e: unknown) {
+  error = (e instanceof Error ? e.message : String(e)) || 'Unknown error occurred while fetching blog data.';
+}
+
+const title = blogInfo ? ("Blog Series | " + blogInfo.title + " by " + blogInfo.author.name) : "Blog Series";
+const description = "Explore multi-part article series on " + (blogInfo?.title ?? 'this blog') + ". A deep dive into the 0-to-1 phase of compilers, systems architecture, and the human side of technical leadership.";
 const keywords = "blog series, defined behavior, hardware-software co-design, compilers, systems architecture, technical leadership, engineering principles, deep-tech strategy";
-const image = blogInfo.ogMetaData?.image;
+const image = blogInfo?.ogMetaData?.image;
 ---
 <BlogLayout
   noindex={true}
@@ -23,9 +32,11 @@ const image = blogInfo.ogMetaData?.image;
   keywords={keywords}
   image={image}
   showBanner={false}
-  sourceNoteUsername={blogInfo.author.username}
+  sourceNoteUsername={blogInfo?.author.username}
 >
-  {seriesList.length > 0 ? (
+  {error ? (
+    <HashnodeError error={error} />
+  ) : seriesList.length > 0 ? (
     <div slot="blog-header">
       <h1 class="text-center">Browse Series</h1>
     </div>

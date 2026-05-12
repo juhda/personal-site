@@ -5,6 +5,7 @@ import MathJaxLoader from '../../components/MathJaxLoader.astro';
 import HighlightJSLoader from '../../components/HighlightJSLoader.astro';
 import CodeblockEnhancer from '../../components/CodeblockEnhancer.astro';
 import Link from '../../components/Link';
+import HashnodeError from '../../components/HashnodeError.astro';
 
 import { getPost, getBlogInfo, isSearchEnabled } from '../../hashnode-lib/client';
 import type { BlogInfo, Post } from '../../hashnode-lib/schema';
@@ -18,72 +19,88 @@ export const prerender = false
 export const getStaticPaths = getStaticPaths_blog;
 
 const { slug } = Astro.params;
-const blogInfo: BlogInfo = await getBlogInfo();
-const post: Post | null = await getPost(slug);
+let blogInfo: BlogInfo | null = null;
+let post: Post | null = null;
+let error: string | null = null;
 
-if (!post) {
+try {
+  blogInfo = await getBlogInfo();
+  post = await getPost(slug);
+} catch (e: unknown) {
+  error = (e instanceof Error ? e.message : String(e)) || 'Unknown error occurred while fetching blog data.';
+}
+
+if (!error && !post) {
   return Astro.redirect("/404")
 }
 
-const title = (post.seo?.title ?? post.title) + " by " + post.author.name;
-const description = post.seo?.description ?? post.brief;
-const keywords = "defined behavior, " + post.tags.map(tag => tag.name).join(', ');
-const canonical = post.canonicalUrl;
-const image = post.ogMetaData?.image ?? blogInfo.ogMetaData?.image;
-const bannerImage = post.coverImage?.url ?? post.bannerImage?.url ?? blogInfo.ogMetaData?.image;
+const title = post ? ((post.seo?.title ?? post.title) + " by " + post.author.name) : "Post Not Found";
+const description = post ? (post.seo?.description ?? post.brief) : "";
+const keywords = post ? ("defined behavior, " + post.tags.map(tag => tag.name).join(', ')) : "";
+const canonical = post?.canonicalUrl;
+const image = post?.ogMetaData?.image ?? blogInfo?.ogMetaData?.image;
+const bannerImage = post ? (post.coverImage?.url ?? post.bannerImage?.url ?? blogInfo?.ogMetaData?.image) : blogInfo?.ogMetaData?.image;
+const content = post?.content?.html ?? "-Empty content-";
 ---
 <BlogLayout
   title={title}
   description={description}
   keywords={keywords}
   canonical={canonical}
-  type="article"
-  headline={post.seo.title ?? post.title}
-  datePublished={post.publishedAt}
+  type={post ? "article" : null}
+  headline={post?.seo?.title ?? post?.title}
+  datePublished={post?.publishedAt}
   image={image}
+  showBanner={Boolean(post)}
   bannerImage={bannerImage}
-  bannerTitle={post.title}
-  bannerDescription={post.subtitle}
-  sourceNoteUsername={post.author.username}
+  bannerTitle={post?.title}
+  bannerDescription={post?.subtitle}
+  sourceNoteUsername={post?.author.username ?? blogInfo?.author.username}
   showNavLinks={false}
 >
 
   <Fragment slot="head">
-    <MathJaxLoader content={post.content.html} />
-    <HighlightJSLoader content={post.content.html} />
+    <MathJaxLoader content={content} />
+    <HighlightJSLoader content={content} />
     <CodeblockEnhancer />
   </Fragment>
 
-  <!-- Post information -->
-  <div slot="blog-header">
-    <PostMetaBox post={post} />
-  </div>
+  {error ? (
+    <HashnodeError error={error} />
+  ) : post && (
+    <>
+      <!-- Post information -->
+      <div slot="blog-header">
+        <PostMetaBox post={post} />
+      </div>
 
-  <!-- Rendered blog content -->
-  <article class="max-w-none px-4 md:px-6 lg:px-8 py-8">
-    <div set:html={post.content.html} />
-  </article>
+      <!-- Rendered blog content -->
+      <article class="max-w-none px-4 md:px-6 lg:px-8 py-8">
+        <div set:html={content} />
+      </article>
 
-  <!-- Post Footer -->
-  <section slot="blog-footer">
-    <p class="text-center">👉 <strong>Explore more:</strong>
-      <Link href="/blog/tags">Browse by Tags</Link>,
-      <Link href="/blog/series">Explore Series</Link>,
-      <Link href="/blog/archives">Browse Archives</Link>{isSearchEnabled && ","}
-      {isSearchEnabled && (
-        <Link href="/blog/search">Search the Blog</Link>
-      )}
-    </p>
-  
-    <p class="text-center">💬 <strong>Have thoughts or questions?</strong>
-      Feel free to <Link href={socialLinks.email}>reach out by email</Link> or
-      <Link href={socialLinks.linkedin}>connect on LinkedIn</Link>.
-    </p>
+      <!-- Post Footer -->
+      <section slot="blog-footer">
+        <p class="text-center">👉 <strong>Explore more:</strong>
+          <Link href="/blog/tags">Browse by Tags</Link>,
+          <Link href="/blog/series">Explore Series</Link>,
+          <Link href="/blog/archives">Browse Archives</Link>{isSearchEnabled && ","}
+          {isSearchEnabled && (
+            <Link href="/blog/search">Search the Blog</Link>
+          )}
+        </p>
+      
+        <p class="text-center">💬 <strong>Have thoughts or questions?</strong>
+          Feel free to <Link href={socialLinks.email}>reach out by email</Link> or
+          <Link href={socialLinks.linkedin}>connect on LinkedIn</Link>.
+        </p>
 
-    {blogSubscribeAction && (
-      <p class="text-center">✉️ <strong>Enjoyed this post?</strong>
-        <Link href="/blog/subscribe">Subscribe</Link> to get new articles straight to your inbox.
-      </p>
-    )}
-  </section>
+        {blogSubscribeAction && (
+          <p class="text-center">✉️ <strong>Enjoyed this post?</strong>
+            <Link href="/blog/subscribe">Subscribe</Link> to get new articles straight to your inbox.
+          </p>
+        )}
+      </section>
+    </>
+  )}
 </BlogLayout>

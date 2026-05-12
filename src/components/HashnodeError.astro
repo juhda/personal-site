@@ -1,0 +1,31 @@
+---
+import Link from './Link';
+
+interface Props {
+  error: string;
+}
+
+const {
+  error,
+} = Astro.props as Props;
+
+const showError = import.meta.env.DEV;
+---
+
+<section class="card text-center">
+  <div class="text-5xl mb-4">🚧</div>
+  <h2 class="text-center">Hashnode Service Unavailable</h2>
+  <p class="muted-note">
+    We're currently experiencing issues connecting to Hashnode's servers. Blog content cannot be loaded.
+  </p>
+  {showError && (
+    <p class="muted-note">
+      Error: {error}
+    </p>
+  )}
+
+  <div class="cta-buttons sm:justify-center">
+    <Link href="/">Return Home</Link>
+    <button type="button" class="button" onclick="window.location.reload()">Reload Page</button>
+  </div>
+</section>

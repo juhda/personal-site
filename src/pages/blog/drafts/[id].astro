@@ -4,6 +4,7 @@ import PostMetaBox from '../../../components/PostMetaBox.astro';
 import MathJaxLoader from '../../../components/MathJaxLoader.astro';
 import HighlightJSLoader from '../../../components/HighlightJSLoader.astro';
 import CodeblockEnhancer from '../../../components/CodeblockEnhancer.astro';
+import HashnodeError from '../../../components/HashnodeError.astro';
 
 import { getDraft, getBlogInfo } from '../../../hashnode-lib/client';
 import type { BlogInfo, Draft } from '../../../hashnode-lib/schema';
@@ -21,40 +22,55 @@ if (!blogEnableDrafts) {
 }
 
 const { id } = Astro.params;
-const blogInfo: BlogInfo = await getBlogInfo();
-const post: Draft | null = await getDraft(id);
+let blogInfo: BlogInfo | null = null;
+let post: Draft | null = null;
+let error: string | null = null;
 
-if (!post) {
+try {
+  blogInfo = await getBlogInfo();
+  post = await getDraft(id);
+} catch (e: unknown) {
+  error = (e instanceof Error ? e.message : String(e)) || 'Unknown error occurred while fetching blog data.';
+}
+
+if (!error && !post) {
   return Astro.redirect("/404");
 }
 
-const postTitle = post.title || "-Untitled-";
-const title = postTitle + " (Draft) by " + post.author.name;
-const bannerImage = post.coverImage?.url ?? post.bannerImage?.url ?? blogInfo.ogMetaData?.image;
-const content = post.content?.html || "-Empty draft content-";
+const postTitle = post?.title || "-Untitled-";
+const title = post ? (postTitle + " (Draft) by " + post.author.name) : "Draft Post";
+const bannerImage = post?.coverImage?.url ?? post?.bannerImage?.url ?? blogInfo?.ogMetaData?.image;
+const content = post?.content?.html ?? "-Empty draft content-";
 ---
 <BlogLayout
   title={title}
+  showBanner={Boolean(post)}
   bannerImage={bannerImage}
   bannerTitle={postTitle}
-  bannerDescription={post.subtitle}
-  sourceNoteUsername={post.author.username}
+  bannerDescription={post?.subtitle}
+  sourceNoteUsername={post?.author.username}
   showNavLinks={false}
 >
 
-  <Fragment slot="head">
-    <MathJaxLoader content={content} />
-    <HighlightJSLoader content={content} />
-    <CodeblockEnhancer />
-  </Fragment>
+  {error ? (
+    <HashnodeError error={error} />
+  ) : post && (
+    <>
+      <Fragment slot="head">
+        <MathJaxLoader content={content} />
+        <HighlightJSLoader content={content} />
+        <CodeblockEnhancer />
+      </Fragment>
 
-  <!-- Post information -->
-  <div slot="blog-header">
-    <PostMetaBox post={post} />
-  </div>
+      <!-- Post information -->
+      <div slot="blog-header">
+        <PostMetaBox post={post} />
+      </div>
 
-  <!-- Rendered blog content -->
-  <article class="max-w-none px-4 md:px-6 lg:px-8 py-8">
-    <div set:html={content} />
-  </article>
+      <!-- Rendered blog content -->
+      <article class="max-w-none px-4 md:px-6 lg:px-8 py-8">
+        <div set:html={content} />
+      </article>
+    </>
+  )}
 </BlogLayout>

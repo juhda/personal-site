@@ -1,6 +1,7 @@
 ---
 import BlogLayout from '../../layouts/BlogLayout.astro';
 import Link from '../../components/Link';
+import HashnodeError from '../../components/HashnodeError.astro';
 
 import { getBlogInfo, isSearchEnabled } from '../../hashnode-lib/client';
 import type { BlogInfo } from '../../hashnode-lib/schema';
@@ -9,15 +10,22 @@ import { blogSubscribeAction, socialLinks } from '../../config/site.ts';
 
 export const prerender = false
 
-const blogInfo: BlogInfo = await getBlogInfo();
+let blogInfo: BlogInfo | null = null;
+let error: string | null = null;
 
-const authorUrl = "https://hashnode.com/@" + blogInfo.author.username
+try {
+  blogInfo = await getBlogInfo();
+} catch (e: unknown) {
+  error = (e instanceof Error ? e.message : String(e)) || 'Unknown error occurred while fetching blog data.';
+}
 
-const title = "About | " + blogInfo.title + " by " + blogInfo.author.name;
+const authorUrl = blogInfo ? ("https://hashnode.com/@" + blogInfo?.author.username) : "";
+
+const title = blogInfo ? ("About | " + blogInfo.title + " by " + blogInfo.author.name) : "About the Blog";
 const description = "The philosophy behind Defined Behavior: A space for engineering thoughtfulness in the development of complex systems, from hardware to human collaboration.";
 const keywords = "about blog, defined behavior philosophy, systems thinking, engineering precision, structural integrity, hardware-software bridge";
-const image = blogInfo.ogMetaData?.image;
-const bannerImage = blogInfo.ogMetaData?.image;
+const image = blogInfo?.ogMetaData?.image;
+const bannerImage = blogInfo?.ogMetaData?.image;
 ---
 <BlogLayout
   title={title}
@@ -25,81 +33,85 @@ const bannerImage = blogInfo.ogMetaData?.image;
   keywords={keywords}
   image={image}
   bannerImage={bannerImage}
-  bannerTitle={`About ${blogInfo.title}`}
-  bannerDescription={blogInfo.descriptionSEO}
-  sourceNoteUsername={blogInfo.author.username}
+  bannerTitle={`About ${blogInfo?.title ?? 'the Blog'}`}
+  bannerDescription={blogInfo?.descriptionSEO}
+  sourceNoteUsername={blogInfo?.author.username}
 >
-  <section class="card">
-    <!-- Author info -->
-    <div class="flex items-center justify-center gap-4 mb-6 text-center">
-      <img
-        src={blogInfo.author.profilePicture}
-        alt={blogInfo.author.name}
-        class="profile-image border w-16 h-16"
-      />
-      <div class="flex flex-col justify-center items-center">
-        <h2 class="mt-0 mb-0">{blogInfo.author.name}</h2>
-        <Link
-          href={authorUrl}
-          class="text-sm"
-        >
-          View profile on Hashnode
-        </Link>
+  {error ? (
+    <HashnodeError error={error} />
+  ) : blogInfo && (
+    <section class="card">
+      <!-- Author info -->
+      <div class="flex items-center justify-center gap-4 mb-6 text-center">
+        <img
+          src={blogInfo.author.profilePicture}
+          alt={blogInfo.author.name}
+          class="profile-image border w-16 h-16"
+        />
+        <div class="flex flex-col justify-center items-center">
+          <h2 class="mt-0 mb-0">{blogInfo.author.name}</h2>
+          <Link
+            href={authorUrl}
+            class="text-sm"
+          >
+            View profile on Hashnode
+          </Link>
+        </div>
       </div>
-    </div>
 
-    <!-- Custom about text -->
-    <div class="muted-top-rule">
-      <p>
-        <strong>Defined Behavior</strong> is a space for engineering thoughtfulness in the development of complex systems.
-      </p>
-
-      <p>
-        Authored by <strong>Dávid Juhász</strong>, this blog explores the intersection of hardware, software, and human systems. Whether diving into <strong>tooling, architecture, or the nuances of technical leadership</strong>, this is a place for structured thinking and meaningful dialogue.
-      </p>
-
-      <h2>The Philosophy</h2>
-
-      <p>
-        The name “Defined Behavior” stands in contrast to undefined behavior — not just in code, but in thought and communication. It is a statement of principle: that <strong>clarity is a choice, precision is a discipline, and complexity deserves structure, not surrender.</strong>
-      </p>
-
-      <p>
-        In the "0 to 1" phase of deep-tech engineering, ambiguity is the default. This blog exists to explore how we move from that chaos toward a <strong>joint ecosystem</strong> of hardware and software, built on a foundation of shared understanding.
-      </p>
-
-      <h2>A Deliberate Pace</h2>
-      {!isSearchEnabled && (
+      <!-- Custom about text -->
+      <div class="muted-top-rule">
         <p>
-          If the archive is still light, that is by design. I focus on <strong>thinking and publishing deliberately</strong>, not frequently. Defined Behavior will grow over time with writing that reflects its core principles: <strong>clarity, structure, and purpose</strong>.
+          <strong>Defined Behavior</strong> is a space for engineering thoughtfulness in the development of complex systems.
         </p>
-      )}
-      {isSearchEnabled && (
-        <p>
-          I focus on <strong>depth over frequency</strong>. This archive is built deliberately, with each piece reflecting a commitment to clarity and structural integrity. I write when there is a complex system to deconstruct or a meaningful insight to share, ensuring every post serves a purpose for the reader.
-        </p>
-      )}
-    </div>
-  </section>
 
-  <section class="card mt-8">
-    <h2>How to Follow This Blog</h2>
-    <p>
-      If you'd like to stay updated when I publish new posts on compilers, systems, developer tools, or technical leadership,
-      {blogSubscribeAction ? (
-        <>there are a couple of ways to follow along:</>
-      ) : (
-        <>you can follow the blog via <Link href="/blog/rss.xml">RSS</Link> using your favorite feed reader.</>
+        <p>
+          Authored by <strong>Dávid Juhász</strong>, this blog explores the intersection of hardware, software, and human systems. Whether diving into <strong>tooling, architecture, or the nuances of technical leadership</strong>, this is a place for structured thinking and meaningful dialogue.
+        </p>
+
+        <h2>The Philosophy</h2>
+
+        <p>
+          The name “Defined Behavior” stands in contrast to undefined behavior — not just in code, but in thought and communication. It is a statement of principle: that <strong>clarity is a choice, precision is a discipline, and complexity deserves structure, not surrender.</strong>
+        </p>
+
+        <p>
+          In the "0 to 1" phase of deep-tech engineering, ambiguity is the default. This blog exists to explore how we move from that chaos toward a <strong>joint ecosystem</strong> of hardware and software, built on a foundation of shared understanding.
+        </p>
+
+        <h2>A Deliberate Pace</h2>
+        {!isSearchEnabled && (
+          <p>
+            If the archive is still light, that is by design. I focus on <strong>thinking and publishing deliberately</strong>, not frequently. Defined Behavior will grow over time with writing that reflects its core principles: <strong>clarity, structure, and purpose</strong>.
+          </p>
+        )}
+        {isSearchEnabled && (
+          <p>
+            I focus on <strong>depth over frequency</strong>. This archive is built deliberately, with each piece reflecting a commitment to clarity and structural integrity. I write when there is a complex system to deconstruct or a meaningful insight to share, ensuring every post serves a purpose for the reader.
+          </p>
+        )}
+      </div>
+    </section>
+
+    <section class="card mt-8">
+      <h2>How to Follow This Blog</h2>
+      <p>
+        If you'd like to stay updated when I publish new posts on compilers, systems, developer tools, or technical leadership,
+        {blogSubscribeAction ? (
+          <>there are a couple of ways to follow along:</>
+        ) : (
+          <>you can follow the blog via <Link href="/blog/rss.xml">RSS</Link> using your favorite feed reader.</>
+        )}
+      </p>
+      {blogSubscribeAction && (
+        <ul>
+          <li>✉️ <strong><Link href="/blog/subscribe">Subscribe by email</Link></strong> — Get new posts delivered straight to your inbox.</li>
+          <li>📡 <strong><Link href="/blog/rss.xml">Subscribe via RSS</Link></strong> — For readers who prefer feed readers.</li>
+        </ul>
       )}
-    </p>
-    {blogSubscribeAction && (
-      <ul>
-        <li>✉️ <strong><Link href="/blog/subscribe">Subscribe by email</Link></strong> — Get new posts delivered straight to your inbox.</li>
-        <li>📡 <strong><Link href="/blog/rss.xml">Subscribe via RSS</Link></strong> — For readers who prefer feed readers.</li>
-      </ul>
-    )}
-    <p>
-      You can also follow me on <Link href={socialLinks.linkedin}>LinkedIn</Link> where I share updates and discuss new articles.
-    </p>
-  </section>
+      <p>
+        You can also follow me on <Link href={socialLinks.linkedin}>LinkedIn</Link> where I share updates and discuss new articles.
+      </p>
+    </section>
+  )}
 </BlogLayout>
