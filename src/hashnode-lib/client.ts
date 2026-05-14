@@ -6,7 +6,7 @@ import { blogHashnodeUrl, blogHashnodeMaxPosts, blogHashnodeMaxSeries, blogSearc
 // NOTE: Hashnode GraphQL Caching: See NOTE in schema.ts about the id fields.
 
 export const getClient = () => {
-  const client = new GraphQLClient("https://gql.hashnode.com");
+  const client = new GraphQLClient("https://gql-beta.hashnode.com/");
   if (blogHashnodeToken) {
     client.setHeader('Authorization', `Bearer ${blogHashnodeToken}`);
   }
@@ -15,6 +15,7 @@ export const getClient = () => {
 
 export const getBlogInfo = async (): Promise<BlogInfo> => {
   const client = getClient();
+
 
   const blogInfo = await client.request<BlogInfoQuery>(
     gql`
