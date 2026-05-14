@@ -3,18 +3,17 @@ import Link from './Link';
 
 import type { Post, Draft } from '../hashnode-lib/schema';
 
+// Note: Draft does not have coAuthors and series fields.
 interface Props {
   post: Post | Draft;
 }
 
 const { post } = Astro.props;
 
-const {
-  updatedAt,
-  author,
-  coAuthors,
-  series
-} = post;
+const updatedAt = post.updatedAt;
+const author = post.author;
+const coAuthors = 'coAuthors' in post ? post.coAuthors : [];
+const series = 'series' in post ? post.series : null;
 const tags = 'tags' in post ? post.tags : [];
 const publishedAt = 'publishedAt' in post ? post.publishedAt : null;
 ---

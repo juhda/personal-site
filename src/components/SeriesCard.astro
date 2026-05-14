@@ -12,7 +12,7 @@ const { seriesInfo } = Astro.props;
 <section class="nested-card">
   <Link href={`/blog/series/${seriesInfo.slug}`}>
     {seriesInfo.coverImage && (
-      <div class="banner-image-container">
+      <div class="cover-image-container">
         <img
         src={seriesInfo.coverImage}
         alt={seriesInfo.name}

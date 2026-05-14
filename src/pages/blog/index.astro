@@ -32,16 +32,16 @@ const title = blogInfo ? (blogInfo.displayTitle ?? (blogInfo.title + " by " + bl
 const description = blogInfo ? ("Welcome to " + blogInfo.title + " — a blog by " + blogInfo.author.name + "exploring the hardware-software bridge, compilers, and technical leadership with clarity and purpose.") : "Blog posts";
 const keywords = blogInfo ? ("defined behavior, " + blogInfo.author.name + " blog, systems thinking, compiler development, engineering leadership, hardware-software co-design, technical precision, deep-tech strategy") : "blog";
 const image = blogInfo?.ogMetaData?.image;
-const bannerImage = image ?? blogOGImage;
+const coverImage = image ?? blogOGImage;
 ---
 <BlogLayout
   title={title}
   description={description}
   keywords={keywords}
   image={image}
-  bannerImage={bannerImage}
-  bannerTitle={blogInfo?.title}
-  bannerDescription={blogInfo?.descriptionSEO}
+  coverImage={coverImage}
+  coverTitle={blogInfo?.title}
+  coverDescription={blogInfo?.descriptionSEO}
   sourceNoteUsername={blogInfo?.author.username}
 >
   <Fragment slot="head">

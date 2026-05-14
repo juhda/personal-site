@@ -39,15 +39,15 @@ if (!error && !post) {
 
 const postTitle = post?.title || "-Untitled-";
 const title = post ? (postTitle + " (Draft) by " + post.author.name) : "Draft Post";
-const bannerImage = post?.coverImage?.url ?? post?.bannerImage?.url ?? blogInfo?.ogMetaData?.image;
+const coverImage = post?.coverImage?.url ?? blogInfo?.ogMetaData?.image;
 const content = post?.content?.html ?? "-Empty draft content-";
 ---
 <BlogLayout
   title={title}
-  showBanner={Boolean(post)}
-  bannerImage={bannerImage}
-  bannerTitle={postTitle}
-  bannerDescription={post?.subtitle}
+  showCover={Boolean(post)}
+  coverImage={coverImage}
+  coverTitle={postTitle}
+  coverDescription={post?.subtitle}
   sourceNoteUsername={post?.author.username}
   showNavLinks={false}
 >

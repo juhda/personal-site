@@ -39,7 +39,7 @@ const description = post ? (post.seo?.description ?? post.brief) : "";
 const keywords = post ? ("defined behavior, " + post.tags.map(tag => tag.name).join(', ')) : "";
 const canonical = post?.canonicalUrl;
 const image = post?.ogMetaData?.image ?? blogInfo?.ogMetaData?.image;
-const bannerImage = post ? (post.coverImage?.url ?? post.bannerImage?.url ?? blogInfo?.ogMetaData?.image) : blogInfo?.ogMetaData?.image;
+const coverImage = post?.coverImage?.url ?? post?.ogMetaData?.image ?? blogInfo?.ogMetaData?.image;
 const content = post?.content?.html ?? "-Empty content-";
 ---
 <BlogLayout
@@ -51,10 +51,10 @@ const content = post?.content?.html ?? "-Empty content-";
   headline={post?.seo?.title ?? post?.title}
   datePublished={post?.publishedAt}
   image={image}
-  showBanner={Boolean(post)}
-  bannerImage={bannerImage}
-  bannerTitle={post?.title}
-  bannerDescription={post?.subtitle}
+  showCover={Boolean(post)}
+  coverImage={coverImage}
+  coverTitle={post?.title}
+  coverDescription={post?.subtitle}
   sourceNoteUsername={post?.author.username ?? blogInfo?.author.username}
   showNavLinks={false}
 >

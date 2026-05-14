@@ -39,17 +39,17 @@ const title = series && blogInfo ? ("Posts in " + series.name + " | " + blogInfo
 const description = series && blogInfo ? ("Explore the " + series.name + " series on " + blogInfo.title + " — a deep dive into systems architecture, engineering precision, and the hardware-software bridge.") : "";
 const keywords = series ? (series.name + ", blog series, defined behavior, systems thinking, compiler development, engineering leadership, hardware-software co-design, technical precision, deep-tech strategy") : "";
 const image = series?.coverImage;
-const bannerImage = series?.coverImage ?? blogInfo?.ogMetaData?.image;
+const coverImage = series?.coverImage ?? blogInfo?.ogMetaData?.image;
 ---
 <BlogLayout
   title={title}
   description={description}
   keywords={keywords}
   image={image}
-  showBanner={Boolean(series)}
-  bannerImage={bannerImage}
-  bannerTitle={series?.name}
-  bannerDescription={series?.description?.html}
+  showCover={Boolean(series)}
+  coverImage={coverImage}
+  coverTitle={series?.name}
+  coverDescription={series?.description?.html}
   sourceNoteUsername={blogInfo?.author.username}
 >
   <Fragment slot="head">
