@@ -32,16 +32,16 @@ const title = blogInfo ? (blogInfo.displayTitle ?? (blogInfo.title + " by " + bl
 const description = blogInfo ? ("Welcome to " + blogInfo.title + " — a blog by " + blogInfo.author.name + "exploring the hardware-software bridge, compilers, and technical leadership with clarity and purpose.") : "Blog posts";
 const keywords = blogInfo ? ("defined behavior, " + blogInfo.author.name + " blog, systems thinking, compiler development, engineering leadership, hardware-software co-design, technical precision, deep-tech strategy") : "blog";
 const image = blogInfo?.ogMetaData?.image;
-const bannerImage = image ?? blogOGImage;
+const coverImage = image ?? blogOGImage;
 ---
 <BlogLayout
   title={title}
   description={description}
   keywords={keywords}
   image={image}
-  bannerImage={bannerImage}
-  bannerTitle={blogInfo?.title}
-  bannerDescription={blogInfo?.descriptionSEO}
+  coverImage={coverImage}
+  coverTitle={blogInfo?.title}
+  coverDescription={blogInfo?.descriptionSEO}
   sourceNoteUsername={blogInfo?.author.username}
 >
   <Fragment slot="head">
@@ -51,32 +51,32 @@ const bannerImage = image ?? blogOGImage;
 
   {error ? (
     <HashnodeError error={error} />
-  ) : (
-    <>
-      <!-- Featured Post Section -->
-      {pinnedPostInfo && (
-        <section class="card mb-8">
-          <h2>Featured Post</h2>
-          <PostCard postInfo={pinnedPostInfo} />
-        </section>
-      )}
+  ) : null}
 
-      <!-- Post List Section -->
-      <section class="card">
-        {recentPostInfo.length > 0 ? (
+  {!error && pinnedPostInfo ? (
+    <section class="card mb-8">
+      <h2>Featured Post</h2>
+      <PostCard postInfo={pinnedPostInfo} />
+    </section>
+  ) : null}
+
+  {!error ? (
+    <section class="card">
+      {recentPostInfo.length > 0 ? (
+        <>
           <h2>Recent Posts</h2>
           <PostGallery allPostInfo={recentPostInfo} />
-        ) : (
-          <EmptyState
-            title="No posts yet"
-            message="New content is coming soon — stay tuned!"
-            ctaText={blogSubscribeAction ? "Subscribe" : undefined}
-            ctaHref={blogSubscribeAction ? "/blog/subscribe" : undefined}
-          />
-        )}
-      </section>
-    </>
-  )}
+        </>
+      ) : (
+        <EmptyState
+          title="No posts yet"
+          message="New content is coming soon — stay tuned!"
+          ctaText={blogSubscribeAction ? "Subscribe" : undefined}
+          ctaHref={blogSubscribeAction ? "/blog/subscribe" : undefined}
+        />
+      )}
+    </section>
+  ) : null}
 
   <section slot="blog-footer">
     <ul class="list-none">

@@ -218,12 +218,11 @@
     @apply block w-full min-h-[80vh] border-0;
   }
 
-  .banner-image-container {
+  .cover-image-container {
     @apply w-full aspect-[16/9] overflow-hidden rounded mb-2 shadow-sm;
   }
 
-  .banner-image,
-  .banner-image-container img {
+  .cover-image-container img {
     @apply w-full h-full object-cover object-center;
   }
 

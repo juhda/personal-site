@@ -30,13 +30,13 @@ const {
   noindex = false,
 
   // Blog layout-specific props
-  showBanner = true,  // If banner is shown, refrain from using h1 tag in the main content
+  showCover = true,  // If cover is shown, refrain from using h1 tag in the main content
   showNavLinks = true,
   showSourceNote = true,
   sourceNoteUsername = null,
-  bannerImage = null,
-  bannerTitle = null,
-  bannerDescription = null,
+  coverImage = null,
+  coverTitle = null,
+  coverDescription = null,
 } = Astro.props;
 ---
 
@@ -98,19 +98,19 @@ const {
       </nav>
     )}
 
-    {showBanner && (
+    {showCover && (
       <section class="card">
-        {bannerImage && (
-          <div class="banner-image-container">
+        {coverImage && (
+          <div class="cover-image-container">
             <img
-              src={bannerImage}
-              alt={`Banner for ${title}`}
+              src={coverImage}
+              alt={`Cover for ${title}`}
             />
           </div>
         )}
         <div class="text-center">
-          <h1>{bannerTitle}</h1>
-          <p class="text-lg" set:html={bannerDescription} />
+          <h1>{coverTitle}</h1>
+          <p class="text-lg" set:html={coverDescription} />
         </div>
       </section>
     )}

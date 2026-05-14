@@ -5,16 +5,6 @@ import { gql } from "graphql-request";
 // That's why all gql fragments have the id field in them wherever applicable,
 // while id is not reflected in corresponding interfaces.
 
-export const textContentFragment = gql`
-  fragment TextContentFields on Content {
-    text
-  }
-`;
-
-export interface TextContent {
-    text: string;
-}
-
 export const ogMetaDataFragment = gql`
   fragment OgMetaDataFields on OpenGraphMetaData {
     image
@@ -41,7 +31,6 @@ export interface Author {
 }
 
 export const blogInfoFragment = gql`
-  ${textContentFragment}
   ${ogMetaDataFragment}
   ${authorFragment}
   fragment BlogInfoFields on Publication {
@@ -110,30 +99,8 @@ export interface PostTagInfo {
   tags: TagInfo[];
 }
 
-export const postBannerImageFragment = gql`
-  fragment PostBannerImageFields on PostBannerImage {
-    url
-  }
-`;
-
-export const draftBannerImageFragment = gql`
-  fragment DraftBannerImageFields on DraftBannerImage {
-    url
-  }
-`;
-
-export interface BannerImage {
-  url: string;
-}
-
-export const postCoverImageFragment = gql`
-  fragment PostCoverImageFields on PostCoverImage {
-    url
-  }
-`;
-
-export const draftCoverImageFragment = gql`
-  fragment DraftCoverImageFields on DraftCoverImage {
+export const coverImageFragment = gql`
+  fragment CoverImageFields on CoverImage {
     url
   }
 `;
@@ -145,8 +112,7 @@ export interface CoverImage {
 export const postInfoFragment = gql`
   ${postSlugFragment}
   ${postTagInfoFragment}
-  ${postBannerImageFragment}
-  ${postCoverImageFragment}
+  ${coverImageFragment}
   fragment PostInfoFields on Post {
     id
     ...PostSlugFields
@@ -155,11 +121,8 @@ export const postInfoFragment = gql`
     title
     subtitle
     brief
-    bannerImage {
-      ...PostBannerImageFields
-    }
     coverImage {
-      ...PostCoverImageFields
+      ...CoverImageFields
     }
   }
 `;
@@ -169,7 +132,6 @@ export interface PostInfo extends Slug, PostTagInfo {
     title: string;
     subtitle: string;
     brief: string;
-    bannerImage: BannerImage;
     coverImage: CoverImage;
 }
 
@@ -185,19 +147,15 @@ export interface DraftId {
 
 export const draftInfoFragment = gql`
   ${draftIdFragment}
-  ${draftBannerImageFragment}
-  ${draftCoverImageFragment}
+  ${coverImageFragment}
   fragment DraftInfoFields on Draft {
     id
     ...DraftIdFields
     title
     subtitle
     updatedAt
-    bannerImage {
-      ...DraftBannerImageFields
-    }
     coverImage {
-      ...DraftCoverImageFields
+      ...CoverImageFields
     }
   }
 `;
@@ -206,7 +164,6 @@ export interface DraftInfo extends DraftId {
     title: string;
     subtitle: string;
     updatedAt: string;
-    bannerImage: BannerImage;
     coverImage: CoverImage;
 }
 
@@ -370,19 +327,12 @@ export interface PostQuery {
 export const draftFragment = gql`
   ${draftInfoFragment}
   ${authorFragment}
-  ${seriesBaseInfoFragment}
   ${contentFragment}
   fragment DraftFields on Draft {
     id
     ...DraftInfoFields
     author {
       ...AuthorFields
-    }
-    coAuthors {
-      ...AuthorFields
-    }
-    series {
-      ...SeriesBaseInfoFields
     }
     content {
       ...ContentFields
@@ -392,8 +342,6 @@ export const draftFragment = gql`
 
 export interface Draft extends DraftInfo {
     author: Author;
-    coAuthors: Author[];
-    series: SeriesBaseInfo;
     content: Content;
 }
 

@@ -9,7 +9,7 @@ interface Props {
 export default function PostCard({ postInfo }: Props) {
   const isDraft = 'id' in postInfo && !('slug' in postInfo);
   const linkPath = isDraft ? `/blog/drafts/${postInfo.id}` : `/blog/${postInfo.slug}`;
-  const bannerImageURL = postInfo.bannerImage?.url || postInfo.coverImage?.url || null;
+  const coverImageURL = postInfo.coverImage?.url || null;
   const titleString = postInfo.title || 'Untitled';
   const dateToShow = 'publishedAt' in postInfo ? postInfo.publishedAt : postInfo.updatedAt;
   const dateString = new Date(dateToShow).toLocaleDateString();
@@ -17,10 +17,10 @@ export default function PostCard({ postInfo }: Props) {
   return (
     <section class="nested-card">
       <Link href={linkPath}>
-        {bannerImageURL && (
-          <div class="banner-image-container">
+        {coverImageURL && (
+          <div class="cover-image-container">
             <img
-              src={bannerImageURL}
+              src={coverImageURL}
               alt={titleString}
             />
           </div>

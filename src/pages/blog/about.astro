@@ -25,16 +25,16 @@ const title = blogInfo ? ("About | " + blogInfo.title + " by " + blogInfo.author
 const description = "The philosophy behind Defined Behavior: A space for engineering thoughtfulness in the development of complex systems, from hardware to human collaboration.";
 const keywords = "about blog, defined behavior philosophy, systems thinking, engineering precision, structural integrity, hardware-software bridge";
 const image = blogInfo?.ogMetaData?.image;
-const bannerImage = blogInfo?.ogMetaData?.image;
+const coverImage = blogInfo?.ogMetaData?.image;
 ---
 <BlogLayout
   title={title}
   description={description}
   keywords={keywords}
   image={image}
-  bannerImage={bannerImage}
-  bannerTitle={`About ${blogInfo?.title ?? 'the Blog'}`}
-  bannerDescription={blogInfo?.descriptionSEO}
+  coverImage={coverImage}
+  coverTitle={`About ${blogInfo?.title ?? 'the Blog'}`}
+  coverDescription={blogInfo?.descriptionSEO}
   sourceNoteUsername={blogInfo?.author.username}
 >
   {error ? (
