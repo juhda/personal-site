@@ -109,7 +109,7 @@
   }
 
   article blockquote {
-    @apply border-l-4 border-accent pl-4 my-4 italic;
+    @apply border-l-4 border-accent bg-muted text-heading px-4 py-2 rounded-lg;
   }
 
   article pre {
@@ -125,7 +125,7 @@
   }
 
   article img {
-    @apply my-4 rounded shadow;
+    @apply w-19/20 rounded shadow;
   }
 
   article hr {
