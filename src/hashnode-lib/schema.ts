@@ -5,16 +5,6 @@ import { gql } from "graphql-request";
 // That's why all gql fragments have the id field in them wherever applicable,
 // while id is not reflected in corresponding interfaces.
 
-export const textContentFragment = gql`
-  fragment TextContentFields on Content {
-    text
-  }
-`;
-
-export interface TextContent {
-    text: string;
-}
-
 export const ogMetaDataFragment = gql`
   fragment OgMetaDataFields on OpenGraphMetaData {
     image
@@ -41,7 +31,6 @@ export interface Author {
 }
 
 export const blogInfoFragment = gql`
-  ${textContentFragment}
   ${ogMetaDataFragment}
   ${authorFragment}
   fragment BlogInfoFields on Publication {
