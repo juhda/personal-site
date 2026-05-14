@@ -51,32 +51,32 @@ const coverImage = image ?? blogOGImage;
 
   {error ? (
     <HashnodeError error={error} />
-  ) : (
-    <>
-      <!-- Featured Post Section -->
-      {pinnedPostInfo && (
-        <section class="card mb-8">
-          <h2>Featured Post</h2>
-          <PostCard postInfo={pinnedPostInfo} />
-        </section>
-      )}
+  ) : null}
 
-      <!-- Post List Section -->
-      <section class="card">
-        {recentPostInfo.length > 0 ? (
+  {!error && pinnedPostInfo ? (
+    <section class="card mb-8">
+      <h2>Featured Post</h2>
+      <PostCard postInfo={pinnedPostInfo} />
+    </section>
+  ) : null}
+
+  {!error ? (
+    <section class="card">
+      {recentPostInfo.length > 0 ? (
+        <>
           <h2>Recent Posts</h2>
           <PostGallery allPostInfo={recentPostInfo} />
-        ) : (
-          <EmptyState
-            title="No posts yet"
-            message="New content is coming soon — stay tuned!"
-            ctaText={blogSubscribeAction ? "Subscribe" : undefined}
-            ctaHref={blogSubscribeAction ? "/blog/subscribe" : undefined}
-          />
-        )}
-      </section>
-    </>
-  )}
+        </>
+      ) : (
+        <EmptyState
+          title="No posts yet"
+          message="New content is coming soon — stay tuned!"
+          ctaText={blogSubscribeAction ? "Subscribe" : undefined}
+          ctaHref={blogSubscribeAction ? "/blog/subscribe" : undefined}
+        />
+      )}
+    </section>
+  ) : null}
 
   <section slot="blog-footer">
     <ul class="list-none">

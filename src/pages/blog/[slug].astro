@@ -67,40 +67,41 @@ const content = post?.content?.html ?? "-Empty content-";
 
   {error ? (
     <HashnodeError error={error} />
-  ) : post && (
-    <>
-      <!-- Post information -->
-      <div slot="blog-header">
-        <PostMetaBox post={post} />
-      </div>
+  ) : null}
 
-      <!-- Rendered blog content -->
-      <article class="max-w-none px-4 md:px-6 lg:px-8 py-8">
-        <div set:html={content} />
-      </article>
+  {!error && post ? (
+    <div slot="blog-header">
+      <PostMetaBox post={post} />
+    </div>
+  ) : null}
 
-      <!-- Post Footer -->
-      <section slot="blog-footer">
-        <p class="text-center">👉 <strong>Explore more:</strong>
-          <Link href="/blog/tags">Browse by Tags</Link>,
-          <Link href="/blog/series">Explore Series</Link>,
-          <Link href="/blog/archives">Browse Archives</Link>{isSearchEnabled && ","}
-          {isSearchEnabled && (
-            <Link href="/blog/search">Search the Blog</Link>
-          )}
-        </p>
-      
-        <p class="text-center">💬 <strong>Have thoughts or questions?</strong>
-          Feel free to <Link href={socialLinks.email}>reach out by email</Link> or
-          <Link href={socialLinks.linkedin}>connect on LinkedIn</Link>.
-        </p>
+  {!error && post ? (
+    <article class="max-w-none px-4 md:px-6 lg:px-8 py-8">
+      <div set:html={content} />
+    </article>
+  ) : null}
 
-        {blogSubscribeAction && (
-          <p class="text-center">✉️ <strong>Enjoyed this post?</strong>
-            <Link href="/blog/subscribe">Subscribe</Link> to get new articles straight to your inbox.
-          </p>
+  {!error && post ? (
+    <section slot="blog-footer">
+      <p class="text-center">👉 <strong>Explore more:</strong>
+        <Link href="/blog/tags">Browse by Tags</Link>,
+        <Link href="/blog/series">Explore Series</Link>,
+        <Link href="/blog/archives">Browse Archives</Link>{isSearchEnabled && ","}
+        {isSearchEnabled && (
+          <Link href="/blog/search">Search the Blog</Link>
         )}
-      </section>
-    </>
-  )}
+      </p>
+
+      <p class="text-center">💬 <strong>Have thoughts or questions?</strong>
+        Feel free to <Link href={socialLinks.email}>reach out by email</Link> or
+        <Link href={socialLinks.linkedin}>connect on LinkedIn</Link>.
+      </p>
+
+      {blogSubscribeAction && (
+        <p class="text-center">✉️ <strong>Enjoyed this post?</strong>
+          <Link href="/blog/subscribe">Subscribe</Link> to get new articles straight to your inbox.
+        </p>
+      )}
+    </section>
+  ) : null}
 </BlogLayout>

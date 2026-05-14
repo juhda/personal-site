@@ -52,25 +52,25 @@ const content = post?.content?.html ?? "-Empty draft content-";
   showNavLinks={false}
 >
 
+  <Fragment slot="head">
+    <MathJaxLoader content={content} />
+    <HighlightJSLoader content={content} />
+    <CodeblockEnhancer />
+  </Fragment>
+
   {error ? (
     <HashnodeError error={error} />
-  ) : post && (
-    <>
-      <Fragment slot="head">
-        <MathJaxLoader content={content} />
-        <HighlightJSLoader content={content} />
-        <CodeblockEnhancer />
-      </Fragment>
+  ) : null}
 
-      <!-- Post information -->
-      <div slot="blog-header">
-        <PostMetaBox post={post} />
-      </div>
+  {!error && post ? (
+    <div slot="blog-header">
+      <PostMetaBox post={post} />
+    </div>
+  ) : null}
 
-      <!-- Rendered blog content -->
-      <article class="max-w-none px-4 md:px-6 lg:px-8 py-8">
-        <div set:html={content} />
-      </article>
-    </>
-  )}
+  {!error && post ? (
+    <article class="max-w-none px-4 md:px-6 lg:px-8 py-8">
+      <div set:html={content} />
+    </article>
+  ) : null}
 </BlogLayout>

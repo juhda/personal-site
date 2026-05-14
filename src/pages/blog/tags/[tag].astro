@@ -55,38 +55,41 @@ const image = blogInfo?.ogMetaData?.image;
 
   {error ? (
     <HashnodeError error={error} />
-  ) : (
-    <>
-      <div slot="blog-header">
-        <h1 class="text-center">Posts tagged #{tagLabel}</h1>
-      </div>
+  ) : null}
 
-      {postCount > 0 ? (
-        <PostGallery allPostInfo={allPostInfo} />
-      ) : (
-        <EmptyState
-          icon="🔖"
-          title={`No posts tagged #${tagLabel}`}
-          message="Try another tag or check back later!"
-        />
-      )}
+  {!error ? (
+    <div slot="blog-header">
+      <h1 class="text-center">Posts tagged #{tagLabel}</h1>
+    </div>
+  ) : null}
 
-      <!-- Tag Footer -->
-      <section slot="blog-footer">
-        <p class="text-center">👉 <strong>Looking for more?</strong>
-          <Link href="/blog/tags">Browse all Tags</Link>,
-          <Link href="/blog/series">Explore Series</Link>{isSearchEnabled && ","}
-          {isSearchEnabled && (
-            <Link href="/blog/search">Search the Blog</Link>
-          )}
-        </p>
+  {!error ? (
+    postCount > 0 ? (
+      <PostGallery allPostInfo={allPostInfo} />
+    ) : (
+      <EmptyState
+        icon="🔖"
+        title={`No posts tagged #${tagLabel}`}
+        message="Try another tag or check back later!"
+      />
+    )
+  ) : null}
 
-        {blogSubscribeAction && (
-          <p>✉️ <strong>Like content like this?</strong> 
-            <Link href="/blog/subscribe">Subscribe</Link> to get future posts on this and related topics.
-          </p>
+  {!error ? (
+    <section slot="blog-footer">
+      <p class="text-center">👉 <strong>Looking for more?</strong>
+        <Link href="/blog/tags">Browse all Tags</Link>,
+        <Link href="/blog/series">Explore Series</Link>{isSearchEnabled && ","}
+        {isSearchEnabled && (
+          <Link href="/blog/search">Search the Blog</Link>
         )}
-      </section>
-    </>
-  )}
+      </p>
+
+      {blogSubscribeAction && (
+        <p>✉️ <strong>Like content like this?</strong> 
+          <Link href="/blog/subscribe">Subscribe</Link> to get future posts on this and related topics.
+        </p>
+      )}
+    </section>
+  ) : null}
 </BlogLayout>

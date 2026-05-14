@@ -38,23 +38,25 @@ const image = blogInfo?.ogMetaData?.image;
 
   {error ? (
     <HashnodeError error={error} />
-  ) : (
-    <>
-      <div slot="blog-header" class="card">
-        <h1 class="text-center">Draft Posts</h1>
-        <p class="text-center">
-          Browse all draft posts.
-        </p>
-      </div>
+  ) : null}
 
-      {allDraftInfo.length > 0 ? (
-        <PostGallery allPostInfo={allDraftInfo} />
-      ) : (
-        <EmptyState
-          title="No drafts yet"
-          message="Draft posts will appear here once created."
-        />
-      )}
-    </>
-  )}
+  {!error ? (
+    <div slot="blog-header" class="card">
+      <h1 class="text-center">Draft Posts</h1>
+      <p class="text-center">
+        Browse all draft posts.
+      </p>
+    </div>
+  ) : null}
+
+  {!error ? (
+    allDraftInfo.length > 0 ? (
+      <PostGallery allPostInfo={allDraftInfo} />
+    ) : (
+      <EmptyState
+        title="No drafts yet"
+        message="Draft posts will appear here once created."
+      />
+    )
+  ) : null}
 </BlogLayout>

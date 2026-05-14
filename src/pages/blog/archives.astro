@@ -60,28 +60,30 @@ const image = blogInfo?.ogMetaData?.image;
 
   {error ? (
     <HashnodeError error={error} />
-  ) : (
-    <>
-      <div slot="blog-header" class="card">
-        <h1 class="text-center">Blog Archives</h1>
-        <p class="text-center">
-          Browse all published posts, grouped by year.
-        </p>
-      </div>
+  ) : null}
 
-      {sortedYears.length > 0 ? (
-        sortedYears.map(year => (
-          <section class="mb-12">
-            <h2 class="text-2xl font-bold mb-4 muted-bottom-rule pb-1">{year}</h2>
-            <PostGallery allPostInfo={postsByYear[year]} />
-          </section>
-        ))
-        ) : (
-        <EmptyState
-          title="No posts yet"
-          message="Once posts are published, they'll appear here by year."
-        />
-      )}
-    </>
-  )}
+  {!error ? (
+    <div slot="blog-header" class="card">
+      <h1 class="text-center">Blog Archives</h1>
+      <p class="text-center">
+        Browse all published posts, grouped by year.
+      </p>
+    </div>
+  ) : null}
+
+  {!error ? (
+    sortedYears.length > 0 ? (
+      sortedYears.map(year => (
+        <section class="mb-12">
+          <h2 class="text-2xl font-bold mb-4 muted-bottom-rule pb-1">{year}</h2>
+          <PostGallery allPostInfo={postsByYear[year]} />
+        </section>
+      ))
+    ) : (
+      <EmptyState
+        title="No posts yet"
+        message="Once posts are published, they'll appear here by year."
+      />
+    )
+  ) : null}
 </BlogLayout>
