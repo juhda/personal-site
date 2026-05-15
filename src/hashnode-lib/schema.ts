@@ -30,9 +30,20 @@ export interface Author {
     username: string;
 }
 
+export const contentMarkdownFragment = gql`
+  fragment ContentMarkdownFields on Content {
+    markdown
+  }
+`;
+
+export interface ContentMarkdown {
+    markdown: string;
+}
+
 export const blogInfoFragment = gql`
   ${ogMetaDataFragment}
   ${authorFragment}
+  ${contentMarkdownFragment}
   fragment BlogInfoFields on Publication {
     id
     title
@@ -44,6 +55,9 @@ export const blogInfoFragment = gql`
     author {
       ...AuthorFields
     }
+    about {
+      ...ContentMarkdownFields
+    }
   }
 `;
 
@@ -53,6 +67,7 @@ export interface BlogInfo {
     descriptionSEO: string;
     ogMetaData: OgMetaData;
     author: Author;
+    about: ContentMarkdown;
 }
 
 export interface BlogInfoQuery {

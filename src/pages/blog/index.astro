@@ -28,8 +28,8 @@ try {
   error = (e instanceof Error ? e.message : String(e)) || 'Unknown error occurred while fetching blog data.';
 }
 
-const title = blogInfo ? (blogInfo.displayTitle ?? (blogInfo.title + " by " + blogInfo.author.name)) : "Blog";
-const description = blogInfo ? ("Welcome to " + blogInfo.title + " — a blog by " + blogInfo.author.name + "exploring the hardware-software bridge, compilers, and technical leadership with clarity and purpose.") : "Blog posts";
+const title = blogInfo ? ((blogInfo.displayTitle ?? blogInfo.title) + " by " + blogInfo.author.name) : "Blog";
+const description = blogInfo ? blogInfo.about.markdown : "Blog";
 const keywords = blogInfo ? ("defined behavior, " + blogInfo.author.name + " blog, systems thinking, compiler development, engineering leadership, hardware-software co-design, technical precision, deep-tech strategy") : "blog";
 const image = blogInfo?.ogMetaData?.image;
 const coverImage = image ?? blogOGImage;
@@ -40,7 +40,7 @@ const coverImage = image ?? blogOGImage;
   keywords={keywords}
   image={image}
   coverImage={coverImage}
-  coverTitle={blogInfo?.title}
+  coverTitle={/* Skip coverTitle as coverImage contains the blog title */ null}
   coverDescription={blogInfo?.descriptionSEO}
   sourceNoteUsername={blogInfo?.author.username}
 >
