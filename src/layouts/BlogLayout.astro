@@ -109,7 +109,7 @@ const {
           </div>
         )}
         <div class="text-center">
-          <h1>{coverTitle}</h1>
+          {coverTitle && <h1>{coverTitle}</h1>}
           <p class="text-lg" set:html={coverDescription} />
         </div>
       </section>

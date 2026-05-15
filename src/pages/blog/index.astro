@@ -40,7 +40,7 @@ const coverImage = image ?? blogOGImage;
   keywords={keywords}
   image={image}
   coverImage={coverImage}
-  coverTitle={blogInfo?.title}
+  coverTitle={/* Skip coverTitle as coverImage contains the blog title */ null}
   coverDescription={blogInfo?.descriptionSEO}
   sourceNoteUsername={blogInfo?.author.username}
 >
