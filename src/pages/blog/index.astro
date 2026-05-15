@@ -29,7 +29,7 @@ try {
 }
 
 const title = blogInfo ? (blogInfo.displayTitle ?? (blogInfo.title + " by " + blogInfo.author.name)) : "Blog";
-const description = blogInfo ? ("Welcome to " + blogInfo.title + " — a blog by " + blogInfo.author.name + "exploring the hardware-software bridge, compilers, and technical leadership with clarity and purpose.") : "Blog posts";
+const description = blogInfo ? blogInfo.about.markdown : "Blog";
 const keywords = blogInfo ? ("defined behavior, " + blogInfo.author.name + " blog, systems thinking, compiler development, engineering leadership, hardware-software co-design, technical precision, deep-tech strategy") : "blog";
 const image = blogInfo?.ogMetaData?.image;
 const coverImage = image ?? blogOGImage;
