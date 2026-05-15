@@ -28,7 +28,7 @@ try {
   error = (e instanceof Error ? e.message : String(e)) || 'Unknown error occurred while fetching blog data.';
 }
 
-const title = blogInfo ? (blogInfo.displayTitle ?? (blogInfo.title + " by " + blogInfo.author.name)) : "Blog";
+const title = blogInfo ? ((blogInfo.displayTitle ?? blogInfo.title) + " by " + blogInfo.author.name) : "Blog";
 const description = blogInfo ? blogInfo.about.markdown : "Blog";
 const keywords = blogInfo ? ("defined behavior, " + blogInfo.author.name + " blog, systems thinking, compiler development, engineering leadership, hardware-software co-design, technical precision, deep-tech strategy") : "blog";
 const image = blogInfo?.ogMetaData?.image;
