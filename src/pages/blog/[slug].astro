@@ -90,7 +90,7 @@ const content = post?.content?.html ?? "-Empty content-";
       {series ? (
         <div class="flex-card flex-col m-4 p-4 gap-2 items-center">
           <p class="font-semibold">Part of the series: <Link href={`/blog/series/${series.slug}`}>{series.name}</Link></p>
-          <ul class="list-disc list-inside">
+          <ul>
             {(() => {
               const currentIdx = series.posts.findIndex(p => p.slug === post?.slug);
               return series.posts.map((s, idx) => (
