@@ -149,6 +149,10 @@
     @apply text-accent hover:underline;
   }
 
+  a[data-visited=true] {
+    @apply text-muted;
+  }
+
   /* UI Components */
   input {
     @apply w-full px-4 py-2 border border-muted rounded bg-bg text-primary placeholder-muted;

@@ -7,8 +7,8 @@ import CodeblockEnhancer from '../../components/CodeblockEnhancer.astro';
 import Link from '../../components/Link';
 import HashnodeError from '../../components/HashnodeError.astro';
 
-import { getPost, getBlogInfo, isSearchEnabled } from '../../hashnode-lib/client';
-import type { BlogInfo, Post } from '../../hashnode-lib/schema';
+import { getPost, getBlogInfo, isSearchEnabled, getSeries } from '../../hashnode-lib/client';
+import type { BlogInfo, Post, Series } from '../../hashnode-lib/schema';
 
 import { blogSubscribeAction, socialLinks } from '../../config/site';
 import { getStaticPaths_blog } from '../../utils/getStaticPaths';
@@ -21,11 +21,15 @@ export const getStaticPaths = getStaticPaths_blog;
 const { slug } = Astro.params;
 let blogInfo: BlogInfo | null = null;
 let post: Post | null = null;
+let series: Series | null = null;
 let error: string | null = null;
 
 try {
   blogInfo = await getBlogInfo();
   post = await getPost(slug);
+  if (post?.series?.slug) {
+    series = await getSeries(post.series.slug);
+  }
 } catch (e: unknown) {
   error = (e instanceof Error ? e.message : String(e)) || 'Unknown error occurred while fetching blog data.';
 }
@@ -83,6 +87,25 @@ const content = post?.content?.html ?? "-Empty content-";
 
   {!error && post ? (
     <section slot="blog-footer">
+      {series ? (
+        <div class="flex-card flex-col m-4 p-4 gap-2 items-center">
+          <p class="font-semibold">Part of the series: <Link href={`/blog/series/${series.slug}`}>{series.name}</Link></p>
+          <ul class="list-disc list-inside">
+            {(() => {
+              const currentIdx = series.posts.findIndex(p => p.slug === post?.slug);
+              return series.posts.map((s, idx) => (
+                <li>
+                  {idx === currentIdx ? (
+                    <span>{s.title} (Current)</span>
+                  ) : (
+                    <Link href={`/blog/${s.slug}`} visited={idx < currentIdx}>{s.title}</Link>
+                  )}
+                </li>
+              ));
+            })()}
+          </ul>
+        </div>
+      ) : null}
       <p class="text-center">👉 <strong>Explore more:</strong>
         <Link href="/blog/tags">Browse by Tags</Link>,
         <Link href="/blog/series">Explore Series</Link>,
