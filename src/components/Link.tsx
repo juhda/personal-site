@@ -1,16 +1,18 @@
-import type { JSX } from 'preact/jsx-runtime';
+import type { ComponentProps } from 'preact';
 
 import { socialLinks } from '../config/site';
 
-interface Props extends JSX.HTMLAttributes<HTMLAnchorElement> {
+interface Props extends ComponentProps<"a"> {
   href: string;
   download?: boolean;
+  visited?: boolean;
 }
 
-export default function ExternalLink({ href, download = false, children, ...props }: Props) {
+export default function Link({ href, download = false, visited = false, children, ...props }: Props) {
   const isExternal = /^https?:\/\//.test(href) &&
     !(import.meta.env.SITE && href.startsWith(import.meta.env.SITE))
   const isDownload = download;
+  const isVisited = visited;
   const isNewTab = isExternal;
   const isProtected = isExternal || isDownload;
 
@@ -36,6 +38,7 @@ export default function ExternalLink({ href, download = false, children, ...prop
   return (
     <a
       href={href}
+      data-visited={isVisited}
       download={isDownload ? true : undefined}
       target={isNewTab ? '_blank' : undefined}
       rel={isProtected ? 'noopener noreferrer' : undefined}

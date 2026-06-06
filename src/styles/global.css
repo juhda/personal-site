@@ -149,6 +149,10 @@
     @apply text-accent hover:underline;
   }
 
+  a[data-visited=true] {
+    @apply text-muted;
+  }
+
   /* UI Components */
   input {
     @apply w-full px-4 py-2 border border-muted rounded bg-bg text-primary placeholder-muted;
@@ -207,7 +211,7 @@
   }
 
   .profile-image-floater {
-    @apply flex-shrink-0 mx-auto sm:mx-0;
+    @apply shrink-0 mx-auto sm:mx-0;
   }
 
   .wide-embed {
@@ -219,7 +223,7 @@
   }
 
   .cover-image-container {
-    @apply w-full aspect-[16/9] overflow-hidden rounded mb-2 shadow-sm;
+    @apply w-full aspect-video overflow-hidden rounded mb-2 shadow-sm;
   }
 
   .cover-image-container img {
