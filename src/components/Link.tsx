@@ -1,8 +1,8 @@
-import type { JSX } from 'preact/jsx-runtime';
+import type { ComponentProps } from 'preact';
 
 import { socialLinks } from '../config/site';
 
-interface Props extends JSX.HTMLAttributes<HTMLAnchorElement> {
+interface Props extends ComponentProps<"a"> {
   href: string;
   download?: boolean;
   visited?: boolean;
