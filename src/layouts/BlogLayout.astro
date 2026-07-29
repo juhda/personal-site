@@ -57,8 +57,10 @@ const {
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/blog/rss.xml" />
 
     {import.meta.env.MODE === 'production' && (
-      <!-- Analytics -->
-      <script data-goatcounter={goatCounterUrl} async src="//gc.zgo.at/count.js"></script>
+      <>
+        <!-- Analytics -->
+        <script data-goatcounter={goatCounterUrl} async src="//gc.zgo.at/count.js"></script>
+      </>
     )}
 
     <SEO

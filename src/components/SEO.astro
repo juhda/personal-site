@@ -126,6 +126,8 @@ const structuredDataPage = isArticle
 <script type="application/ld+json" set:html={JSON.stringify(structuredDataPage, null, 2 )} />
 
 {noindex && (
-  <!-- Disable indexing -->
-  <meta name="robots" content="noindex" />
+  <>
+    <!-- Disable indexing -->
+    <meta name="robots" content="noindex" />
+  </>
 )}
