@@ -12,6 +12,11 @@ const __dirname = path.dirname(__filename);
 const PAGES_DIR = path.resolve(__dirname, '../src/pages');
 const OUTPUT_PATH = path.resolve(__dirname, '../src/generated/sitemap-data.json');
 
+async function hasLayoutNoindexProp(filePath: string): Promise<boolean> {
+  const content = await fs.readFile(filePath, 'utf8');
+  return /<[a-zA-Z0-9]*Layout\b[^>]*\bnoindex\s*=\s*\{\s*true\s*\}/s.test(content);
+}
+
 async function main() {
   const staticRoutes: string[] = [];
   const dynamicModules: string[] = [];
@@ -30,6 +35,11 @@ async function main() {
       }
 
       if (parsed.ext !== '.astro') continue;
+
+      const skipFromSitemap = await hasLayoutNoindexProp(fullPath);
+      if (skipFromSitemap) {
+        continue;
+      }
 
       const isDynamic = /^\[.+\]$/.test(parsed.name);
 
