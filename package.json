@@ -3,9 +3,11 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "prepare:sitemap": "tsx scripts/generate-sitemap-data.ts",
-    "dev": "npm run prepare:sitemap && astro dev",
-    "build": "npm run prepare:sitemap && astro build",
+    "generate:sitemap": "tsx scripts/generate-sitemap-data.ts",
+    "generate:indexnow": "tsx scripts/generate-indexnow-key-file.ts",
+    "generate:all": "npm run generate:sitemap && npm run generate:indexnow",
+    "dev": "npm run generate:sitemap && astro dev",
+    "build": "npm run generate:all && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
