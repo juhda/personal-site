@@ -162,14 +162,15 @@ Astro's default sitemap plugin only includes statically generated pages. Since t
 - `scripts/generate-sitemap-data.ts` runs during both build and dev to:
   - Traverse `src/pages/`
   - Collect all static routes
-  - Add `sitemapAdditionalUrls` from `src/config/site.ts` to static routes
   - Identify dynamic route modules
+  - Skip static and dynamic pages that are marked with `noindex={true}` in their layout usage so they are excluded from the sitemap
+  - Add `sitemapAdditionalUrls` from `src/config/site.ts` to static routes
   - Save them to `src/generated/sitemap-data.json`
 - Dynamic route logic lives in `src/utils/getStaticPaths.ts` with named exports like `getStaticPaths_blog()`
   - Each dynamic `.astro` page imports its matching function for `getStaticPaths`
 - `src/pages/sitemap.xml.ts` reads the generated JSON file and calls these functions to build a live `sitemap.xml` at runtime
 
-This approach works with any server adapter (static or SSR) and ensures the sitemap is always up-to-date when dynamic rendering is supported.
+This approach works with any server adapter (static or SSR) and ensures the sitemap is always up-to-date when dynamic rendering is supported while respecting pages that should not be indexed.
 
 ## 📰 Blog Integration (Hashnode)
 
