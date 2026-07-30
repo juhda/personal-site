@@ -11,9 +11,10 @@ async function main() {
   const key = process.env.INDEXNOW_KEY;
 
   if (!key) {
-    throw new Error(
-      "INDEXNOW_KEY environment variable is not configured",
+    console.warn(
+      "[indexnow] WARN: INDEXNOW_KEY is not defined. Skipping IndexNow key file generation.",
     );
+    process.exit(0);
   }
 
   const output_path = path.resolve(OUTPUT_DIR, `${key}.txt`);
