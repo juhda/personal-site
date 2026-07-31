@@ -2,40 +2,45 @@ import type { Config } from "@netlify/functions";
 import { getStore } from "@netlify/blobs";
 import { XMLParser } from "fast-xml-parser";
 
+const createErrorResponse = (message: string, status: number) => {
+  console.error(message);
+  return Response.json({
+    error: message,
+  }, {
+    status,
+  });
+};
+
 export default async (req: Request) => {
   try {
     const { next_run } = await req.json();
+    console.log(`IndexNow update. Next run: ${next_run}`);
 
     const site = process.env.URL;
     if (!site) {
-      return Response.json({
-        error: "IndexNow update failed: site URL is not configured in environment variables.",
-      }, {
-        status: 500,
-      });
+      return createErrorResponse(
+        "IndexNow update failed: site URL is not configured in environment variables.",
+        500,
+      );
     }
 
     const indexNowKey = process.env.INDEXNOW_KEY;
     if (!indexNowKey) {
-      return Response.json({
-        error: "IndexNow update failed: INDEXNOW_KEY environment variable is required.",
-      }, {
-        status: 500,
-      });
+      return createErrorResponse(
+        "IndexNow update failed: INDEXNOW_KEY environment variable is required.",
+        500,
+      );
     }
-
-    console.log(`IndexNow update. Next run: ${next_run}`);
 
     const siteUrl = new URL(site);
     const sitemapUrl = new URL("/sitemap.xml", siteUrl).href;
     const sitemapResponse = await fetch(sitemapUrl);
 
     if (!sitemapResponse.ok) {
-      return Response.json({
-        error: `Failed to fetch sitemap: ${sitemapResponse.status}`,
-      }, {
-        status: 502,
-      });
+      return createErrorResponse(
+        `Failed to fetch sitemap: ${sitemapResponse.status}`,
+        502,
+      );
     }
 
     const xml = await sitemapResponse.text();
@@ -50,11 +55,10 @@ export default async (req: Request) => {
     const urlset = parsed?.urlset;
 
     if (!urlset) {
-      return Response.json({
-        error: "IndexNow update failed: sitemap.xml did not contain a valid <urlset>.",
-      }, {
-        status: 500,
-      });
+      return createErrorResponse(
+        "IndexNow update failed: sitemap.xml did not contain a valid <urlset>.",
+        500,
+      );
     }
 
     const urlEntries: string[] = Array.from(urlset.url ?? [], (entry: { loc: string }) => entry.loc);
@@ -96,16 +100,16 @@ export default async (req: Request) => {
 
     if (!indexNowResponse.ok) {
       const errorText = await indexNowResponse.text();
-      return Response.json({
-        error: `IndexNow request failed: ${indexNowResponse.status} ${indexNowResponse.statusText} - ${errorText}`,
-      }, {
-        status: 502,
-      });
+      return createErrorResponse(
+        `IndexNow request failed: ${indexNowResponse.status} ${indexNowResponse.statusText} - ${errorText}`,
+        502,
+      );
     }
 
     // Store the current URLs for future comparison
     await store.set(blobKey, JSON.stringify(urlEntries));
 
+    console.log(`IndexNow update submitted successfully. Count: ${urlsToSubmit.length}`);
     return Response.json({
       message: "IndexNow update submitted successfully.",
       count: urlsToSubmit.length,
@@ -114,14 +118,8 @@ export default async (req: Request) => {
       status: 200,
     });
   } catch (error) {
-    console.error("IndexNow update failed.", error);
-
     const message = error instanceof Error ? error.message : "Unknown error";
-    return Response.json({
-      error: message,
-    }, {
-      status: 500,
-    });
+    return createErrorResponse(`IndexNow update failed: ${message}`, 500);
   }
 };
 
