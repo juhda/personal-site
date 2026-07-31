@@ -16,18 +16,20 @@ export default async (req: Request) => {
     const { next_run } = await req.json();
     console.log(`IndexNow update. Next run: ${next_run}`);
 
+    const indexNowKey = process.env.INDEXNOW_KEY;
+    if (!indexNowKey) {
+      console.warn("INDEXNOW_KEY is not defined. Skipping IndexNow update.");
+      return Response.json({
+        message: "IndexNow key not configured. Skipping update.",
+      }, {
+        status: 200,
+      });
+    }
+
     const site = process.env.URL;
     if (!site) {
       return createErrorResponse(
         "IndexNow update failed: site URL is not configured in environment variables.",
-        500,
-      );
-    }
-
-    const indexNowKey = process.env.INDEXNOW_KEY;
-    if (!indexNowKey) {
-      return createErrorResponse(
-        "IndexNow update failed: INDEXNOW_KEY environment variable is required.",
         500,
       );
     }
