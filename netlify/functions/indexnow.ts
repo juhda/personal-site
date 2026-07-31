@@ -1,10 +1,6 @@
 import type { Config } from "@netlify/functions";
+import { getStore } from "@netlify/blobs";
 import { XMLParser } from "fast-xml-parser";
-
-interface SitemapUrlEntry {
-  loc: string;
-  lastmod?: string | null;
-}
 
 export default async (req: Request) => {
   const { next_run } = await req.json();
@@ -44,40 +40,23 @@ export default async (req: Request) => {
     throw new Error("IndexNow update failed: sitemap.xml did not contain a valid <urlset>.");
   }
 
-  const rawUrls = urlset.url ?? [];
+  const urlEntries: string[] = Array.from(urlset.url ?? [], (entry: { loc: string }) => entry.loc);
 
+  const store = getStore("indexnow");
+  const blobKey = "urls";
+  const previousEntries = await store.get(blobKey, { type: "text" });
+  await store.set(blobKey, JSON.stringify(urlEntries));
 
-  const urlEntries: SitemapUrlEntry[] = Array.isArray(rawUrls)
-    ? rawUrls
-    : [rawUrls];
+  const currentUrls = new Set(urlEntries);
+  const previousUrls = new Set(previousEntries ? JSON.parse(previousEntries) as string[] : []);
+  const addedUrls = currentUrls.difference(previousUrls);
+  const removedUrls = previousUrls.difference(currentUrls);
 
-  console.log(urlEntries);
+  const urlsToAdd = addedUrls.size > 0 ? Array.from(addedUrls) : [];
+  const urlsToRemove = removedUrls.size > 0 ? Array.from(removedUrls) : [];
 
-  // const thresholdMs = nextRun.valueOf() - 24 * 60 * 60 * 1000;
-  // const parsedEntries = urlEntries
-  //   .map((entry) => ({
-  //     loc: entry.loc?.trim?.() ?? "",
-  //     lastmod: entry.lastmod?.trim?.() ?? null,
-  //   }))
-  //   .filter((entry) => entry.loc)
-  //   .map((entry) => {
-  //     const lastmodDate = entry.lastmod ? new Date(entry.lastmod) : null;
-  //     return {
-  //       loc: entry.loc,
-  //       lastmodDate: lastmodDate && !Number.isNaN(lastmodDate.valueOf()) ? lastmodDate : null,
-  //     };
-  //   });
-
-  // const allUrls = parsedEntries.map((entry) => entry.loc);
-  // const changedUrls = parsedEntries
-  //   .filter((entry) => (entry.lastmodDate?.valueOf() ?? 0) > thresholdMs)
-  //   .map((entry) => entry.loc);
-
-  // const hasLastmodData = parsedEntries.some((entry) => entry.lastmodDate !== null);
-  // const urlsToSubmit = hasLastmodData ? changedUrls : allUrls;
-
-  // if (urlsToSubmit.length === 0) {
-  //   console.log("IndexNow update: no URLs changed since the last run.");
+  // if (urlsToAdd.length === 0) {
+  //   console.log("IndexNow update: no new URLs changed since the last run.");
   //   return new Response(JSON.stringify({ message: "No changed URLs to submit." }), {
   //     status: 200,
   //     headers: { "Content-Type": "application/json" },
@@ -94,7 +73,7 @@ export default async (req: Request) => {
   //   body: JSON.stringify({
   //     host,
   //     key: indexNowKey,
-  //     urlList: urlsToSubmit,
+  //     urlList: urlsToAdd,
   //   }),
   // });
 
@@ -105,8 +84,8 @@ export default async (req: Request) => {
 
   // return new Response(JSON.stringify({
   //   message: "IndexNow update submitted successfully.",
-  //   count: urlsToSubmit.length,
-  //   urls: urlsToSubmit,
+  //   count: urlsToAdd.length,
+  //   urls: urlsToAdd,
   // }), {
   //   status: 200,
   //   headers: { "Content-Type": "application/json" },
