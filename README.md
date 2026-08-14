@@ -121,7 +121,7 @@ $ npx serve dist
 
 ## 🚦 Redirects Handling
 
-This project uses Astro’s built-in `redirects` configuration to manage server-side redirects, such as automatically sending users from `/resume` to the latest resume PDF.
+This project uses Astro's built-in `redirects` configuration to manage server-side redirects, such as automatically sending users from `/resume` to the latest resume PDF.
 
 - Redirect rules are defined in `astro.config.mjs` under the `redirects` map.
 - Local development (`npm run dev`) handles redirects dynamically.
@@ -210,7 +210,7 @@ This site integrates with [Hashnode](https://hashnode.com/) as a headless blog s
 - Blog content is fetch dynamically and blog pages are created with Astro's [on-demand rendering](https://docs.astro.build/en/guides/on-demand-rendering/)
 - The integration handles posts (respecting canonical URL if defined in Hashnode), tags, and series
 - GraphQL queries are modular, using fragments and clean types
-- Blog descriptions and metadata are rendered using trusted HTML from Hashnode and safely injected with Astro’s `set:html`
+- Blog descriptions and metadata are rendered using trusted HTML from Hashnode and safely injected with Astro's `set:html`
 - LaTeX math content is conditionally rendered using MathJax (see below)
 
 ### Implementation Notes
@@ -221,7 +221,7 @@ This site integrates with [Hashnode](https://hashnode.com/) as a headless blog s
   - This is acceptable for low-traffic use, but traffic levels should be monitored and caching configured if request volume increases
 - Hashnode API and Features
   - Hashnode GraphQL failures are handled gracefully with a user-friendly error page, and error details are shown in development
-  - Posts are displayed in the order returned by Hashnode’s API — newest first by default, though series may use oldest-first sorting depending on settings
+  - Posts are displayed in the order returned by Hashnode's API — newest first by default, though series may use oldest-first sorting depending on settings
   - Blog post slugs are matched directly — no post redirect support is implemented
   - Not all metadata (e.g. author bios, reactions, visibility flags) from Hashnode is used
   - No static pages and custom redirects from Hashnode are handled — implement any static content and redirects directly with Astro
@@ -262,7 +262,7 @@ This site optionally supports LaTeX-style math rendering via [MathJax](https://w
 - Inline math uses `$...$`, and block math uses `$$...$$`.
 - MathJax is **only enabled if `blogEnableMath` is set to `true`** in the global config (`src/config/site.ts`)
 - When enabled, MathJax is loaded **dynamically and only when math is detected** in post content or previews
-  - Pages pass `content` (e.g. a post’s `html` or `brief`) into `MathJaxLoader`.
+  - Pages pass `content` (e.g. a post's `html` or `brief`) into `MathJaxLoader`.
   - The loader component scans for LaTeX syntax and conditionally injects the MathJax script.
   - This works on both full post pages (`/blog/[slug]`) and previews (`/blog`, `/blog/tags`, etc.).
 - `MathJaxLoader` is injected into pages using Astro's `<Fragment slot name="head">`.
@@ -284,7 +284,7 @@ Math will render automatically wherever it's used in post content or previews.
 - Math rendering is globally enabled/disabled for blog posts and previews by `blogEnableMath` in `src/config/site.ts`.
 - Uses [MathJax v3](https://www.mathjax.org/#gettingstarted) from CDN with the default `tex-mml-chtml` loader.
 - Configuration and conditional loading are handled in `src/components/MathJaxLoader.astro`.
-- No MathJax code is loaded on pages that don’t include LaTeX syntax — for optimal performance.
+- No MathJax code is loaded on pages that don't include LaTeX syntax — for optimal performance.
 
 ## 🎨 Highlight.js Support for Syntax Highlighting (Optional)
 
