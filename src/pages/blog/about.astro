@@ -66,17 +66,17 @@ const coverImage = blogInfo?.ogMetaData?.image;
         </p>
 
         <p>
-          Authored by <strong>Dávid Juhász</strong>, this blog explores the intersection of hardware, software, and human systems. Whether diving into <strong>tooling, architecture, or the nuances of technical leadership</strong>, this is a place for structured thinking and meaningful dialogue.
+          Authored by <strong>Dávid Juhász</strong>, this blog explores the intersection of hardware, software, and human systems. Whether diving into <strong>tooling, architecture, or the nuances of technical leadership</strong>, this is a place for <em>structured insight, developer empowerment, and systems-level thinking</em>.
         </p>
 
         <h2>The Philosophy</h2>
 
         <p>
-          The name “Defined Behavior” stands in contrast to undefined behavior — not just in code, but in thought and communication. It is a statement of principle: that <strong>clarity is a choice, precision is a discipline, and complexity deserves structure, not surrender.</strong>
+          The name "Defined Behavior" stands in contrast to undefined behavior — not just in code, but in thought and communication. It is a statement of principle: that <strong>clarity is a choice, precision is a discipline, and complexity deserves structure, not surrender.</strong>
         </p>
 
         <p>
-          In the "0 to 1" phase of deep-tech engineering, ambiguity is the default. This blog exists to explore how we move from that chaos toward a <strong>joint ecosystem</strong> of hardware and software, built on a foundation of shared understanding.
+          In the <strong>"0 to 1" phase</strong> of deep-tech engineering, ambiguity is the default. This blog exists to explore how we move from that chaos toward a <strong>unified ecosystem</strong> of hardware and software, built on a foundation of shared understanding.
         </p>
 
         <h2>A Deliberate Pace</h2>
@@ -96,21 +96,16 @@ const coverImage = blogInfo?.ogMetaData?.image;
     <section class="card mt-8">
       <h2>How to Follow This Blog</h2>
       <p>
-        If you'd like to stay updated when I publish new posts on compilers, systems, developer tools, or technical leadership,
-        {blogSubscribeAction ? (
-          <>there are a couple of ways to follow along:</>
-        ) : (
-          <>you can follow the blog via <Link href="/blog/rss.xml">RSS</Link> using your favorite feed reader.</>
-        )}
-      </p>
-      {blogSubscribeAction && (
+        If you'd like to stay updated when I publish new posts on compilers, systems, developer tools, or technical leadership:
         <ul>
-          <li>✉️ <strong><Link href="/blog/subscribe">Subscribe by email</Link></strong> — Get new posts delivered straight to your inbox.</li>
-          <li>📡 <strong><Link href="/blog/rss.xml">Subscribe via RSS</Link></strong> — For readers who prefer feed readers.</li>
+          {blogSubscribeAction && (
+            <li>✉️ <strong><Link href="/blog/subscribe">Subscribe by email</Link></strong> — Get new posts delivered straight to your inbox.</li>
+          )}
+          <li>📡 <strong><Link href="/blog/rss.xml">Subscribe via RSS</Link></strong> — Get updates in your feed reader.</li>
         </ul>
-      )}
+      </p>
       <p>
-        You can also follow me on <Link href={socialLinks.linkedin}>LinkedIn</Link> where I share updates and discuss new articles.
+        You can also follow me on <Link href={socialLinks.linkedin}>LinkedIn</Link>, where I share updates and discuss new articles.
       </p>
     </section>
   )}
