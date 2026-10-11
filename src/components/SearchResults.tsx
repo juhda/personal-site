@@ -2,14 +2,15 @@ import { useState, useEffect } from 'preact/hooks';
 import PostGallery from './PostGallery';
 import EmptyState from './EmptyState';
 
-import type { PostInfo } from '../hashnode-lib/schema';
+import type { Post } from '../blog/lib';
 
 interface Props {
-  posts: PostInfo[];
+  posts: Post[];
+  tagNames: Record<string, string>;
   search_input: string;
 }
 
-export default function SearchResults({ posts, search_input }: Props) {
+export default function SearchResults({ posts, tagNames, search_input }: Props) {
   const [query, setQuery] = useState('');
 
   useEffect(() => {
@@ -24,9 +25,9 @@ export default function SearchResults({ posts, search_input }: Props) {
         setQuery(input.value.toLowerCase());
       }, 150); // wait 150ms
     };
-  
+
     input.addEventListener('input', onInput);
-  
+
     return () => {
       clearTimeout(timeout);
       input.removeEventListener('input', onInput);
@@ -36,23 +37,19 @@ export default function SearchResults({ posts, search_input }: Props) {
   const normalized = (str: string) => str.toLowerCase();
   const filtered = query
     ? posts.filter(post => {
-        const title = normalized(post.title);
-        const brief = normalized(post.brief ?? '');
-        const tags = post.tags.map(t => normalized(t.name)).join(' ');
-        return title.includes(query) || brief.includes(query) || tags.includes(query);
+        const title = normalized(post.data.title);
+        const description = normalized(post.data.description);
+        const tags = post.data.tags
+          .map(slug => normalized(tagNames[slug]))
+          .join(' ');
+        return title.includes(query) || description.includes(query) || tags.includes(query);
       })
     : [];
-
-  useEffect(() => {
-    if (typeof window.MathJax !== 'undefined') {
-      window.MathJax.typeset();
-    }
-  }, [filtered]);
 
   return (
     <div>
       {query && filtered.length > 0 && (
-        <PostGallery allPostInfo={filtered} />
+        <PostGallery posts={filtered} tagNames={tagNames} />
       )}
 
       {query && filtered.length === 0 && (

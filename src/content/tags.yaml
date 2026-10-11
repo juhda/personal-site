@@ -1,0 +1,5 @@
+# Tag display names. Posts list tag slugs in meta.yaml; every tag used by a
+# post must have an entry here — the build fails on tags that lack a name
+# definition. Slugs are lowercase letters joined by single dashes.
+- slug: template
+  name: Template

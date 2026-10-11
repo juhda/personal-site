@@ -1,92 +1,65 @@
 ---
 import Link from './Link';
 
-import type { Post, Draft } from '../hashnode-lib/schema';
+import type { Post } from '../blog/lib';
+import { getSeriesBySlug, getTagNames } from '../blog/lib';
+import { author, localMeImage } from '../config/site';
 
-// Note: Draft does not have coAuthors and series fields.
-interface Props {
-  post: Post | Draft;
-}
+type Props = {
+  post: Post;
+};
 
 const { post } = Astro.props;
 
-const updatedAt = post.updatedAt;
-const author = post.author;
-const coAuthors = 'coAuthors' in post ? post.coAuthors : [];
-const series = 'series' in post ? post.series : null;
-const tags = 'tags' in post ? post.tags : [];
-const publishedAt = 'publishedAt' in post ? post.publishedAt : null;
+const { publishedAt, updatedAt, tags, series, draft } = post.data;
+const seriesEntry = series ? await getSeriesBySlug(series) : undefined;
+const tagNames = await getTagNames();
 ---
-
 <section class="flex-card flex-col gap-2 items-center text-sm py-4">
   <!-- Dates -->
   <div class="mb-2">
-    {publishedAt ? (
+    {draft ? (
+      <span>Draft</span>
+    ) : publishedAt ? (
       <time datetime={publishedAt}>
         Published {new Date(publishedAt).toLocaleDateString()}
       </time>
-    ) : (
-      <span>Draft</span>
-    )}
+    ) : null}
     {updatedAt && (
       <> · Updated {new Date(updatedAt).toLocaleDateString()}</>
     )}
   </div>
 
-  <!-- Authors -->
+  <!-- Author -->
   <div class="flex items-center gap-2 mb-2 flex-wrap">
-    <Link
-      href={`https://hashnode.com/@${author.username}`}
-      class="inline-flex items-center gap-1"
-    >
-      <img
-        src={author.profilePicture}
-        alt={author.name}
-        class="profile-image border w-8 h-8"
-      />
-      <strong>{author.name}</strong>
-    </Link>
-
-    {coAuthors.length > 0 && (
-      <>
-        <span>· with</span>
-        {coAuthors.map(co => (
-          <Link
-            href={`https://hashnode.com/@${co.username}`}
-            class="inline-flex items-center gap-1"
-          >
-            <img
-              src={co.profilePicture}
-              alt={co.name}
-              class="profile-image border w-8 h-8"
-            />
-            <strong>{co.name}</strong>
-          </Link>
-        ))}
-      </>
-    )}
+    <img
+      src={localMeImage}
+      alt={author}
+      class="profile-image border w-8 h-8"
+    />
+    <strong>{author}</strong>
   </div>
 
   <!-- Tags -->
   {tags.length > 0 && (
     <div class="flex flex-wrap gap-2 mb-2">
-      {tags.map(tag => (
+      {tags.map(slug => (
         <Link
-          href={`/blog/tags/${tag.slug}`}
+          href={`/blog/tags/${slug}`}
           class="bg-bg px-2 py-0.5 rounded border border-accent/30 text-accent text-xs hover:bg-surface/70 transition inline-block max-w-full truncate"
         >
-          #{tag.name}
+          #{tagNames.get(slug)}
         </Link>
       ))}
     </div>
   )}
 
   <!-- Series -->
-  {series && (
+  {series && seriesEntry && (
     <div>
       Part of the series:&nbsp;
-      <Link href={`/blog/series/${series.slug}`}>
-        {series.name}
+      <Link href={`/blog/series/${series}`}>
+        {seriesEntry.data.name}
       </Link>
     </div>
   )}

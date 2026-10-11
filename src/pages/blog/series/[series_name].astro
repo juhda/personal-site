@@ -1,73 +1,42 @@
 ---
 import BlogLayout from '../../../layouts/BlogLayout.astro';
-import MathJaxLoader from '../../../components/MathJaxLoader.astro';
-import HighlightJSLoader from '../../../components/HighlightJSLoader.astro';
 import PostGallery from '../../../components/PostGallery';
 import EmptyState from '../../../components/EmptyState';
 import Link from '../../../components/Link';
-import HashnodeError from '../../../components/HashnodeError.astro';
 
-import { getBlogInfo, getSeries, isSearchEnabled } from '../../../hashnode-lib/client';
-import type { BlogInfo, Series } from '../../../hashnode-lib/schema';
+import { getSeriesBySlug, getSeriesPosts, getSearchEnabled, getTagNameMap } from '../../../blog/lib';
+import { seriesCoverUrl } from '../../../blog/urls';
 
-import { blogSubscribeAction } from '../../../config/site';
+import { blogOGImage, blogSubscribeAction, blogTitle } from '../../../config/site';
 import { getStaticPaths_blog_series } from '../../../utils/getStaticPaths';
 
-export const prerender = false
-
-// Generate static paths for all series on case of prerender=true
+// Generate static paths for all series
 export const getStaticPaths = getStaticPaths_blog_series;
 
 const { series_name } = Astro.params;
 
-let blogInfo: BlogInfo | null = null;
-let series: Series | null = null;
-let error: string | null = null;
+const series = await getSeriesBySlug(series_name!);
+const seriesPosts = series ? await getSeriesPosts(series.id) : [];
+const searchEnabled = await getSearchEnabled();
+const tagNames = await getTagNameMap();
 
-try {
-  blogInfo = await getBlogInfo();
-  series = await getSeries(series_name);
-} catch (e: unknown) {
-  error = (e instanceof Error ? e.message : String(e)) || 'Unknown error occurred while fetching blog data.';
-}
-
-if (!error && !series) {
-  return Astro.redirect("/404")
-}
-
-const title = series && blogInfo ? ("Posts in " + series.name + " | " + blogInfo.title + " by " + blogInfo.author.name) : "Blog Series";
-const description = series && blogInfo ? ("Explore the " + series.name + " series on " + blogInfo.title + " — a deep dive into systems architecture, engineering precision, and the hardware-software bridge.") : "";
-const keywords = series ? (series.name + ", blog series, defined behavior, systems thinking, compiler development, engineering leadership, hardware-software co-design, technical precision, deep-tech strategy") : "";
-const image = series?.coverImage;
-const coverImage = series?.coverImage ?? blogInfo?.ogMetaData?.image;
+const title = series ? `Posts in ${series.data.name} | ${blogTitle}` : "Blog Series";
+const description = series ? `Explore the ${series.data.name} series on ${blogTitle} — a deep dive into systems architecture, engineering precision, and the hardware-software bridge.` : "";
+const keywords = series ? (series.data.name + ", blog series, defined behavior, systems thinking, compiler development, engineering leadership, hardware-software co-design, technical precision, deep-tech strategy") : "";
+const coverImage = series ? (seriesCoverUrl(series) ?? blogOGImage) : null;
 ---
 <BlogLayout
   title={title}
   description={description}
   keywords={keywords}
-  image={image}
   showCover={Boolean(series)}
   coverImage={coverImage}
-  coverTitle={series?.name}
-  coverDescription={series?.description?.html}
-  sourceNoteUsername={blogInfo?.author.username}
+  coverTitle={series?.data.name}
+  coverDescription={series?.data.description}
 >
-  <Fragment slot="head">
-    {series && (
-      <>
-        <MathJaxLoader content={series.posts.map(postInfo => postInfo.brief).join('\n')} />
-        <HighlightJSLoader content={series.posts.map(postInfo => postInfo.brief).join('\n')} />
-      </>
-    )}
-  </Fragment>
-
-  {error ? (
-    <HashnodeError error={error} />
-  ) : null}
-
-  {!error && series ? (
-    series.posts.length > 0 ? (
-      <PostGallery allPostInfo={series.posts} />
+  {series ? (
+    seriesPosts.length > 0 ? (
+      <PostGallery posts={seriesPosts} tagNames={tagNames} />
     ) : (
       <EmptyState
         icon="📕"
@@ -77,20 +46,20 @@ const coverImage = series?.coverImage ?? blogInfo?.ogMetaData?.image;
     )
   ) : null}
 
-  {!error && series ? (
+  {series ? (
     <section slot="blog-footer">
       {blogSubscribeAction && (
-        <p>✉️ <strong>Enjoying this series?</strong> 
+        <p>
+          ✉️ <strong>Enjoying this series?</strong>{' '}
           <Link href="/blog/subscribe">Subscribe</Link> to get future posts on this and related topics.
         </p>
       )}
 
-      <p class="text-center">👉 <strong>{blogSubscribeAction ? "Or e" : "E"}xplore more:</strong>
-        <Link href="/blog/series">Other Series</Link>,
-        <Link href="/blog/tags">Browse Tags</Link>{isSearchEnabled && ","}
-        {isSearchEnabled && (
-          <Link href="/blog/search">Search the Blog</Link>
-        )}
+      <p class="text-center">
+        👉 <strong>{blogSubscribeAction ? "Or e" : "E"}xplore more:</strong>{' '}
+        <Link href="/blog/series">Other Series</Link>,{' '}
+        <Link href="/blog/tags">Browse Tags</Link>
+        {searchEnabled && <Fragment>, <Link href="/blog/search">Search the Blog</Link></Fragment>}
       </p>
     </section>
   ) : null}
