@@ -1,0 +1,20 @@
+title: >-
+  Understanding Containers for Embedded Developers: A Practical Introduction
+subtitle: >-
+  A clear, no-jargon guide to containers — tailored for firmware engineers, not DevOps
+  pros
+description: >-
+  Learn containers from an embedded dev’s perspective. Understand Docker, images, volumes,
+  and toolchains — without the cloud-heavy jargon.
+seoTitle: >-
+  Containers for Embedded Devs: Beginner’s Guide
+publishedAt: "2025-07-10T15:56:05.604Z"
+updatedAt: "2026-03-13T16:33:17.045Z"
+tags:
+  - embedded-systems
+  - docker
+  - devtools
+  - containerization
+  - build-automation
+  - cicd
+series: containerized-embedded-dev

@@ -1,5 +1,105 @@
 # Tag display names. Posts list tag slugs in meta.yaml; every tag used by a
 # post must have an entry here — the build fails on tags that lack a name
 # definition. Slugs are lowercase letters joined by single dashes.
+- slug: adaptive-development
+  name: Adaptive Development
+- slug: ai-best-practices
+  name: AI Best Practices
+- slug: ai-explained
+  name: AI Explained
+- slug: ai-history
+  name: AI History
+- slug: ai-hype
+  name: AI Hype
+- slug: ai-reasoning
+  name: AI Reasoning
+- slug: ai-tools
+  name: AI Tools
+- slug: artificial-intelligence
+  name: Artificial Intelligence
+- slug: build-automation
+  name: Build Automation
+- slug: career-growth
+  name: Career Growth
+- slug: cicd
+  name: CI/CD
+- slug: containerization
+  name: Containerization
+- slug: decision-making
+  name: Decision Making
+- slug: deep-learning
+  name: Deep Learning
+- slug: design-by-contract
+  name: Design by Contract
+- slug: devcontainer
+  name: Dev Containers
+- slug: devops
+  name: DevOps
+- slug: devtools
+  name: Developer Tools
+- slug: docker
+  name: Docker
+- slug: embedded-development
+  name: Embedded Development
+- slug: embedded-systems
+  name: Embedded Systems
+- slug: engineering-culture
+  name: Engineering Culture
+- slug: engineering-principles
+  name: Engineering Principles
+- slug: expert-illusion
+  name: Expert Illusion
+- slug: explainable-ai
+  name: Explainable AI
+- slug: firmware-development
+  name: Firmware Development
+- slug: formal-verification
+  name: Formal Verification
+- slug: generative-ai
+  name: Generative AI
+- slug: github-codespaces
+  name: GitHub Codespaces
+- slug: hybrid-ai
+  name: Hybrid AI
+- slug: infrastructure-as-code
+  name: Infrastructure as Code
+- slug: large-language-models
+  name: Large Language Models
+- slug: legibility-tax
+  name: Legibility Tax
+- slug: llm
+  name: LLM
+- slug: llm-use-cases
+  name: LLM Use Cases
+- slug: machine-learning
+  name: Machine Learning
+- slug: mindset
+  name: Mindset
+- slug: neural-networks
+  name: Neural Networks
+- slug: oci
+  name: OCI
+- slug: podman
+  name: Podman
+- slug: podman-vs-docker
+  name: Podman vs Docker
+- slug: software-correctness
+  name: Software Correctness
+- slug: software-engineering
+  name: Software Engineering
+- slug: solid-principles
+  name: SOLID Principles
+- slug: symbolic-ai
+  name: Symbolic AI
+- slug: tech-career
+  name: Tech Career
+- slug: tech-leadership
+  name: Tech Leadership
 - slug: template
   name: Template
+- slug: test-driven-development
+  name: Test-Driven Development
+- slug: vscode
+  name: VS Code
+- slug: workplace-visibility
+  name: Workplace Visibility
