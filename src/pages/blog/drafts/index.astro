@@ -6,11 +6,6 @@ import EmptyState from '../../../components/EmptyState';
 import { getDraftPosts, getTagNameMap } from '../../../blog/lib';
 
 import { blogTitle } from '../../../config/site';
-import { getStaticPaths_blog_drafts } from '../../../utils/getStaticPaths';
-
-// Draft pages only exist in dev / branch preview contexts; generate them only
-// when drafts are visible there (an empty path list renders the route a 404).
-export const getStaticPaths = getStaticPaths_blog_drafts;
 
 const drafts = await getDraftPosts();
 const tagNames = await getTagNameMap();
