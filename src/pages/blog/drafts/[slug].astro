@@ -1,0 +1,50 @@
+---
+import BlogLayout from '../../../layouts/BlogLayout.astro';
+import PostMetaBox from '../../../components/PostMetaBox.astro';
+import CodeblockEnhancer from '../../../components/CodeblockEnhancer.astro';
+
+import { getPost, getPostBody } from '../../../blog/lib';
+
+import { getStaticPaths_blog_drafts } from '../../../utils/getStaticPaths';
+import { postCoverUrl } from '../../../blog/urls';
+
+// Generate static paths for all drafts (dev / branch previews only)
+export const getStaticPaths = getStaticPaths_blog_drafts;
+
+const { slug } = Astro.params;
+
+// Params come from getStaticPaths (getDraftPosts), so the lookup cannot
+// miss — same contract as the published-post page.
+const draft = (await getPost(slug!))!;
+const Body = await getPostBody(draft.id);
+
+const draftTitle = draft.data.title || "-Untitled-";
+const title = draftTitle + " (Draft)";
+const description = draft.data.description;
+const coverImage = postCoverUrl(draft);
+---
+<BlogLayout
+  noindex={true}
+  title={title}
+  description={description}
+  showCover={true}
+  coverImage={coverImage}
+  coverTitle={draftTitle}
+  coverDescription={draft.data.subtitle}
+  showNavLinks={false}
+>
+
+  <Fragment slot="head">
+    <CodeblockEnhancer />
+  </Fragment>
+
+  <div slot="blog-header">
+    <PostMetaBox post={draft} />
+  </div>
+
+  {Body ? (
+    <article class="max-w-none px-4 md:px-6 lg:px-8 py-8">
+      <Body />
+    </article>
+  ) : null}
+</BlogLayout>

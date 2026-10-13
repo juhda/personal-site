@@ -1,89 +1,64 @@
 ---
 import BlogLayout from '../../layouts/BlogLayout.astro';
-import MathJaxLoader from '../../components/MathJaxLoader.astro';
-import HighlightJSLoader from '../../components/HighlightJSLoader.astro';
 import PostGallery from '../../components/PostGallery';
 import EmptyState from '../../components/EmptyState';
-import HashnodeError from '../../components/HashnodeError.astro';
 
-import { getBlogInfo, getAllPostInfo } from '../../hashnode-lib/client';
-import type { PostInfo } from '../../hashnode-lib/schema';
+import { getPublishedPosts, type Post, getTagNameMap } from '../../blog/lib';
 
-export const prerender = false
+import { author, blogTitle } from '../../config/site';
 
-let blogInfo = null;
-let allPostInfo: PostInfo[] = [];
-let error: string | null = null;
+const allPosts = await getPublishedPosts();
+const tagNames = await getTagNameMap();
 
-try {
-  blogInfo = await getBlogInfo();
-  allPostInfo = await getAllPostInfo();
-} catch (e: unknown) {
-  error = (e instanceof Error ? e.message : String(e)) || 'Unknown error occurred while fetching blog data.';
-}
-
-// Group posts by publication year
-function groupPostsByYear(posts: PostInfo[]): Record<number, PostInfo[]> {
+// Group posts by publication year; posts without a publication date (e.g.
+// uncommitted drafts in dev/preview) have no year to be filed under.
+function groupPostsByYear(posts: Post[]): Record<number, Post[]> {
   return posts.reduce((acc, post) => {
-    const year = new Date(post.publishedAt).getFullYear();
+    const { publishedAt } = post.data;
+    if (!publishedAt) return acc;
+    const year = new Date(publishedAt).getFullYear();
     if (!acc[year]) acc[year] = [];
     acc[year].push(post);
     return acc;
-  }, {} as Record<number, PostInfo[]>);
+  }, {} as Record<number, Post[]>);
 }
 
-const postsByYear = groupPostsByYear(allPostInfo);
+const postsByYear = groupPostsByYear(allPosts);
 
 // Sort years descending
 const sortedYears = Object.keys(postsByYear)
   .map(Number)
   .sort((a, b) => b - a);
 
-const title = blogInfo ? ("Blog Archives | " + blogInfo.title + " by " + blogInfo.author.name) : "Blog Archives";
+const title = `Blog Archives | ${blogTitle} by ${author}`;
 const description = "Browse all published posts, grouped by year.";
 const keywords = "blog archives, defined behavior, hardware-software co-design, compilers, systems architecture, technical leadership, engineering principles, deep-tech strategy";
-const image = blogInfo?.ogMetaData?.image;
 ---
 <BlogLayout
   noindex={true}
   title={title}
   description={description}
   keywords={keywords}
-  image={image}
   showCover={false}
-  sourceNoteUsername={blogInfo?.author.username}
 >
-  <Fragment slot="head">
-    <MathJaxLoader content={allPostInfo.map(postInfo => postInfo.brief).join('\n')} />
-    <HighlightJSLoader content={allPostInfo.map(postInfo => postInfo.brief).join('\n')} />
-  </Fragment>
+  <div slot="blog-header" class="card">
+    <h1 class="text-center">Blog Archives</h1>
+    <p class="text-center">
+      Browse all published posts, grouped by year.
+    </p>
+  </div>
 
-  {error ? (
-    <HashnodeError error={error} />
-  ) : null}
-
-  {!error ? (
-    <div slot="blog-header" class="card">
-      <h1 class="text-center">Blog Archives</h1>
-      <p class="text-center">
-        Browse all published posts, grouped by year.
-      </p>
-    </div>
-  ) : null}
-
-  {!error ? (
-    sortedYears.length > 0 ? (
-      sortedYears.map(year => (
-        <section class="mb-12">
-          <h2 class="text-2xl font-bold mb-4 muted-bottom-rule pb-1">{year}</h2>
-          <PostGallery allPostInfo={postsByYear[year]} />
-        </section>
-      ))
-    ) : (
-      <EmptyState
-        title="No posts yet"
-        message="Once posts are published, they'll appear here by year."
-      />
-    )
-  ) : null}
+  {sortedYears.length > 0 ? (
+    sortedYears.map(year => (
+      <section class="mb-12">
+        <h2 class="text-2xl font-bold mb-4 muted-bottom-rule pb-1">{year}</h2>
+        <PostGallery posts={postsByYear[year]} tagNames={tagNames} />
+      </section>
+    ))
+  ) : (
+    <EmptyState
+      title="No posts yet"
+      message="Once posts are published, they'll appear here by year."
+    />
+  )}
 </BlogLayout>

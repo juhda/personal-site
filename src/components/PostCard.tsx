@@ -1,18 +1,21 @@
 import Link from './Link';
 
-import type { PostInfo, DraftInfo } from '../hashnode-lib/schema';
+import type { Post } from '../blog/lib';
+import { postCoverUrl } from '../blog/urls';
 
 interface Props {
-  postInfo: PostInfo | DraftInfo;
+  post: Post;
+  tagNames: Record<string, string>;
 }
 
-export default function PostCard({ postInfo }: Props) {
-  const isDraft = 'id' in postInfo && !('slug' in postInfo);
-  const linkPath = isDraft ? `/blog/drafts/${postInfo.id}` : `/blog/${postInfo.slug}`;
-  const coverImageURL = postInfo.coverImage?.url || null;
-  const titleString = postInfo.title || 'Untitled';
-  const dateToShow = 'publishedAt' in postInfo ? postInfo.publishedAt : postInfo.updatedAt;
-  const dateString = new Date(dateToShow).toLocaleDateString();
+export default function PostCard({ post, tagNames }: Props) {
+  const { data } = post;
+  const isDraft = data.draft;
+  const linkPath = isDraft ? `/blog/drafts/${post.id}` : `/blog/${post.id}`;
+  const coverImageURL = postCoverUrl(post);
+  const titleString = data.title || 'Untitled';
+  const dateToShow = isDraft ? data.updatedAt : (data.publishedAt ?? data.updatedAt);
+  const dateString = dateToShow ? new Date(dateToShow).toLocaleDateString() : '';
 
   return (
     <section class="nested-card">
@@ -27,23 +30,23 @@ export default function PostCard({ postInfo }: Props) {
         )}
         <h3 class="mb-1">{titleString}</h3>
 
-        {postInfo.subtitle && (
-          <p class="text-primary italic text-sm mb-2">{postInfo.subtitle}</p>
+        {data.subtitle && (
+          <p class="text-primary italic text-sm mb-2">{data.subtitle}</p>
         )}
 
-        {"brief" in postInfo && (
-          <p class="text-sm mb-2">{postInfo.brief}</p>
+        {data.description && (
+          <p class="text-sm mb-2">{data.description}</p>
         )}
 
       </Link>
       <div class="flex flex-wrap gap-2 text-xs text-accent">
-        <time>{dateString}</time>
-        {'tags' in postInfo && postInfo.tags.map(tag => (
+        {dateString && <time>{dateString}</time>}
+        {data.tags.map(slug => (
         <Link
-          href={`/blog/tags/${tag.slug}`}
+          href={`/blog/tags/${slug}`}
           class="bg-surface px-2 rounded text-accent border border-accent/30 hover:bg-surface/70 transition inline-block max-w-full truncate"
         >
-          #{tag.name}
+          #{tagNames[slug]}
         </Link>
         ))}
       </div>

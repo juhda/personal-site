@@ -28,6 +28,14 @@
   --text: #4B5563;
   --heading: #374151;
   --bg: #ffffff;
+
+  /* Code syntax highlighting (Typst's default theme; token classes are
+     .tk-<hex> with the hex each token originally carried inline). */
+  --code-comment: #74747c;
+  --code-keyword: #d73948;
+  --code-function: #4b69c6;
+  --code-string: #198810;
+  --code-number: #8b41b1;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -41,6 +49,13 @@
     --text: #D1D5DB;
     --heading: #F3F4F6;
     --bg: #111827;
+
+    /* Code syntax highlighting, brightened for the dark background. */
+    --code-comment: #9ca3af;
+    --code-keyword: #f87171;
+    --code-function: #7d97f7;
+    --code-string: #4ade80;
+    --code-number: #c084fc;
   }
 }
 
@@ -87,7 +102,7 @@
     @apply inline;
   }
 
-  /* Article / Markdown Styles */
+  /* Article Styles */
   article table {
     @apply table-auto border border-primary w-full my-4;
   }
@@ -96,7 +111,7 @@
     @apply bg-muted;
   }
 
-  article table thead td {
+  article table thead th {
     @apply text-center font-bold border border-primary px-4 py-2 align-middle;
   }
 
@@ -109,7 +124,7 @@
   }
 
   article blockquote {
-    @apply border-l-4 border-accent bg-muted text-heading px-4 py-2 rounded-lg;
+    @apply border-l-4 border-accent bg-muted text-heading px-4 py-2 rounded-lg mb-4;
   }
 
   article pre {
@@ -125,12 +140,21 @@
   }
 
   article img {
-    @apply w-19/20 rounded shadow;
+    @apply block mx-auto w-19/20 rounded shadow mb-4;
   }
 
   article hr {
     @apply my-4;
   }
+
+  /* Typst syntax highlighting tokens (classes emitted by the typst pipeline);
+     the --code-* palette is defined with the other colors above and switches
+     for dark mode automatically. */
+  .tk-74747c { color: var(--code-comment); }
+  .tk-d73948 { color: var(--code-keyword); }
+  .tk-4b69c6 { color: var(--code-function); }
+  .tk-198810 { color: var(--code-string); }
+  .tk-8b41b1 { color: var(--code-number); }
 
   /* Typography Sizes */
   h1 {

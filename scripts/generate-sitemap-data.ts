@@ -4,8 +4,6 @@ import { fileURLToPath } from 'node:url';
 
 import { sitemapAdditionalUrls } from '../src/config/site';
 
-import getStaticPaths from '../src/utils/getStaticPaths';
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -47,10 +45,6 @@ async function main() {
         const modulePath = `/${parsed.dir}`;
         if (dynamicModules.includes(modulePath)) {
           throw new Error(`[sitemap] Duplicate dynamic module detected: ${modulePath}`);
-        }
-        const functionName = getStaticPaths.pathToFunctionName(modulePath);
-        if (!(functionName in getStaticPaths) || typeof getStaticPaths[functionName as keyof typeof getStaticPaths] !== 'function') {
-          throw new Error(`[sitemap] Module getStaticPaths does not export a function named ${functionName} for ${modulePath}`);
         }
         dynamicModules.push(modulePath);
       } else {

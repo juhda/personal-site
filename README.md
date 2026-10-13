@@ -14,10 +14,10 @@ It serves as my digital home — a place to showcase my portfolio, share ideas, 
 - ✅ Privacy-respecting analytics via GoatCounter
   - No personal data is collected. Analytics endpoint is public and safe to embed.
 - ✅ Optional blog subscription form with redirect pages for double opt-in.
-- ✅ Integrated blog via [Hashnode](https://hashnode.com/)
-  - Uses the official GraphQL API to fetch blog metadata and posts
-  - Renders dynamic routes (`/blog/[slug]`) and listing pages (`/blog/tags`, `/blog/series`, etc.)
-  - All blog pages are server-rendered on demand without caching or prerendering; suitable for low traffic, with the option to add caching later
+- ✅ Integrated blog with posts authored in [Typst](https://typst.app/)
+  - Posts live in-repo under `src/content/blog/<slug>/` (body + metadata + colocated images)
+  - Rendered to HTML at build time via [astro-typst](https://github.com/OverflowCat/astro-typst); all blog routes are fully prerendered (static)
+  - Listings, tags, series, archives, and client-side search over post metadata
 
 ## 🧠 Goals
 
@@ -27,14 +27,14 @@ It serves as my digital home — a place to showcase my portfolio, share ideas, 
 
 ## 🛠️ Tech Stack
 
-- [Astro v6](https://astro.build/) – Modern web framework
+- [Astro v7](https://astro.build/) – Modern web framework
 - [Tailwind CSS v4](https://tailwindcss.com/) – CSS-first utility engine (Vite plugin)
 - [Preact](https://preactjs.com/) – Fast 3kB alternative to React for interactive components
 - [Notion](https://notion.so/) – Embedded portfolio data source
 - [GoatCounter](https://www.goatcounter.com/) – Lightweight, privacy-first analytics
 - [Buttondown](https://buttondown.email) – Lightweight newsletter platform used for optional blog post subscriptions
 - [Netlify](https://netlify.com/) – Hosting with adapter-based redirect handling (free tier)
-- [Hashnode GraphQL API](https://hashnode.com/) – Headless blog content source
+- [Typst](https://typst.app/) + [astro-typst](https://github.com/OverflowCat/astro-typst) – Blog authoring format and build-time HTML rendering
 
 ## 📂 Project Structure
 
@@ -44,14 +44,18 @@ It serves as my digital home — a place to showcase my portfolio, share ideas, 
 ├── scripts/              # JavaScript/TypeScript helpers for static generation
 ├── src/
 │   ├── assets/           # Internal static resources (images, fonts, etc.)
+│   ├── blog/             # Blog machinery: content collection queries, colocated image serving/expansion, git-derived dates
 │   ├── components/       # Reusable Astro/JSX components (e.g. SEO.astro)
 │   ├── config/           # Site-wide configuration (e.g., metadata)
-│   ├── hashnode-lib/     # GraphQL client definitions to fetch blog data
+│   ├── content/
+│   │   ├── blog/         # Blog posts: <slug>/index.html.typ + meta.yaml + images/
+│   │   └── series/       # Series: <slug>/meta.yaml + colocated cover.png
 │   ├── layouts/          # Base layout with shared header and structure
 │   ├── pages/            # Astro page routes (/index, /portfolio, etc.)
 │   ├── styles/           # Tailwind config, themes, and custom styles
+│   ├── typst/            # Typst pipeline helpers (hAST post-processing injected into astro-typst)
 │   ├── utils/            # JavaScript/TypeScript helpers (e.g., breadcrumb generator)
-│   └── content.config.ts # Content Layer configuration -- empty (for Astro v6)
+│   └── content.config.ts # Content Layer configuration (blog + series collections)
 └── astro.config.mjs      # Astro site configuration
 ```
 
@@ -61,19 +65,20 @@ To enable some features, environment variables need to be defined. Create a `.en
 
 | Variable | Description |
 |----------|-------------|
-| `HASHNODE_TOKEN` | (Optional) Your Hashnode Personal Access Token. Enables the `/blog/drafts` route. |
-| `INDEXNOW_KEY` | (Optional) The IndexNow verification key used to generate the public verification file and submit changed URLs to IndexNow. |
-| `URL` | (Required if `INDEXNOW_KEY` is defiend) The deployed site URL used by the Netlify IndexNow function at runtime. Automatically provided by Netlify for deployed sites. |
+| `INDEXNOW_KEY` | (Optional) The IndexNow verification key used to generate the public verification file and submit changed URLs to IndexNow after each build. |
+| `URL` | (Required if `INDEXNOW_KEY` is defined) The deployed site URL used by the IndexNow submission script at build time. Automatically provided by Netlify for deployed sites. |
 
-> **Note:** Without `HASHNODE_TOKEN`, the drafts routes will be disabled and return a 404 redirect.
-
-> **Note:** Without `INDEXNOW_KEY`, IndexNow update is gracefully skipped.
+> **Note:** Without `INDEXNOW_KEY`, IndexNow submission is gracefully skipped.
 
 ## 📝 Setup & Development
 
 To run this site locally:
 
 ```bash
+# 0. Requirements: Node.js >= 22 (declared in package.json engines;
+#    also used by Netlify to select the build runtime)
+#    The post-build IndexNow script uses the native Set.symmetricDifference.
+
 # 1. Clone the repository
 $ git clone https://github.com/juhda/personal-site.git
 $ cd your-repo-name
@@ -91,13 +96,7 @@ $ npm run dev
 ### 💡 Development Notes
 
 - **Environment Variables:** The dev server will automatically load variables from a `.env` file in the root directory if it exists.
-- **Enabling Drafts:** To preview your Hashnode drafts, you must provide a `HASHNODE_TOKEN`. You can do this in two ways:
-  - **Option A (Recommended):** Create a `.env` file and add `HASHNODE_TOKEN=your_token_here`.
-  - **Option B (Direct):** Provide it directly in your terminal when starting the server:
-    ```bash
-    $ HASHNODE_TOKEN=your_token_here npm run dev
-    ```
-  - If the token is valid, you can navigate to `/blog/drafts` to see your unpublished work.
+- **Drafts:** Set `draft: true` in a post's `meta.yaml` to hide it from the published site (omitted, `draft` defaults to `false`). Draft posts appear in `astro dev` and Netlify branch deploy previews at `/blog/drafts/<slug>` only — never at their post URL or on published surfaces; production builds exclude them entirely.
 
 ## 🚀 Deployment
 
@@ -153,13 +152,7 @@ This project uses Astro's built-in `redirects` configuration to manage server-si
 
 ## 🌐 Sitemap Generation
 
-This project includes dynamic sitemap generation to ensure that all relevant pages — including those rendered with on-demand rendering — are accurately included in `sitemap.xml`. This supports better SEO indexing, even for dynamic routes that aren't prerendered at build time.
-
-### 🧠 Why it's needed
-
-Astro's default sitemap plugin only includes statically generated pages. Since this site uses on-demand rendering (ODR) for blog content, we generate the sitemap ourselves to include:
-- Static pages (e.g. /about, /portfolio)
-- Dynamic pages (e.g. /blog/[slug], /blog/series/[series_name]) by running getStaticPaths() at runtime
+The `sitemap.xml` is generated statically at build time. Since all blog content lives in the repository, every route is known at build, resolved from the content collections, and prerendered. Pages marked `noindex` — the blog listing, tags, archives, search, and drafts pages — are excluded; the indexed routes are the static pages, posts (`/blog/[slug]`), and series detail pages (`/blog/series/[series_name]`).
 
 ### ⚙️ How it works
 
@@ -172,9 +165,9 @@ Astro's default sitemap plugin only includes statically generated pages. Since t
   - Save them to `src/generated/sitemap-data.json`
 - Dynamic route logic lives in `src/utils/getStaticPaths.ts` with named exports like `getStaticPaths_blog()`
   - Each dynamic `.astro` page imports its matching function for `getStaticPaths`
-- `src/pages/sitemap.xml.ts` reads the generated JSON file and calls these functions to build a live `sitemap.xml` at runtime
+- `src/pages/sitemap.xml.ts` is prerendered: it reads the generated JSON file, resolves dynamic paths from the content collections at build time, and emits a static `sitemap.xml`
 
-This approach works with any server adapter (static or SSR) and ensures the sitemap is always up-to-date when dynamic rendering is supported while respecting pages that should not be indexed.
+Because both the route list and the `noindex` flags are resolved from the same sources at build time, the sitemap always matches what the build actually produces.
 
 ## 🔍 IndexNow Support
 
@@ -183,13 +176,19 @@ This site can submit changed URLs to [IndexNow](https://www.indexnow.org/) so se
 ### How it works
 
 - A verification file required by IndexNow is generated by `scripts/generate-indexnow-key-file.ts` into the `public/` directory during build.
-- A scheduled Netlify function in `netlify/functions/indexnow.ts` runs daily.
-- It loads the generated `sitemap.xml`, compares the current URLs with the previous snapshot kept in Netlify Blobs, and submits only changed URLs (i.e., URLs added and removed).
+- After each build, `scripts/submit-indexnow.mjs` compares the freshly built `sitemap.xml` against the currently deployed (live) sitemap — which is the previous deploy's URL set — and submits the changed URLs (added and removed) to IndexNow.
+- The live sitemap is the baseline, so no state needs to be stored: if a deploy fails after submission, the next build re-detects and re-submits the same diff.
+- Transient submission failures (network errors, 5xx) are retried up to 3 times with backoff. A 4xx (usually a bad key) is not retried.
 
 ### Limitation
 
-- The script does not check content update at existing URLs.
-  - This could be added easily to the Netlify function if `sitemap.xml` provided `lastmod` values for URLs.
+- The submission is best effort — no persistent state. If a submission still fails after the retries, the deploy publishes normally and the pages remain live and crawlable via `sitemap.xml`, but the accelerated IndexNow notification for them is lost (the next deploy's baseline already contains them). Manual recovery at any time:
+  ```bash
+  npm run build && npm run submit:indexnow -- --all
+  ```
+  `--all` resubmits every URL in the built sitemap, ignoring the baseline.
+- The script does not check content updates at existing URLs.
+  - This could be added if `sitemap.xml` provided `lastmod` values for URLs.
 
 ### Required setup
 
@@ -202,38 +201,54 @@ URL=https://your-domain.com
 
 > **Note:** The environment variable `URL` is provided by Netlify automatically for deployments.
 
-## 📰 Blog Integration (Hashnode)
+## 📰 Blog
 
-This site integrates with [Hashnode](https://hashnode.com/) as a headless blog source using their public GraphQL API.
+Blog posts are authored in [Typst](https://typst.app/) and live in this repository, rendered to HTML at build time via [astro-typst](https://github.com/OverflowCat/astro-typst). All blog routes are prerendered (fully static).
 
-- Dynamic blog pages are generated under `/blog` (e.g. `/blog/my-article`)
-- Blog content is fetch dynamically and blog pages are created with Astro's [on-demand rendering](https://docs.astro.build/en/guides/on-demand-rendering/)
-- The integration handles posts (respecting canonical URL if defined in Hashnode), tags, and series
-- GraphQL queries are modular, using fragments and clean types
-- Blog descriptions and metadata are rendered using trusted HTML from Hashnode and safely injected with Astro's `set:html`
-- LaTeX math content is conditionally rendered using MathJax (see below)
+### Content layout
 
-### Implementation Notes
+```
+src/content/blog/
+  _preamble.typ            # shared rendering definitions (imported by posts)
+  <slug>/
+    index.html.typ         # post body (Typst)
+    meta.yaml              # title, subtitle, description, seoTitle?,
+                           # publishedAt?, updatedAt?, tags (slugs), series?,
+                           # coverImage?, ogImage?, draft?
+    images/                # colocated images, served flat at /content/blog/<slug>/
+src/content/series/<slug>/
+  meta.yaml                # series name, description, coverImage
+  cover.png                # served at /content/series/<slug>/cover.png
+src/content/tags.yaml      # tag display names (slug -> name list)
+```
 
-- On-Demand Rendering
-  - Blog pages are rendered dynamically on every request — prerendering is disabled for all blog routes
-  - No server-side caching is configured via the Netlify adapter; each page request fetches fresh content from the Hashnode API
-  - This is acceptable for low-traffic use, but traffic levels should be monitored and caching configured if request volume increases
-- Hashnode API and Features
-  - Hashnode GraphQL failures are handled gracefully with a user-friendly error page, and error details are shown in development
-  - Posts are displayed in the order returned by Hashnode's API — newest first by default, though series may use oldest-first sorting depending on settings
-  - Blog post slugs are matched directly — no post redirect support is implemented
-  - Not all metadata (e.g. author bios, reactions, visibility flags) from Hashnode is used
-  - No static pages and custom redirects from Hashnode are handled — implement any static content and redirects directly with Astro
-  - Reactions and commenting are not supported, as Hashnode does not expose interaction features in headless mode
-- Conditional Navigation Items
-  - The **Search page** is linked in blog pages only if the number of posts meets or exceeds the configured `blogSearchLimit` in the global config (`/src/config/site.ts`)
-    - The page includes all posts and performs client-side filtering
-  - The **Subscribe page** is active and linked in blog pages only if `blogSubscribeAction` is defined in the global config (`/src/config/site.ts`)
-- **Drafts Support (Private)**
-  - If a `HASHNODE_TOKEN` is provided via environment variables, the site enables the `/blog/drafts` and `/blog/drafts/[id]` routes.
-  - This allows you to preview how your Hashnode drafts will look in your custom UI before hitting "Publish."
-  - For security, these routes are only functional when the API token is present.
+Cover and OG images are named `cover.png` / `og.png`. Inline images are referenced by their filename (`#blog-img("Foo.png")`), which must match the file in the post's `images/` directory. Prefer filenames without spaces (`My-Diagram.png`) since the name is also the served URL.
+
+### Dates and tags
+
+- **Dates**: `publishedAt` and `updatedAt` are optional in `meta.yaml`. When omitted, the content loader derives them from git at build time — `publishedAt` from the first commit that added the post directory, `updatedAt` from the last commit that touched it. Explicit `meta.yaml` values always win. New posts can simply omit both. Git-derived dates require the build to have git history (Netlify provides a full clone); uncommitted posts have no dates until first commit.
+- **Tags**: posts list tag **slugs** only. Display names live once in `src/content/tags.yaml` (a list of `slug`/`name` pairs). A slug whose name equals the slug can be omitted, and a slug without an entry simply displays as the slug itself — so most tags need no entry at all.
+- **Series**: `series` in `meta.yaml` links a post to a series; omitted (or null) means a standalone post.
+- **Drafts**: `draft` defaults to `false` when omitted — a post is a draft only if explicitly flagged `draft: true`. A minimal starting point lives at `src/content/blog/template/` (a draft; copy the directory and replace its contents).
+
+### Rendering pipeline
+
+- `index.html.typ` is compiled by astro-typst (typst.ts WASM compiler) to semantic HTML; the post pages wrap it in `<article>` so the `article`-scoped styles apply.
+- Shared rendering definitions live in `src/content/blog/_preamble.typ` (`blog-img` emits plain `<img>` with site-relative URLs; `horizontalrule` emits `<hr>` — a markdown-style thematic break with no Typst equivalent, so the definition has to exist somewhere; `callout` is the block-quote helper for callout boxes — `quote()` defaults to an inline quote, so `block: true` is load-bearing and the alias keeps post sources short). Each post imports it:
+  ```
+  #import "../_preamble.typ": blog-img, horizontalrule, callout
+  ```
+- `src/typst/rehype-typst.mjs` post-processes the emitted hAST inside astro-typst's compile pipeline (injected by the `typstBridged` wrapper in `astro.config.mjs`).
+- `src/blog/images.mjs` is a vite plugin handling colocated images end to end: its `load` hook expands bare image filenames in the `.typ` source (`#blog-img("Foo.png")` becomes the served URL `/content/blog/<slug>/Foo.png`) before astro-typst compiles the post, its dev middleware serves the images from the source tree, and at build it copies them into `dist/content/`.
+- Code blocks are syntax-highlighted by Typst at build time.
+
+### Notes and limitations
+
+- Publishing a post = committing it and pushing; the site rebuilds (~1–2 min on Netlify).
+- Math: Typst's HTML export currently drops formula content silently (experimental feature as of Typst 0.14.2); equation labels and `@`-references still render (as an anchor and a numbered link), so cross-references keep working while the formulas themselves are invisible. If you need visible math, wait for upstream support or raise it before writing a math-heavy post. The template post demonstrates inline, block, and numbered equations.
+- The **Search page** is linked in blog pages only if the number of posts meets or exceeds the configured `blogSearchLimit` in the global config (`/src/config/site.ts`); the page includes all posts and performs client-side filtering.
+- The **Subscribe page** is linked only if `blogSubscribeAction` is defined in the global config.
+- **Drafts**: posts with `draft: true` in `meta.yaml` are excluded from production builds entirely; they appear in `astro dev` and Netlify branch deploy previews at `/blog/drafts`.
 
 ## ✉️ Subscription Support
 
@@ -254,74 +269,18 @@ Newsletter support is enabled via the following config options in `src/config/si
 | `blogSubscribeAction` | If set, enables the subscription form and submission logic |
 | `blogSubscribeNameField` | Optional label for a name input to personalize messages |
 
+## 🎨 Code Block Enhancements
 
-## ➕ MathJax Support for LaTeX (Optional)
-
-This site optionally supports LaTeX-style math rendering via [MathJax](https://www.mathjax.org/), which is also used by Hashnode for embedded math expressions.
-
-- Inline math uses `$...$`, and block math uses `$$...$$`.
-- MathJax is **only enabled if `blogEnableMath` is set to `true`** in the global config (`src/config/site.ts`)
-- When enabled, MathJax is loaded **dynamically and only when math is detected** in post content or previews
-  - Pages pass `content` (e.g. a post's `html` or `brief`) into `MathJaxLoader`.
-  - The loader component scans for LaTeX syntax and conditionally injects the MathJax script.
-  - This works on both full post pages (`/blog/[slug]`) and previews (`/blog`, `/blog/tags`, etc.).
-- `MathJaxLoader` is injected into pages using Astro's `<Fragment slot name="head">`.
-
-### ✍️ To use math in a post
-
-To include math, when math rendering is enabled, write LaTeX in your Hashnode post using:
-
-```latex
-$...$       // for inline math
-$$...$$     // for block math
-\$          // for a literal dollar sign
-```
-
-Math will render automatically wherever it's used in post content or previews.
-
-### 📦 Implementation Notes
-
-- Math rendering is globally enabled/disabled for blog posts and previews by `blogEnableMath` in `src/config/site.ts`.
-- Uses [MathJax v3](https://www.mathjax.org/#gettingstarted) from CDN with the default `tex-mml-chtml` loader.
-- Configuration and conditional loading are handled in `src/components/MathJaxLoader.astro`.
-- No MathJax code is loaded on pages that don't include LaTeX syntax — for optimal performance.
-
-## 🎨 Highlight.js Support for Syntax Highlighting (Optional)
-
-This site supports syntax highlighting for code blocks via [Highlight.js](https://highlightjs.org/). The HTML content fetched from Hashnode is already preprocessed with Highlight.js, so no additional JavaScript is required. However, you can optionally include the Highlight.js stylesheet for proper rendering of the syntax-highlighted code.
-
-- Syntax highlighting is applied to code blocks within `<pre><code>` tags and includes `hljs` classes.
-- Highlight.js styles are **only enabled if `blogEnableSyntaxHighlighting` is set to `true`** in the global config (`src/config/site.ts`).
-- When enabled, Highlight.js is stylesheet is loaded dynamically.
-  - Pages pass `content` (e.g., a post's `html` or `brief`) into `HighlightJSLoader`.
-  - The loader component scans for `hljs` classes and conditionally injects the Highlight.js stylesheet.
-  - This works on both full post pages (`/blog/[slug]`) and previews (`/blog`, `/blog/tags`, etc.).
-- `HighlightJSLoader` is injected into pages using Astro's `<Fragment slot="head">`.
-
-### 🔧 Configuration Details
-
-When math rendering is enabled:
-
-- MathJax is configured to recognize `$...$` (inline) and `$$...$$` (block) math
-- Escaped dollar signs (`\$`) are treated as literal dollar symbols (`processEscapes: true`)
-- Content inside `<pre>`, `<code>`, `<style>`, etc., is safely ignored
-- The configuration is injected before MathJax loads in `src/components/MathJaxLoader.astro`
-
-If math rendering is disabled via `blogEnableMath = false`, no MathJax scripts or config are included, and dollar signs will be displayed as-is.
-
-## 🎨 Code Block Enhancements (Optional)
-
-This site includes an optional feature to enhance the appearance and functionality of code blocks within blog posts. When enabled, this feature adds language indicators and copy buttons to code blocks.
+This site enhances the appearance and functionality of code blocks within blog posts by adding language indicators and copy buttons.
 
 - **Automatic Language Detection**: The script automatically detects the programming language of each code block by examining the class attribute of the `<code>` element. It looks for patterns like `language-(\w+)` or `lang-(\w+)` to extract the language name. If a match is found, the language name is displayed in a styled span element within the code block header. If no match is found, the language indicator is skipped for that code block.
 - **Copy Button**: Allows users to easily copy the code block content to the clipboard.
 
 ### 📦 Implementation Notes
 
-- Only enabled if `blogEnhanceCodeblocks` is set to `true` in the global config (`src/config/site.ts`).
 - The enhancement is implemented in `src/components/CodeblockEnhancer.astro`.
 - The script adds a header with the additional elements for a `<code>` element when the element is the only directly child of a `<pre>` element.
-- The script is injected into `src/pages/blog/[slug].astro` using Astro's `<Fragment slot="head">`.
+- The script is injected into the post pages (`src/pages/blog/[slug].astro` and `src/pages/blog/drafts/[slug].astro`) using Astro's `<Fragment slot="head">`.
 
 ## 📌 Customization Tips
 
@@ -336,10 +295,6 @@ This site includes an optional feature to enhance the appearance and functionali
 
 - Dark mode toggle with default to follow system
 - Use Tailwind `prose` for unified professional typography
-- Bring in text content to static and blog pages from Markdown
-- Improve blog integration
-  - Configure caching reasonable policies if request volume increases
-  - Optimize GraphQL queries if needed to reduce latency and request frequency under higher load
 
 
 ## 🔗 License

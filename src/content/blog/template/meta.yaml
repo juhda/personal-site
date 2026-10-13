@@ -1,0 +1,25 @@
+# Template post metadata. Copy this directory (src/content/blog/template/)
+# to start a new post, then fill this in:
+#   - description (required): a one-to-two sentence summary — the SEO
+#     description; also shown on post cards and in RSS.
+#   - seoTitle (optional): overrides the title for SEO (<title>, og:title,
+#     structured data); falls back to title when omitted.
+#   - tags: slugs only; display names live in src/content/tags.yaml (every
+#     slug needs an entry there — the build fails on missing ones).
+#   - publishedAt/updatedAt (optional): omitted values are derived from git
+#     (first/last commit touching the post directory).
+#   - coverImage/ogImage: set to null below for "no image"; remove the
+#     lines to use the default images/ files (cover.png / og.png).
+#   - drop `draft: true` to publish.
+# Prose fields are >- folded blocks (wrapped continuation lines, indented).
+title: >-
+  Template Post
+description: >-
+  A minimal draft post demonstrating the required structure of a blog post. Replace this
+  description with a one-to-two sentence summary — it is the SEO description and appears
+  on post cards and in RSS.
+tags:
+  - template
+coverImage: null
+ogImage: null
+draft: true

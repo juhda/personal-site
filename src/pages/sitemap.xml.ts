@@ -2,8 +2,6 @@ import getStaticPaths from '../utils/getStaticPaths';
 
 import sitemapData from '../generated/sitemap-data.json';
 
-export const prerender = false;
-
 export async function GET() {
   const site = import.meta.env.SITE;
   if (!site) {
@@ -16,16 +14,14 @@ export async function GET() {
     const functionName = getStaticPaths.pathToFunctionName(modulePath);
 
     if (!(functionName in getStaticPaths) || typeof getStaticPaths[functionName as keyof typeof getStaticPaths] !== 'function') {
-      console.warn(`[sitemap] Module getStaticPaths does not export a function named ${functionName} for ${modulePath}`);
-      continue;
+      throw new Error(`[sitemap] Module getStaticPaths does not export a function named ${functionName} for ${modulePath}. Add it in src/utils/getStaticPaths.ts so the module's URLs land in the sitemap.`);
     }
 
     const fun = getStaticPaths[functionName as keyof typeof getStaticPaths];
     const result = await fun();
 
     if (!Array.isArray(result)) {
-      console.warn(`[sitemap] ${functionName} in getStaticPaths returned invalid result.`);
-      continue;
+      throw new Error(`[sitemap] ${functionName} in getStaticPaths returned invalid result.`);
     }
 
     for (const { params } of result) {
@@ -45,7 +41,7 @@ ${urls.map(url => `
 
   return new Response(xml, {
     headers: {
-      'Content-Type': 'application/xml'
+      "Content-Type": "application/xml"
     }
   });
 }

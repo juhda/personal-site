@@ -1,34 +1,34 @@
-import { getAllSeriesInfo, getAllTags, getDraftIds, getPostSlugs } from "../hashnode-lib/client";
+import { getPublishedPosts, getDraftPosts, getTags, getSeries } from "../blog/lib";
 
 export function pathToFunctionName(path: String) {
   return `getStaticPaths${path.replace(/\//g, '_')}`
 }
 
 export async function getStaticPaths_blog() {
-  const postSlugs = await getPostSlugs();
-  return postSlugs.map(slug => ({
-    params: { slug }
+  const posts = await getPublishedPosts();
+  return posts.map(post => ({
+    params: { slug: post.id },
   }));
 }
 
 export async function getStaticPaths_blog_tags() {
-  const tags = await getAllTags();
+  const tags = await getTags();
   return tags.map(tagInfo => ({
-    params: { tag: tagInfo.slug }
+    params: { tag: tagInfo.slug },
   }));
 }
 
 export async function getStaticPaths_blog_series() {
-  const allSeriesInfo = await getAllSeriesInfo();
-  return allSeriesInfo.map(seriesInfo => ({
-    params: { series_name: seriesInfo.slug }
+  const seriesList = await getSeries();
+  return seriesList.map(s => ({
+    params: { series_name: s.id },
   }));
 }
 
 export async function getStaticPaths_blog_drafts() {
-  const draftIds = await getDraftIds();
-  return draftIds.map(id => ({
-    params: { id }
+  const drafts = await getDraftPosts();
+  return drafts.map(draft => ({
+    params: { slug: draft.id },
   }));
 }
 

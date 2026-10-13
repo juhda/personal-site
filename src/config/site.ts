@@ -14,18 +14,11 @@ export const defaultOGImage = "/og/default.png";
 export const sitemapAdditionalUrls = []; // Additional URLs to include in the sitemap. This is useful for pages that are not defined as .astro files under src/pages.
 
 // Blog-related settings.
-export const blogHashnodeUrl = "davidjuhasz.dev/blog"; // Hashnode URL of the blog. This is used to fetch posts from Hashnode.
-export const blogHashnodeToken = import.meta.env?.HASHNODE_TOKEN as string | undefined ?? null; // Personal access token for Hashnode API, required for accessing drafts.
-export const blogEnableDrafts = Boolean(blogHashnodeToken); // Whether drafts are enabled (requires valid Hashnode token).
-export const blogTitle = "Defined Behavior"; // Title of the blog. This is used as title in prerendered pages. On-demand pages use the blog title from Hashnode.
-export const blogEnableMath = true; // Enable LaTeX math rendering in blog posts and previews.
-export const blogEnableSyntaxHighlighting = true; // Enable syntax highlighting in blog posts and previews.
-export const blogEnhanceCodeblocks = true; // Enable code block enhancements in blog posts.
-export const blogHashnodeMaxPosts = 50; // Maximum number of posts to fetch from Hashnode at once. This is limited by Hashnode to 50.
-export const blogHashnodeMaxSeries = 20; // Maximum number of series and posts within series to fetch from Hashnode at once. This is limited by Hashnode to 20.
+export const blogTitle = "Defined Behavior"; // Title of the blog.
+export const blogDescriptionSEO = "Engineering at the intersection of software and hardware. Structured thinking on systems, compilers, and technical leadership — with clarity, precision, and purpose."; // SEO description of the blog.
 export const blogOGImage = "/og/blog.png";
-export const blogNumRecentPosts = 6; // Number of recent posts to show on the blog home. Should not be larger than blogHashnodeMaxPosts.
-export const blogNumRSSPosts = 10; // Number of posts to show in the RSS feed. Should not be larger than blogHashnodeMaxPosts.
+export const blogNumRecentPosts = 6; // Number of recent posts to show on the blog home.
+export const blogNumRSSPosts = 10; // Number of posts to show in the RSS feed.
 export const blogSearchLimit = 10; // Number of posts under which search is not enabled as it would not be useful for starting blogs with very few posts.
 export const blogSubscribeAction = "https://buttondown.com/api/emails/embed-subscribe/definedbehavior"; // Action for blog subscribe form. Subscribe links are rendered only if provided.
 export const blogSubscribeNameField = "metadata__name"; // Name of the name field in the subscribe form, which is used to identify the name of the subscriber in the posted data. If not provided, the name field is not shown.

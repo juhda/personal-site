@@ -1,24 +1,26 @@
 ---
 import Link from './Link';
 
-import type { SeriesInfo } from "../hashnode-lib/schema";
+import type { Series } from "../blog/lib";
+import { seriesCoverUrl } from "../blog/urls";
 
-interface Props {
-  seriesInfo: SeriesInfo;
-}
+type Props = {
+  series: Series;
+};
 
-const { seriesInfo } = Astro.props;
+const { series } = Astro.props;
+const coverImage = seriesCoverUrl(series);
 ---
 <section class="nested-card">
-  <Link href={`/blog/series/${seriesInfo.slug}`}>
-    {seriesInfo.coverImage && (
+  <Link href={`/blog/series/${series.id}`}>
+    {coverImage && (
       <div class="cover-image-container">
         <img
-        src={seriesInfo.coverImage}
-        alt={seriesInfo.name}
+        src={coverImage}
+        alt={series.data.name}
         />
       </div>
     )}
-    <h3 class="text-center">{seriesInfo.name}</h3>
+    <h3 class="text-center">{series.data.name}</h3>
   </Link>
 </section>

@@ -1,28 +1,32 @@
-import generateRSS from '@astrojs/rss';
-import { getBlogInfo, getRecentPostInfo } from '../../hashnode-lib/client';
-import { blogNumRSSPosts } from '../../config/site';
+import rss from '@astrojs/rss';
 
-export const prerender = false;
+import { getPublishedPosts, getTagNames } from '../../blog/lib';
+import { blogDescriptionSEO, blogNumRSSPosts, blogTitle } from '../../config/site';
 
 export async function GET() {
-  const blogInfo = await getBlogInfo();
-  const posts = await getRecentPostInfo(blogNumRSSPosts);
+  const posts = await getPublishedPosts();
+  // RSS pubDate is strictly the publication date; posts without one (e.g.
+  // uncommitted drafts in dev/preview) are not syndication-ready.
+  const recent = posts
+    .filter(post => post.data.publishedAt)
+    .slice(0, blogNumRSSPosts);
+  const tagNames = await getTagNames();
 
   const baseUrl = import.meta.env.SITE;
   if (!baseUrl) {
     return new Response('RSS generation failed: site URL is not set in astro.config.mjs.', { status: 500 });
   }
 
-  return generateRSS({
-    title: `${blogInfo.title} RSS Feed`,
-    description: blogInfo.descriptionSEO.trim(),
+  return rss({
+    title: `${blogTitle} RSS Feed`,
+    description: blogDescriptionSEO,
     site: baseUrl,
-    items: posts.map(post => ({
-      title: post.title,
-      link: `/blog/${post.slug}`,
-      pubDate: new Date(post.publishedAt),
-      description: post.brief,
-      categories: post.tags?.map(tag => tag.name)
+    items: recent.map(post => ({
+      title: post.data.title,
+      link: `/blog/${post.id}`,
+      pubDate: new Date(post.data.publishedAt!),
+      description: post.data.description,
+      categories: post.data.tags.map(slug => tagNames.get(slug)!)
     })),
     customData: "<language>en</language>"
   });
