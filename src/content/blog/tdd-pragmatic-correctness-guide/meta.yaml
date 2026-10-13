@@ -1,0 +1,19 @@
+title: >-
+  Test-Driven Development: The Pragmatic Path to Software Correctness
+subtitle: >-
+  How executable examples mitigate bugs from ambiguous requirements — the root of 60–80%
+  of defects
+description: >-
+  TDD bridges the gap between ad-hoc testing and formal verification. Learn how
+  test-driven development catches 80% of bugs early — with minimal overhead.
+seoTitle: >-
+  TDD for Correct Software: How Test-Driven Design Cuts Bugs Early
+publishedAt: "2026-02-11T16:20:31.551Z"
+updatedAt: "2026-05-14T08:15:51.727Z"
+tags:
+  - software-correctness
+  - test-driven-development
+  - formal-verification
+  - solid-principles
+  - software-engineering
+  - design-by-contract
