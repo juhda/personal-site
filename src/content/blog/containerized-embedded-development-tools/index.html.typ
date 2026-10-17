@@ -1,4 +1,4 @@
-#import "../_preamble.typ": blog-img, callout, horizontalrule
+#let (blog-img, callout, horizontalrule) = eval(read("../_preamble.typ"), mode: "code")
 
 #emph[Missed Part 3 of the “]#link("https://davidjuhasz.dev/blog/series/containerized-embedded-dev")[#emph[Practical Embedded Development, Containerized]]#emph[” series? Read about]
 #link("https://davidjuhasz.dev/blog/containerized-embedded-development-pitfalls-patterns")[#strong[Bridging the Three Worlds in Containerized Embedded Develoment]] #emph[first.]

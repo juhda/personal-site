@@ -1,4 +1,4 @@
-#import "../_preamble.typ": blog-img, callout, horizontalrule
+#let (blog-img, callout, horizontalrule) = eval(read("../_preamble.typ"), mode: "code")
 
 In today\'s fast-moving software world, adaptability isn\'t just helpful --- it\'s
 essential for staying relevant. With new technologies and methodologies emerging

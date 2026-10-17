@@ -1,4 +1,4 @@
-#import "../_preamble.typ": blog-img, callout, horizontalrule
+#let (blog-img, callout, horizontalrule) = eval(read("../_preamble.typ"), mode: "code")
 
 Large Language Models (LLMs) are transforming how we work --- if you know #emph[how] to
 use them. The hype calls them near-experts, but the truth is simpler: #strong[they mimic expertise, not possess it]. This post will help you leverage LLMs effectively, cut

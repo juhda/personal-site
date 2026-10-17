@@ -1,4 +1,4 @@
-#import "../_preamble.typ": blog-img, callout, horizontalrule
+#let (blog-img, callout, horizontalrule) = eval(read("../_preamble.typ"), mode: "code")
 
 = Why Most Software Ships With Unproven Assumptions
 Most software teams face a #strong[correctness paradox]: they need the rigor of

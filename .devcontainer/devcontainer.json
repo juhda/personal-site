@@ -1,0 +1,17 @@
+// Codespace configuration. The image is the same universal image GitHub
+// Codespaces uses when a repository has no dev container configuration;
+// the additions are the editor extensions and the preview font fetch for
+// the tinymist preview.
+{
+  "name": "personal-site",
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "myriad-dreamin.tinymist",
+        "astro-build.astro-vscode"
+      ]
+    }
+  },
+  "postCreateCommand": "npm run fetch:preview-fonts"
+}
