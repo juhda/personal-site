@@ -1,4 +1,4 @@
-#import "../_preamble.typ": blog-img, callout, horizontalrule
+#let (blog-img, callout, horizontalrule) = eval(read("../_preamble.typ"), mode: "code")
 
 #strong[Your best work disappears --- along with your recognition.]
 

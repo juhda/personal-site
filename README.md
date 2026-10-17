@@ -41,6 +41,7 @@ It serves as my digital home — a place to showcase my portfolio, share ideas, 
 ```bash
 .
 ├── public/               # Static assets (favicons, OG images)
+├── preview-fonts/        # Fonts for the tinymist paged preview (gitignored; fetched via npm run fetch:preview-fonts)
 ├── scripts/              # JavaScript/TypeScript helpers for static generation
 ├── src/
 │   ├── assets/           # Internal static resources (images, fonts, etc.)
@@ -96,6 +97,8 @@ $ npm run dev
 ### 💡 Development Notes
 
 - **Environment Variables:** The dev server will automatically load variables from a `.env` file in the root directory if it exists.
+- **Typst preview:** the tinymist extension (VS Code; auto-installed in codespaces, recommended elsewhere) live-previews a post while editing, for editorial review. That preview compiles in Typst's paged mode rather than HTML, so the preamble helpers fall back to native paged rendering (they branch on `target()`): `horizontalrule` draws a line, and `blog-img` embeds the colocated `images/` file with its alt text shown as a small caption below. The site build is unaffected — served pages come from the HTML export.
+- **Typst preview fonts:** the tinymist paged preview (VS Code extension) needs an emoji font, which the system fonts don't provide. `preview-fonts/` (gitignored) holds Noto Color Emoji, registered via `"tinymist.fontPaths": ["${workspaceFolder}/preview-fonts"]` in `.vscode/settings.json`; fetch it with `npm run fetch:preview-fonts`, or let the codespace `postCreateCommand` do it. It affects only the editor preview — the served site renders emoji with the visitor's own fonts.
 - **Drafts:** Set `draft: true` in a post's `meta.yaml` to hide it from the published site (omitted, `draft` defaults to `false`). Draft posts appear in `astro dev` and Netlify branch deploy previews at `/blog/drafts/<slug>` only — never at their post URL or on published surfaces; production builds exclude them entirely.
 
 ## 🚀 Deployment
@@ -209,7 +212,7 @@ Blog posts are authored in [Typst](https://typst.app/) and live in this reposito
 
 ```
 src/content/blog/
-  _preamble.typ            # shared rendering definitions (imported by posts)
+  _preamble.typ            # shared rendering definitions (read+eval'd by posts)
   <slug>/
     index.html.typ         # post body (Typst)
     meta.yaml              # title, subtitle, description, seoTitle?,
@@ -234,9 +237,9 @@ Cover and OG images are named `cover.png` / `og.png`. Inline images are referenc
 ### Rendering pipeline
 
 - `index.html.typ` is compiled by astro-typst (typst.ts WASM compiler) to semantic HTML; the post pages wrap it in `<article>` so the `article`-scoped styles apply.
-- Shared rendering definitions live in `src/content/blog/_preamble.typ` (`blog-img` emits plain `<img>` with site-relative URLs; `horizontalrule` emits `<hr>` — a markdown-style thematic break with no Typst equivalent, so the definition has to exist somewhere; `callout` is the block-quote helper for callout boxes — `quote()` defaults to an inline quote, so `block: true` is load-bearing and the alias keeps post sources short). Each post imports it:
+- Shared rendering definitions live in `src/content/blog/_preamble.typ` (`blog-img`, `horizontalrule`, `callout`); the file's inline comments document each helper, the per-mode behaviour, and why it is bound with `read`+`eval` instead of `#import`. One consequence of that binding to be aware of: errors raised inside the preamble are reported at the post's `eval(read(...))` line, and the language server cannot see through `eval` — so a compile error pointing at the eval line usually means the problem is in the preamble. Each post binds the helpers with:
   ```
-  #import "../_preamble.typ": blog-img, horizontalrule, callout
+  #let (blog-img, horizontalrule, callout) = eval(read("../_preamble.typ"), mode: "code")
   ```
 - `src/typst/rehype-typst.mjs` post-processes the emitted hAST inside astro-typst's compile pipeline (injected by the `typstBridged` wrapper in `astro.config.mjs`).
 - `src/blog/images.mjs` is a vite plugin handling colocated images end to end: its `load` hook expands bare image filenames in the `.typ` source (`#blog-img("Foo.png")` becomes the served URL `/content/blog/<slug>/Foo.png`) before astro-typst compiles the post, its dev middleware serves the images from the source tree, and at build it copies them into `dist/content/`.

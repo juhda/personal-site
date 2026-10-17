@@ -1,4 +1,4 @@
 {
-  "recommendations": ["astro-build.astro-vscode"],
+  "recommendations": ["myriad-dreamin.tinymist", "astro-build.astro-vscode"],
   "unwantedRecommendations": []
 }

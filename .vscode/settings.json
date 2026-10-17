@@ -1,0 +1,7 @@
+{
+  // Editor preview fonts. The tinymist paged preview (VS Code) needs an
+  // emoji-capable font; the system fonts of the default codespace image
+  // include none. preview-fonts/ is gitignored -- this command refetches it
+  // on fresh clones/codespaces. See README, Development Notes.
+  "tinymist.fontPaths": ["${workspaceFolder}/preview-fonts"]
+}

@@ -1,4 +1,4 @@
-#import "../_preamble.typ": blog-img, callout, horizontalrule
+#let (blog-img, callout, horizontalrule) = eval(read("../_preamble.typ"), mode: "code")
 
 #emph[\"Bigger models, smarter AI\"] --- this mantra has defined recent years of
 artificial intelligence, promising that scale alone would unlock human-like reasoning.

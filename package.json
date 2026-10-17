@@ -9,6 +9,7 @@
     "generate:sitemap": "tsx scripts/generate-sitemap-data.ts",
     "generate:indexnow": "tsx scripts/generate-indexnow-key-file.ts",
     "generate:all": "npm run generate:sitemap && npm run generate:indexnow",
+    "fetch:preview-fonts": "node scripts/fetch-preview-fonts.mjs",
     "submit:indexnow": "node scripts/submit-indexnow.mjs",
     "dev": "npm run generate:sitemap && astro dev",
     "build": "npm run generate:all && astro build && npm run submit:indexnow",

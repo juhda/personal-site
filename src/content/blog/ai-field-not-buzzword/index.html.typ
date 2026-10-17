@@ -1,4 +1,4 @@
-#import "../_preamble.typ": blog-img, callout, horizontalrule
+#let (blog-img, callout, horizontalrule) = eval(read("../_preamble.typ"), mode: "code")
 
 Artificial Intelligence (AI) is everywhere --- but what even is AI? Behind the buzzword
 lies a diverse field: symbolic systems, statistical models, neural networks, each with
