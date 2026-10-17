@@ -31,3 +31,19 @@ const isActive = (path: string) =>
     </ul>
   </nav>
 </header>
+
+<script>
+  // Publish the live header height so anchor scrolling can clear it
+  // (see the [id] scroll-margin-top rule in global.css).
+  const header = document.querySelector("header");
+  if (header) {
+    const setHeaderHeight = () => {
+      document.documentElement.style.setProperty(
+        "--header-height",
+        `${header.offsetHeight}px`
+      );
+    };
+    new ResizeObserver(setHeaderHeight).observe(header);
+    setHeaderHeight();
+  }
+</script>

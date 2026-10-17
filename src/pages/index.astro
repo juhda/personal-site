@@ -12,8 +12,8 @@ import { Image } from 'astro:assets';
 import meImage from '../assets/me.jpg';
 
 const title = author + " - " + jobTitle;
-const description = "The personal website of " + author + ", a " + cleanJobTitle + " specializing in the hardware-software bridge. Exploring the 0-to-1 phase of compilers, systems architecture, and co-design.";
-const keywords = author + ", systems engineer, software engineer, hardware-software co-design, compiler development, RISC-V, system simulation, 0-to-1 engineering, technical leadership, portfolio, blog";
+const description = "The personal website of " + author + ", a " + cleanJobTitle + " building the software that makes custom hardware usable — compilers, simulators, and embedded firmware, from the 0-to-1 phase.";
+const keywords = author + ", software consultant, systems engineer, software engineer, hardware-software co-design, compiler development, RISC-V, system simulation, 0-to-1 engineering, technical leadership, portfolio, blog";
 ---
 <BaseLayout
   title={title}
@@ -36,18 +36,21 @@ const keywords = author + ", systems engineer, software engineer, hardware-softw
     <!-- Text Content -->
     <div>
       <h1>👋 Welcome — I'm <span class="whitespace-nowrap">{author}</span></h1>
-      <h2 class="text-text font-medium">{jobTitle} | Hardware-Software Co-Design</h2>
+      <h2 class="text-text font-medium">{jobTitle} | Software Platforms for Custom Hardware</h2>
       <p>
-        I empower teams to bridge the gap between hardware and software through <em>structured insight, developer empowerment, and systems-level thinking</em>. My work centers on <strong>Hardware-Software Co-Design</strong>, where I develop system-level solutions and the infrastructure — <em>compilers, simulators, and frameworks</em> — that enables silicon and software to evolve as a unified ecosystem.
+        I build the software that makes custom hardware usable: compilers, simulators, and embedded firmware — the core system layers that translate hardware constraints into reliable, high-performance platforms. That work often starts in co-design with hardware teams, because the decisions made there determine what the platform can become.
       </p>
       <p>
-        I specialize in the <strong>"0 to 1" phase</strong> of deep-tech systems, applying modern software engineering rigor to <em>resource-constrained environments</em> and platforms like <strong>RISC-V</strong>. By turning architectural constraints into opportunities, I help teams establish clarity and alignment from the ground up.
+        I specialize in the <strong>"0 to 1" phase</strong> of deep-tech systems, applying modern software engineering rigor to resource-constrained environments and platforms like RISC-V. By turning architectural constraints into opportunities, I help teams establish clarity and alignment from the ground up.
       </p>
       <p>
-        This site is a space for me to share my work and ideas publicly. On my <Link href="/blog">blog</Link>, I explore the intersection of technology and human systems — from technical deep-dives into <strong>embedded systems and toolchain development</strong> to broader reflections on <strong>engineering efficiency and leadership</strong>.
+        The results of this approach are concrete: I led a custom edge AI accelerator from architecture study through toolchain and runtime to RISC-V SoC integration, and I currently enable edge AI on space-grade compute with Frontgrade Gaisler.
       </p>
       <p>
-        My goal is to foster <strong>shared understanding</strong> across disciplines, enabling teams to collaborate with purpose and precision. If this approach resonates with you, I invite you to explore my work or reach out for a conversation.
+        This site is a space for me to share my work and ideas publicly. On my <Link href="/blog">blog</Link>, I explore the intersection of technology and human systems — from technical deep-dives into embedded systems and toolchain development to broader reflections on engineering efficiency and leadership.
+      </p>
+      <p>
+        My goal is to foster <strong>shared understanding</strong> across disciplines, enabling teams to collaborate with purpose and precision. The work where I add the most value starts early, while hardware and software decisions still shape each other — if you are building such a platform, I would welcome the conversation about how I could contribute.
       </p>
 
       <!-- Call-to-Action Buttons -->

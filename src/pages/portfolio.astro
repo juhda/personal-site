@@ -10,12 +10,11 @@ import {
 } from '../config/site.ts';
 
 const title = "Project Portfolio | " + author + " - " + jobTitle;
-const description = "Explore selected projects by " + author + ", focusing on compilers, simulators, and platform enablement. High-impact work in hardware-software co-design and system-level architecture.";
-const keywords = "project portfolio, " + author + ", LLVM, RISC-V, system simulators, compiler design, firmware development, toolchain integration, platform architecture";
+const description = "Selected work by " + author + ", a " + cleanJobTitle + ": instruction set architectures, LLVM-based toolchains, edge AI accelerators, and bare-metal embedded platforms, organized by theme.";
+const keywords = author + ", project portfolio, hardware-software co-design, compiler engineering, edge AI, embedded systems, technical leadership";
 const localImage = "/og/portfolio.png";
 ---
 <BaseLayout
-  noPadding={true}
   title={title}
   description={description}
   keywords={keywords}
@@ -26,45 +25,209 @@ const localImage = "/og/portfolio.png";
       <h1>Project Portfolio</h1>
 
       <p>
-        This portfolio offers a curated look at my work in <strong>Hardware-Software Co-Design</strong>. I specialize in building the core system layers — <strong>compilers, simulators, and embedded firmware</strong> — that transform hardware constraints into reliable, high-performance ecosystems.
+        My work sits in the core system layers — instruction set architectures, compilers, simulators, and embedded firmware — that translate hardware constraints into reliable, high-performance platforms. I am at my best in the zero-to-one phase of a project, where silicon architecture and system software are defined together.
       </p>
 
       <p>
-        I am at my best during the <strong>"0 to 1" phase</strong> of a project, where the foundation of a system is established. My contributions focus on fostering <strong>shared understanding</strong> between disciplines, ensuring that silicon architecture and system software evolve together with clarity and purpose.
+        The selection below is organized by theme rather than as a project inventory. Each entry states the domain, my role, and the outcome. Because all of this work was carried out on proprietary platforms, entries describe architecture and impact rather than artifacts.
       </p>
 
-      <h2>How to Navigate My Work</h2>
+      <h2 id="edge-ai-and-hardware-software-co-design">Edge AI and Hardware-Software Co-Design</h2>
 
       <p>
-        The table below provides a detailed view of my projects. Each entry is structured to highlight:
-        <ul class="list-disc pl-6">
-          <li><strong>The Challenge:</strong> The architectural or engineering bottleneck I addressed.</li>
-          <li><strong>The Solution:</strong> My technical approach across the hardware-software stack.</li>
-          <li><strong>The Impact:</strong> The resulting platform enablement, workflow efficiency, or system-level clarity.</li>
-        </ul>
+        The strongest thread in my recent work is taking custom AI acceleration from whiteboard to deployable platform: architecture study, quantization strategy, code generation, functional simulation, runtime, and SoC integration, with software and hardware design refining each other throughout.
+      </p>
+
+      <article>
+        <h3>Custom Edge AI Accelerator: Architecture to Integration</h3>
+        <p class="project-meta">Technical Lead · Imsys · 2021–2024</p>
+        <p>
+          Led the multi-year build-out of a custom edge AI accelerator platform. Defined the execution model and instruction set architecture in a collaborative architecture study with a five-engineer multidisciplinary team, analyzing ML models and application requirements to shape the hardware feature set. Guided the quantization strategy for image-processing networks. Led the teams delivering a TVM-based code generation backend, a functional simulator used to validate code generation and firmware against FPGA prototypes over PCIe and USB, and the runtime stack handling kernel orchestration, model lifecycle management, and hardware interface abstraction. Co-authored the plan for integrating the accelerator into a RISC-V-based system-on-chip.
+        </p>
+        <p class="project-outcome"><strong>Outcome:</strong> a complete software platform enabling ML deployment on custom silicon, with iterative hardware-software refinement before hardware finalization.</p>
+      </article>
+
+      <article>
+        <h3>LLM Training and Inference Profiling</h3>
+        <p class="project-meta">Technical Lead · FlexAI · 2024</p>
+        <p>
+          Co-created the roadmap for internal AI tooling, implemented runtime profiling of PyTorch operations, reviewed memory profiling infrastructure and interpreted its results for model optimization, and surveyed compilation techniques and deployment frameworks for large language models.
+        </p>
+        <p class="project-outcome"><strong>Outcome:</strong> a comprehensive report on LLM execution behavior and tooling requirements that formed the foundation for subsequent hardware-software co-design initiatives.</p>
+      </article>
+
+      <article>
+        <h3>Edge AI Enablement for Space-Grade Compute</h3>
+        <p class="project-meta">Edge AI and Systems Engineering · Frontgrade Gaisler · 2025</p>
+        <p>
+          Integrated and optimized the Akida embedded runtime engine for bare-metal RISC-V, enabling DNN inference in space environments. Evaluated vision applications using both frame- and event-based sensors under strict power, latency, and reliability constraints, and aligned hardware capabilities with model quantization and runtime scheduling requirements. Acted as the technical liaison between hardware, firmware, and application teams.
+        </p>
+        <p class="project-outcome"><strong>Outcome:</strong> an integrated edge AI platform for space missions that directly informed the roadmap for AI-driven space systems.</p>
+      </article>
+
+      <article>
+        <h3>Neuromorphic Computing for Event-Based Edge AI in Space</h3>
+        <p class="project-meta">Edge AI and Systems Engineering · Frontgrade Gaisler · 2025–2026</p>
+        <p>
+          Investigated neuromorphic processing with event-based sensors and hybrid convolutional and spiking neural networks for resource-constrained space environments. Profiled event pre-processing and SNN inference on embedded platforms, built proof-of-concept demonstrators on commercial sensor and neuromorphic hardware, and transitioned to custom FPGA and SoC prototyping boards.
+        </p>
+        <p class="project-outcome"><strong>Outcome:</strong> functional demonstrators, performance benchmarks, and architectural guidelines informing mission development for Earth observation, proximity operations, and autonomous docking.</p>
+      </article>
+
+      <h2 id="compilers-and-instruction-set-architectures">Compilers and Instruction Set Architectures</h2>
+
+      <p>
+        A toolchain is the contract between silicon and software. I have authored that contract from both ends: designing instruction sets aligned with modern compiler infrastructure, and building the compilers and assemblers that target them.
+      </p>
+
+      <article>
+        <h3>Instruction Set Architecture for Custom Embedded Processors</h3>
+        <p class="project-meta">System Architecture · Imsys · 2013–2014</p>
+        <p>
+          Analyzed the existing hardware design and supported instruction sets, then authored a complete ISA specification with register-based operations, scalar and vector data types, and ABI details, deliberately aligned with LLVM IR semantics to keep the platform compatible with modern software tooling. Designed interoperability mechanisms for switching between legacy and new instruction sets.
+        </p>
+        <p class="project-outcome"><strong>Outcome:</strong> the specification became the foundation of the platform's modern toolchain and updated embedded software stack.</p>
+      </article>
+
+      <article>
+        <h3>LLVM-Based Code Generator for a Custom Instruction Set</h3>
+        <p class="project-meta">Compiler Engineering · Imsys · 2014–2015</p>
+        <p>
+          Designed and implemented the full code generation pipeline for a proprietary embedded processor: a custom LLVM frontend, a backend covering instruction selection, scheduling, register allocation, and assembly emission, target-specific optimization passes, and a custom ELF linker target.
+        </p>
+        <p class="project-outcome"><strong>Outcome:</strong> enabled software development on a previously unsupported processor and formed the foundation of the platform's toolchain and application ecosystem.</p>
+      </article>
+
+      <article>
+        <h3>Custom Assembler for a Proprietary VLIW Architecture</h3>
+        <p class="project-meta">Compiler and Tool Engineering · Imsys · 2015–2016</p>
+        <p>
+          Reverse-engineered a legacy microcode language from C sources, resolving ambiguities and undefined behavior in the original implementation, and rebuilt the assembler following standard compiler design practices. Extended the language so that hardcoded values became configurable elements, and added local constraints that catch developer errors at build time instead of during runtime testing.
+        </p>
+        <p class="project-outcome"><strong>Outcome:</strong> materially improved the expressiveness and reliability of the microcode tooling and enabled its integration into broader development workflows.</p>
+      </article>
+
+      <article>
+        <h3>VLIW Code Size Optimization</h3>
+        <p class="project-meta">Compiler Engineering · Confidential · 2025</p>
+        <p>
+          Designed a dependency model capturing both data and instruction-level timing relationships in a Rust-based code generator, and engineered a reordering and bundling algorithm that minimizes instruction count while respecting those constraints.
+        </p>
+        <p class="project-outcome"><strong>Outcome:</strong> an average 25% reduction in code size across a benchmark suite of zero-knowledge proof generators, with corresponding gains in execution speed and memory footprint.</p>
+      </article>
+
+      <h2 id="simulation-validation-and-developer-tooling">Simulation, Validation, and Developer Tooling</h2>
+
+      <p>
+        Custom silicon is only as usable as the tools around it. I build the simulators, debuggers, validation frameworks, and editor integrations that let developers work confidently before hardware exists, and that keep quality measurable once it does.
+      </p>
+
+      <article>
+        <h3>RTL Simulator with Debug Support</h3>
+        <p class="project-meta">Tool Engineering · Imsys · 2016</p>
+        <p>
+          Extracted and modernized RTL simulation components from a larger legacy C++ codebase, validated the simulator's behavior against the original using software tests as stimuli, and integrated it with a hardware debugger library so that it functions as a virtual target.
+        </p>
+        <p class="project-outcome"><strong>Outcome:</strong> early-stage firmware testing and debugging without physical hardware, accelerating the development cycle.</p>
+      </article>
+
+      <article>
+        <h3>Toolchain and IDE Integration</h3>
+        <p class="project-meta">Technical Lead · Imsys · 2018</p>
+        <p>
+          Led a team of three engineers delivering a full LLVM-based toolchain with debugging support, owning the code generator and linker components, including compile-time and link-time optimization, and supporting the debugger, debug server, and Visual Studio Code integration.
+        </p>
+        <p class="project-outcome"><strong>Outcome:</strong> a feature-complete embedded toolchain with integrated debugging and editor support that measurably improved developer productivity.</p>
+      </article>
+
+      <article>
+        <h3>Instruction Set Validation Framework</h3>
+        <p class="project-meta">Technical Lead · Imsys · 2018</p>
+        <p>
+          Led a small team designing a lightweight validation framework and a comprehensive test suite for a custom instruction set, defining a structured approach to test case specification and verifying individual and combined instruction behavior in bare-metal environments.
+        </p>
+        <p class="project-outcome"><strong>Outcome:</strong> a reusable framework that prevented regressions in instruction set development as execution features evolved.</p>
+      </article>
+
+      <article>
+        <h3>VSCode Integration for RTL-Based Firmware Debugging</h3>
+        <p class="project-meta">Technical Lead · Imsys · 2021</p>
+        <p>
+          Led a two-engineer team integrating simulation and debugger libraries into a Visual Studio Code extension, extending the RTL-based debugging infrastructure of the platform.
+        </p>
+        <p class="project-outcome"><strong>Outcome:</strong> a lightweight and accessible debugging interface that lowered the barrier for junior developers to contribute to firmware debugging.</p>
+      </article>
+
+      <article>
+        <h3>FPGA Verification of a Space-Grade SoC Before Tapeout</h3>
+        <p class="project-meta">Systems Engineering · Frontgrade Gaisler · 2026</p>
+        <p>
+          Participated in verification planning for a space-grade system-on-chip design, coordinated objectives and methodologies between hardware and software teams, developed test cases focused on AI accelerator validation, and executed and debugged them on FPGA prototypes.
+        </p>
+        <p class="project-outcome"><strong>Outcome:</strong> a verified design on FPGA, reducing risk and increasing confidence ahead of ASIC tapeout.</p>
+      </article>
+
+      <p>
+        Related work in this theme includes a modernized host-side hardware debugger reverse-engineered from a proprietary debug protocol (2015) and simulation-based continuous integration for embedded software, including real hardware interfacing from CI pipelines (2020).
+      </p>
+
+      <h2 id="embedded-platforms-and-firmware">Embedded Platforms and Firmware</h2>
+
+      <p>
+        Firmware is where architecture meets physics. I have owned complete bare-metal software stacks for custom processors: board bring-up, bootloaders, real-time operating system integration, communication, and the build and test infrastructure that keeps them maintainable.
+      </p>
+
+      <article>
+        <h3>Bare-Metal Software Stack for a Custom IoT Processor</h3>
+        <p class="project-meta">Technical Lead · Imsys · 2018–2021</p>
+        <p>
+          Led a four-person team delivering the complete native software stack for a custom, resource-constrained IoT platform: board bring-up, bootloader development, and core RTOS features including context switching and interrupt handling, together with the build system, repository structure, and test automation framework. The work extended to a new development board with a broad set of interfaces, from PCB-level component selection and system co-design through peripheral drivers to demonstrator applications.
+        </p>
+        <p class="project-outcome"><strong>Outcome:</strong> a robust software stack that enabled application development on the custom IoT platform.</p>
+      </article>
+
+      <article>
+        <h3>Embedded Java Environment</h3>
+        <p class="project-meta">Technical Lead · Imsys · 2022–2024</p>
+        <p>
+          Led a three-engineer team porting and integrating the Open Mika Java Virtual Machine into the custom embedded platform, implementing low-level context switching between native and Java code execution and debugging kernel-level issues in the firmware integration of the runtime.
+        </p>
+        <p class="project-outcome"><strong>Outcome:</strong> a functioning embedded Java environment and the groundwork for performance tuning and further development.</p>
+      </article>
+
+      <article>
+        <h3>Precise Time Synchronization in Edge Devices</h3>
+        <p class="project-meta">Firmware Engineering · Imsys · 2016</p>
+        <p>
+          Integrated IEEE 1588 Precise Time Protocol support into edge devices, porting the implementation to the lowest layers of the network stack and connecting GPS hardware as the time reference, then evaluated synchronization precision across Ethernet-connected devices under various configurations.
+        </p>
+        <p class="project-outcome"><strong>Outcome:</strong> accurate, validated time synchronization in edge devices.</p>
+      </article>
+
+      <article>
+        <h3>Real-Time Audio Equalizer</h3>
+        <p class="project-meta">Technical Lead · Imsys · 2019–2020</p>
+        <p>
+          Supervised two engineers and two interns developing a 256-point, 16-bit complex FFT and IFFT implementation for a real-time audio equalizer with a graphical interface on a proprietary processor. Co-designed the system architecture for real-time audio processing, reviewed the algorithm design, and guided related master's thesis work.
+        </p>
+        <p class="project-outcome"><strong>Outcome:</strong> a real-time equalizer demonstrator meeting tight constraints on precision, timing, and memory usage.</p>
+      </article>
+
+      <h2>Research and Earlier Work</h2>
+
+      <p>
+        Earlier research at Eötvös Loránd University covered superoptimization of LLVM IR through recursive graph transformations and an LLVM backend for the Tile64 multi-core VLIW architecture, both documented in technical reports. Research collaborations at Vienna University of Technology produced RoSA, a distributed task system for modeling computational self-awareness on resource-constrained platforms, and an ML-based framework for discovering pareto-optimal compiler optimization sequences. At EIT Digital, I co-designed Rea, a distributed workflow execution engine for cyber-physical systems, prototyped as an embedded domain-specific language.
       </p>
 
       <p>
-        You can use the predefined views to explore by domain (e.g., System Architecture, Developer Tooling) or project role (e.g., Compiler Engineer, Technical Lead).
+        Earlier industrial work includes re-engineering the network layer of POS terminal applications for TCP/IP (2009), consolidating fragmented legacy firmware and tooling into a single maintainable codebase (2016), delivering customer-specific product variants such as Modbus RTU connectivity (2018), benchmarking low-power embedded development boards to inform hardware planning (2017), and building automated test systems for boards and semiconductor chips, including a robotic chip tester (2017–2019).
       </p>
 
-      <p class="muted-top-rule">
-        <strong>Looking for more context?</strong> Visit my <Link href="/about">About page</Link> to learn about my engineering philosophy, or check out my <Link href="/blog">blog</Link> for deep-dives into systems engineering and tech leadership.
-      </p>
+      <h2 class="muted-top-rule">Contact</h2>
 
       <p>
-        Feel free to <Link href={socialLinks.email}>email me</Link> or <Link href={socialLinks.linkedin}>connect on LinkedIn</Link>.
+        The most valuable work in this domain starts early, while hardware and software decisions still shape each other. If you are building a platform where that is true, I would welcome the conversation about how I could contribute. Visit my <Link href="/about">About page</Link> for my engineering philosophy, read my <Link href="/blog">blog</Link> for deep dives into systems engineering and technical leadership, or <Link href={socialLinks.email}>contact me directly by email</Link> or on <Link href={socialLinks.linkedin}>LinkedIn</Link>.
       </p>
     </div>
   </section>
-
-  <!-- Portfolio Table Embed -->
-  <div class="wide-embed">
-    <iframe
-      src="https://juhaszdavid.notion.site/ebd//1d07a2153eff8022ab18e7c4208be2d9?v=1d67a2153eff80c7bf68000c92ee9408"
-      title={title}
-      loading="eager"
-      allowfullscreen
-    ></iframe>
-  </div>
 </BaseLayout>
