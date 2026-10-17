@@ -9,7 +9,7 @@ import { author, blogDescriptionSEO, blogOGImage, blogSubscribeAction, blogTitle
 const searchEnabled = await getSearchEnabled();
 
 const description = "The philosophy behind Defined Behavior: A space for engineering thoughtfulness in the development of complex systems, from hardware to human collaboration.";
-const keywords = "about blog, defined behavior philosophy, systems thinking, engineering precision, structural integrity, hardware-software bridge";
+const keywords = "about blog, defined behavior philosophy, systems thinking, engineering precision, structural integrity, custom hardware";
 const coverImage = blogOGImage;
 ---
 <BlogLayout
@@ -40,7 +40,7 @@ const coverImage = blogOGImage;
       </p>
 
       <p>
-        Authored by <strong>Dávid Juhász</strong>, this blog explores the intersection of hardware, software, and human systems. Whether diving into <strong>tooling, architecture, or the nuances of technical leadership</strong>, this is a place for <em>structured insight, developer empowerment, and systems-level thinking</em>.
+        Authored by {author}, this blog explores the intersection of hardware, software, and human systems. Whether diving into tooling, architecture, or the nuances of technical leadership, this is a place for structured insight, developer empowerment, and systems-level thinking.
       </p>
 
       <h2>The Philosophy</h2>
@@ -50,18 +50,18 @@ const coverImage = blogOGImage;
       </p>
 
       <p>
-        In the <strong>"0 to 1" phase</strong> of deep-tech engineering, ambiguity is the default. This blog exists to explore how we move from that chaos toward a <strong>unified ecosystem</strong> of hardware and software, built on a foundation of shared understanding.
+        In the <strong>"0 to 1" phase</strong> of deep-tech engineering, ambiguity is the default. This blog exists to explore how we move from that chaos toward a unified ecosystem of hardware and software, built on a foundation of shared understanding.
       </p>
 
       <h2>A Deliberate Pace</h2>
       {!searchEnabled && (
         <p>
-          If the archive is still light, that is by design. I focus on <strong>thinking and publishing deliberately</strong>, not frequently. Defined Behavior will grow over time with writing that reflects its core principles: <strong>clarity, structure, and purpose</strong>.
+          If the archive is still light, that is by design. I focus on thinking and publishing deliberately, not frequently. Defined Behavior will grow over time with writing that reflects its core principles: clarity, structure, and purpose.
         </p>
       )}
       {searchEnabled && (
         <p>
-          I focus on <strong>depth over frequency</strong>. This archive is built deliberately, with each piece reflecting a commitment to clarity and structural integrity. I write when there is a complex system to deconstruct or a meaningful insight to share, ensuring every post serves a purpose for the reader.
+          I focus on depth over frequency. This archive is built deliberately, with each piece reflecting a commitment to clarity and structural integrity. I write when there is a complex system to deconstruct or a meaningful insight to share, ensuring every post serves a purpose for the reader.
         </p>
       )}
     </div>

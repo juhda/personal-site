@@ -21,7 +21,7 @@ const searchEnabled = await getSearchEnabled();
 const tagNames = await getTagNameMap();
 
 const title = series ? `Posts in ${series.data.name} | ${blogTitle}` : "Blog Series";
-const description = series ? `Explore the ${series.data.name} series on ${blogTitle} — a deep dive into systems architecture, engineering precision, and the hardware-software bridge.` : "";
+const description = series ? `Explore the ${series.data.name} series on ${blogTitle} — a deep dive into systems architecture, engineering precision, and custom hardware platforms.` : "";
 const keywords = series ? (series.data.name + ", blog series, defined behavior, systems thinking, compiler development, engineering leadership, hardware-software co-design, technical precision, deep-tech strategy") : "";
 const coverImage = series ? (seriesCoverUrl(series) ?? blogOGImage) : null;
 ---

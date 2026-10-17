@@ -10,7 +10,6 @@ It serves as my digital home — a place to showcase my portfolio, share ideas, 
 - ✅ Fully responsive layout
 - ✅ SEO-optimized with custom meta and structured data
 - ✅ `robots.txt`, dynamically generated `sitemap.xml`, and [IndexNow](https://indexnow.org) support for URL changes
-- ✅ Integrated Notion-powered portfolio view
 - ✅ Privacy-respecting analytics via GoatCounter
   - No personal data is collected. Analytics endpoint is public and safe to embed.
 - ✅ Optional blog subscription form with redirect pages for double opt-in.
@@ -30,7 +29,6 @@ It serves as my digital home — a place to showcase my portfolio, share ideas, 
 - [Astro v7](https://astro.build/) – Modern web framework
 - [Tailwind CSS v4](https://tailwindcss.com/) – CSS-first utility engine (Vite plugin)
 - [Preact](https://preactjs.com/) – Fast 3kB alternative to React for interactive components
-- [Notion](https://notion.so/) – Embedded portfolio data source
 - [GoatCounter](https://www.goatcounter.com/) – Lightweight, privacy-first analytics
 - [Buttondown](https://buttondown.email) – Lightweight newsletter platform used for optional blog post subscriptions
 - [Netlify](https://netlify.com/) – Hosting with adapter-based redirect handling (free tier)

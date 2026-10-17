@@ -74,6 +74,17 @@
     @apply flex flex-col min-h-screen bg-bg text-primary font-body;
   }
 
+  main {
+    @apply flex-1 p-4 max-w-4xl mx-auto;
+  }
+
+  /* Keep anchored headings clear of the sticky header when jump-linked.
+     --header-height is set from the live header by the script in Header.astro;
+     the fallback covers the single-line header if scripting is unavailable. */
+  [id] {
+    scroll-margin-top: calc(var(--header-height, 3.75rem) + 1.5rem);
+  }
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-title;
   }
@@ -198,14 +209,6 @@
     @apply border-b border-muted pb-4;
   }
 
-  .padded-main {
-    @apply flex-1 p-4 max-w-4xl mx-auto;
-  }
-
-  .wide-main {
-    @apply flex-1 w-full h-full;
-  }
-
   button,
   .cta-button,
   .cta-buttons a {
@@ -229,6 +232,14 @@
     @apply bg-bg p-4 rounded shadow hover:shadow-lg transition;
   }
 
+  .project-meta {
+    @apply text-sm font-medium text-text mb-2;
+  }
+
+  .project-outcome {
+    @apply border-l-2 border-accent pl-3 text-heading mb-0;
+  }
+
   .profile-image,
   .profile-image-floater img {
     @apply rounded-full object-cover shadow-md border-4 border-muted;
@@ -236,14 +247,6 @@
 
   .profile-image-floater {
     @apply shrink-0 mx-auto sm:mx-0;
-  }
-
-  .wide-embed {
-    @apply relative w-full min-h-[80vh] px-0 mt-12 pt-2 border-t border-muted;
-  }
-
-  .wide-embed iframe {
-    @apply block w-full min-h-[80vh] border-0;
   }
 
   .cover-image-container {
