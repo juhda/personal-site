@@ -81,7 +81,7 @@
 #block[
   #text(size: 12pt)[
     #hlink("tel:0036209309220")[+36 20 930 92 20] |
-    #hlink("mailto:hello@davidjuhasz.dev")[hello\@davidjuhasz.dev] |
+    #hlink("mailto:Dávid%20Juhász<hello@davidjuhasz.dev>")[hello\@davidjuhasz.dev] |
     #hlink("https://davidjuhasz.dev/")[davidjuhasz.dev] |
     #hlink("https://linkedin.com/in/juhaszdavid")[linkedin.com/in/juhaszdavid] |
     Hungary
