@@ -396,6 +396,36 @@ Manage each step by its own logic. Don't expect knowledge to ship on a sprint sc
 
 \#RandD \#Research \#ProductDevelopment \#EngineeringLeadership \#InnovationStrategy
 
+= Quality as a Requirement
+#strong[🔍 You can\'t inspect quality into a product. You have to build it in.]
+
+The most common QA mistake? Treating quality as a #strong[final inspection step like] a checkbox at the end of the pipeline.
+
+That\'s too late. Nothing gets #emph[fixed] there. It just gets #emph[found] if not missed.
+
+#strong[How quality actually works:]
+
+1️⃣ #strong[Make quality a requirement.] \
+✅ #emph[Define it:] What does \"quality\" mean here? Reliability? Performance? Maintainability? \
+✅ #emph[Capture it:] Vague expectations become concrete acceptance criteria.
+
+2️⃣ #strong[Respect it throughout development.] \
+✅ Quality isn\'t a phase. It\'s a #strong[constraint] that shapes every design decision.
+
+3️⃣ #strong[Validate at every stage.] \
+✅ Check quality along the way, not just at the end. \
+✅ Faster feedback = cheaper fixes.
+
+In software, this is exactly where #strong[TDD] comes in: tests written first make quality a requirement, not a retrospective.
+
+#strong[The rule:] \
+Quality is designed in or it isn\'t there at all. QA added as a surprise last step can\'t save anything.
+
+#strong[Is quality a requirement on your team or an afterthought?] \
+Agree? Disagree? Hit 👍 or drop your perspective below. 👇
+
+\#QualityAssurance \#TDD \#SoftwareQuality \#EngineeringCulture \#Testing
+
 #horizontalrule
 
 = First-Line Support as R&D Engineer
@@ -488,36 +518,6 @@ Deadlines hit. Corners get cut. That's reality.
 #strong[Kevlin Henney nailed it:] #emph[\"Technical neglect\"] is what kills systems---not the hacks, but the #emph[ignoring].
 
 #emph[Agree? Disagree? Hit 👍 or drop your perspective below. 👇]
-
-= Quality as a Requirement
-#strong[🔍 You can\'t inspect quality into a product. You have to build it in.]
-
-The most common QA mistake? Treating quality as a #strong[final inspection step like] a checkbox at the end of the pipeline.
-
-That\'s too late. Nothing gets #emph[fixed] there. It just gets #emph[found] if not missed.
-
-#strong[How quality actually works:]
-
-1️⃣ #strong[Make quality a requirement.] \
-✅ #emph[Define it:] What does \"quality\" mean here? Reliability? Performance? Maintainability? \
-✅ #emph[Capture it:] Vague expectations become concrete acceptance criteria.
-
-2️⃣ #strong[Respect it throughout development.] \
-✅ Quality isn\'t a phase. It\'s a #strong[constraint] that shapes every design decision.
-
-3️⃣ #strong[Validate at every stage.] \
-✅ Check quality along the way, not just at the end. \
-✅ Faster feedback = cheaper fixes.
-
-In software, this is exactly where #strong[TDD] comes in: tests written first make quality a requirement, not a retrospective.
-
-#strong[The rule:] \
-Quality is designed in or it isn\'t there at all. QA added as a surprise last step can\'t save anything.
-
-#strong[Is quality a requirement on your team or an afterthought?] \
-Agree? Disagree? Hit 👍 or drop your perspective below. 👇
-
-\#QualityAssurance \#TDD \#SoftwareQuality \#EngineeringCulture \#Testing
 
 = Help Is Received, Not Pushed
 
