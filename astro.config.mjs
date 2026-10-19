@@ -45,7 +45,9 @@ export default defineConfig({
     },
     "/resume": {
       status: 302,
-      destination: "/resume/DavidJuhasz_Resume_2026.pdf",
+      // Generated from src/resume/resume.typ by npm run generate:resume; see
+      // scripts/generate-resume.mjs (keep the filename in sync there).
+      destination: "/resume/DavidJuhasz_Resume.pdf",
     },
   },
 

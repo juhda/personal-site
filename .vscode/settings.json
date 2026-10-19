@@ -3,5 +3,10 @@
   // emoji-capable font; the system fonts of the default codespace image
   // include none. preview-fonts/ is gitignored -- this command refetches it
   // on fresh clones/codespaces. See README, Development Notes.
-  "tinymist.fontPaths": ["${workspaceFolder}/preview-fonts"]
+  // src/resume/fonts holds the committed EB Garamond instances the resume
+  // compiles with (scripts/generate-resume.mjs injects them itself at build time).
+  "tinymist.fontPaths": [
+    "${workspaceFolder}/preview-fonts",
+    "${workspaceFolder}/src/resume/fonts"
+  ]
 }

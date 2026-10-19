@@ -51,6 +51,7 @@ It serves as my digital home — a place to showcase my portfolio, share ideas, 
 │   │   └── series/       # Series: <slug>/meta.yaml + colocated cover.png
 │   ├── layouts/          # Base layout with shared header and structure
 │   ├── pages/            # Astro page routes (/index, /portfolio, etc.)
+│   ├── resume/           # Résumé source: resume.typ + committed font instances (fonts/)
 │   ├── styles/           # Tailwind config, themes, and custom styles
 │   ├── typst/            # Typst pipeline helpers (hAST post-processing injected into astro-typst)
 │   ├── utils/            # JavaScript/TypeScript helpers (e.g., breadcrumb generator)
@@ -119,9 +120,18 @@ $ npm run build
 $ npx serve dist
 ```
 
+## 📄 Résumé
+
+The résumé served at `/resume` is defined in Typst and compiled to PDF during the build — no binary export checked in.
+
+- **Source:** `src/resume/resume.typ` — content, structure, and how to edit them are documented in the file's header. Fonts: `src/resume/fonts/` (static instances of the resume's typeface).
+- **Compilation:** `npm run generate:resume` (part of `generate:all`) writes `public/resume/DavidJuhasz_Resume.pdf` (gitignored) and fails the build if the document is not exactly one page.
+- **Filename vs. freshness:** the served filename is stable, so the `/resume` redirect never needs updating for content changes. Freshness is shown in the PDF itself: a small "Last updated: <Month Year>" footer note derived from the git history of `src/resume`.
+- **Preview:** the tinymist paged preview renders the source with the same fonts; the footer note is build-only and omitted in preview.
+
 ## 🚦 Redirects Handling
 
-This project uses Astro's built-in `redirects` configuration to manage server-side redirects, such as automatically sending users from `/resume` to the latest resume PDF.
+This project uses Astro's built-in `redirects` configuration to manage server-side redirects, such as automatically sending users from `/resume` to the resume PDF generated from Typst source (see [Résumé](#-résumé)).
 
 - Redirect rules are defined in `astro.config.mjs` under the `redirects` map.
 - Local development (`npm run dev`) handles redirects dynamically.
@@ -300,8 +310,9 @@ This site enhances the appearance and functionality of code blocks within blog p
 
 ## 🔗 License
 
-- 🧩 **Code** (everything in `/src`, `/astro.config.mjs`, etc.) is licensed under the [MIT License](./LICENSE).
-- ✍️ **Content** (text, articles, written works, and images) is © Dávid Juhász and available under the [Creative Commons Attribution-NonCommercial 4.0 License (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/), unless otherwise noted.
+- 🧩 **Code** — the site implementation: components, layouts, scripts, and configuration — is licensed under the [MIT License](./LICENSE).
+- ✍️ **Content** — text, articles, written works, and images, including the blog posts in `src/content/` and the resume source in `src/resume/resume.typ` — is © Dávid Juhász and available under the [Creative Commons Attribution-NonCommercial 4.0 License (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/), unless otherwise noted.
+- 🔤 **Third-party assets** are excluded from the above: the resume fonts in `src/resume/fonts/` are under the SIL Open Font License 1.1, see `src/resume/fonts/OFL.txt`.
 
 Feel free to fork, adapt, and build upon the code for personal or commercial use.
 If you'd like to reuse written content, please reach out to me.

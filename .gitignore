@@ -32,3 +32,6 @@ src/generated/
 # preview fonts for the tinymist paged preview (fetched, never committed;
 # see scripts/fetch-preview-fonts.mjs)
 preview-fonts/
+
+# resume PDF generated from src/resume/resume.typ by scripts/generate-resume.mjs
+public/resume/*.pdf
