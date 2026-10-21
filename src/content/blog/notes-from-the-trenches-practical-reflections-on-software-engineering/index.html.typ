@@ -426,6 +426,46 @@ Agree? Disagree? Hit 👍 or drop your perspective below. 👇
 
 \#QualityAssurance \#TDD \#SoftwareQuality \#EngineeringCulture \#Testing
 
+= Help Is Received, Not Pushed
+
+*🧭 You can't walk the path for someone else.*
+
+One of the hardest lessons of supporting others: *help is only as good
+as its reception.*
+
+You see the solution instantly. They need to walk the whole journey.
+Jumping to your conclusion doesn't help --- _they won't accept it anyway._
+
+*What actually works:*
+
+1️⃣ *Lay out the landscape, not the destination.* \
+✅ Offer signposts, context, and evidence. \
+✅ Let them walk the path and make the conclusion _their own_.
+
+2️⃣ *Match your involvement to what's invited.* \
+✅ More than that, and you get frustration on both sides. Don't push.
+
+3️⃣ *Being right isn't enough.* \
+✅ Your conclusion must also _seem_ right, backed by all the evidence
+_they_ need to believe it.
+
+The "wasted time" isn't wasted because
+_the journey you could skip is the learning experience they can't._
+
+Even Proust saw this about how understanding works:
+_"Everyone finds clear only that idea which stands at
+the same level of confusion as their own."_
+
+An idea that arrives before the journey behind it just looks like noise.
+
+Clarity must be _reached_, not handed over.
+
+*Ever tried to hand someone a conclusion they weren't ready to receive?*
+Agree? Disagree? Hit 👍 or drop your perspective below. 👇
+
+\#Leadership \#Mentorship \#Coaching \#TechnicalLeadership \
+\#LearningAndDevelopment
+
 #horizontalrule
 
 = First-Line Support as R&D Engineer
@@ -518,43 +558,3 @@ Deadlines hit. Corners get cut. That's reality.
 #strong[Kevlin Henney nailed it:] #emph[\"Technical neglect\"] is what kills systems---not the hacks, but the #emph[ignoring].
 
 #emph[Agree? Disagree? Hit 👍 or drop your perspective below. 👇]
-
-= Help Is Received, Not Pushed
-
-*🧭 You can't walk the path for someone else.*
-
-One of the hardest lessons of supporting others: *help is only as good
-as its reception.*
-
-You see the solution instantly. They need to walk the whole journey.
-Jumping to your conclusion doesn't help --- _they won't accept it anyway._
-
-*What actually works:*
-
-1️⃣ *Lay out the landscape, not the destination.*
-  - ✅ Offer signposts, context, and evidence.
-  - ✅ Let them walk the path and make the conclusion _their own_.
-
-2️⃣ *Match your involvement to what's invited.*
-  - ✅ More than that, and you get frustration on both sides. Don't push.
-
-3️⃣ *Being right isn't enough.*
-  - ✅ Your conclusion must also _seem_ right, backed by all the evidence
-    _they_ need to believe it.
-
-*Why the "wasted time" isn't wasted:*
-The journey you could skip is the learning experience they can't.
-
-As Proust wrote: _"Everyone finds clear only that idea which stands at
-the same level of confusion as their own."_
-
-Clarity must be _reached_, not handed over.
-
-*The rule:*
-Guide the walk. Don't drag them to the finish line.
-
-*Ever tried to hand someone a conclusion they weren't ready to receive?*
-Agree? Disagree? Hit 👍 or drop your perspective below. 👇
-
-\#Leadership \#Mentorship \#Coaching \#TechnicalLeadership \
-\#LearningAndDevelopment
