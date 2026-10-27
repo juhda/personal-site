@@ -466,6 +466,31 @@ Agree? Disagree? Hit 👍 or drop your perspective below. 👇
 \#Leadership \#Mentorship \#Coaching \#TechnicalLeadership \
 \#LearningAndDevelopment
 
+= On “Quick and Dirty” Solutions
+#strong[⚡ \"Quick and dirty\" isn't the problem --- #emph[never cleaning up] is.]
+
+#strong[The hack itself is fine.]
+
+Deadlines hit. Corners get cut. That's reality.
+
+✅ #emph[Sometimes] you need duct tape to ship on time.
+
+⚠️ #emph[But] if you don't #strong[acknowledge the debt], it becomes #strong[neglect].
+
+#strong[The rule:]
+
+1️⃣ #strong[Be explicit.] \"This is a hack. We'll fix it by \[date\].\"
+
+2️⃣ #strong[Track it.] Technical debt is a loan, not a gift. Add it to the backlog.
+
+3️⃣ #strong[Pay it back.] Let debt pile up, and soon you're drowning in \"quick fixes\" that take longer to undo than the original work.
+
+There is an excellent phrase for this that I borrow from Kevlin Henney: #emph["technical neglect"] is what kills systems --- not the hacks, but the #emph[ignoring].
+
+#emph[Agree? Disagree? Hit 👍 or drop your perspective below. 👇]
+
+\#TechnicalDebt \#SoftwareDevelopment \#CodeQuality \#EngineeringCulture \#Pragmatism
+
 #horizontalrule
 
 = First-Line Support as R&D Engineer
@@ -533,28 +558,5 @@ Not because reviews are bad, but because we confuse #emph[process] with #emph[pr
 If the change is small/tested → #strong[merge fast.]
 
 If it's complex → #strong[talk it through live.]
-
-#emph[Agree? Disagree? Hit 👍 or drop your perspective below. 👇]
-
-= On “Quick and Dirty” Solutions
-#strong[⚡ \"Quick and dirty\" isn't the problem---#emph[never cleaning up] is.]
-
-Deadlines hit. Corners get cut. That's reality.
-
-#strong[The hack itself? Fine.]
-
-✅ #emph[Sometimes] you need duct tape to ship on time.
-
-✅ #emph[But]---if you don't #strong[acknowledge the debt], it becomes #strong[neglect].
-
-#strong[The rule:]
-
-1️⃣ #strong[Be explicit.] \"This is a hack. We'll fix it by \[date\].\"
-
-2️⃣ #strong[Track it.] Technical debt is a loan, not a gift. Add it to the backlog.
-
-3️⃣ #strong[Pay it back.] Let debt pile up, and soon you're drowning in \"quick fixes\" that take longer to undo than the original work.
-
-#strong[Kevlin Henney nailed it:] #emph[\"Technical neglect\"] is what kills systems---not the hacks, but the #emph[ignoring].
 
 #emph[Agree? Disagree? Hit 👍 or drop your perspective below. 👇]
