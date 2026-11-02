@@ -11,13 +11,14 @@ seoTitle: >-
 publishedAt: "2025-12-13T15:37:41.296Z"
 updatedAt: "2026-03-13T16:51:21.725Z"
 tags:
-  - embedded-systems
   - containerization
-  - podman
-  - docker
-  - podman-vs-docker
   - devcontainer
-  - vscode
+  - docker
+  - embedded-development
+  - embedded-systems
   - github-codespaces
   - oci
+  - podman
+  - podman-vs-docker
+  - vscode
 series: containerized-embedded-dev

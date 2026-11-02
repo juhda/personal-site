@@ -63,8 +63,6 @@
   name: Hybrid AI
 - slug: infrastructure-as-code
   name: Infrastructure as Code
-- slug: large-language-models
-  name: Large Language Models
 - slug: legibility-tax
   name: Legibility Tax
 - slug: llm
@@ -91,8 +89,6 @@
   name: SOLID Principles
 - slug: symbolic-ai
   name: Symbolic AI
-- slug: tech-career
-  name: Tech Career
 - slug: tech-leadership
   name: Tech Leadership
 - slug: template

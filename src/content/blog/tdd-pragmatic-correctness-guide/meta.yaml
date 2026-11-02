@@ -11,9 +11,9 @@ seoTitle: >-
 publishedAt: "2026-02-11T16:20:31.551Z"
 updatedAt: "2026-05-14T08:15:51.727Z"
 tags:
-  - software-correctness
-  - test-driven-development
-  - formal-verification
-  - solid-principles
-  - software-engineering
   - design-by-contract
+  - formal-verification
+  - software-correctness
+  - software-engineering
+  - solid-principles
+  - test-driven-development

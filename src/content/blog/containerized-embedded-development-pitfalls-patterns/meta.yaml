@@ -11,10 +11,10 @@ seoTitle: >-
 publishedAt: "2025-11-05T16:21:58.596Z"
 updatedAt: "2026-03-13T16:34:06.129Z"
 tags:
-  - embedded-systems
   - containerization
-  - firmware-development
-  - docker
   - devops
+  - docker
   - embedded-development
+  - embedded-systems
+  - firmware-development
 series: containerized-embedded-dev

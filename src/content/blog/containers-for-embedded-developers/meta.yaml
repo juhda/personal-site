@@ -11,10 +11,11 @@ seoTitle: >-
 publishedAt: "2025-07-10T15:56:05.604Z"
 updatedAt: "2026-03-13T16:33:17.045Z"
 tags:
-  - embedded-systems
-  - docker
-  - devtools
-  - containerization
   - build-automation
   - cicd
+  - containerization
+  - devtools
+  - docker
+  - embedded-development
+  - embedded-systems
 series: containerized-embedded-dev
