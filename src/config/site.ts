@@ -1,4 +1,5 @@
 // Below should not change normally. If any does, check also in the SEO component.
+export const siteUrl = "https://davidjuhasz.dev";
 export const author = "Dávid Juhász";
 export const localMeImage = "/images/me.jpg"; // Relative to public folder. If you change the image, change src/assets/me.jpg as well!
 export const jobTitle = "Software Consultant"; // This and cleanJobTitle are used at multiple places, so be careful when changing them.
@@ -28,3 +29,11 @@ export const goatCounterUrl = "https://stats.davidjuhasz.dev/count";
 
 // Absolutely no need to change anything below this line.
 export const cleanJobTitle = jobTitle.replace(/&/g, 'and');
+
+/** Whether a link leaves the site; derived from the same siteUrl that sets
+ * Astro's `site` config (and thus import.meta.env.SITE). Shared by the Link
+ * component and the Typst HTML post-processing (rehype-typst.mjs), so the
+ * two decide externalness identically. External links open in a new tab and
+ * carry privacy-preserving rel. */
+export const isExternalLink = (href: string): boolean =>
+  /^https?:\/\//.test(href) && !href.startsWith(siteUrl);

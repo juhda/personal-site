@@ -8,6 +8,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { rehypeTypstHtml } from './src/typst/rehype-typst.mjs';
 import { resolvePostImages } from './src/typst/resolve-post-images.mjs';
 import { images } from './src/blog/images.mjs';
+import { siteUrl } from './src/config/site';
 
 const typstIntegration = typst();
 
@@ -32,7 +33,7 @@ const typstBridged = {
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://davidjuhasz.dev',
+  site: siteUrl,
   integrations: [preact(), typstBridged],
 
   // Adapter needed to handle redirects when deploying to Netlify
