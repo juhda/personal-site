@@ -20,7 +20,7 @@ const keywords = author + ", engineering philosophy, systems architecture, custo
 const localImage = "/og/about.png";
 
 // Prose comes from src/content/pages/about/index.html.typ; the profile
-// photo and the "Next Steps" section (download/config links) stay here.
+// photo, the hardcoded title, and the CTA rows stay here.
 const About = await getPageBody("about");
 ---
 <BaseLayout
@@ -44,6 +44,7 @@ const About = await getPageBody("about");
 
     <!-- Text Content -->
     <div>
+      <h1>About Me</h1>
       <About />
 
       <h2 class="muted-top-rule">Explore My Work</h2>

@@ -2,28 +2,8 @@
 // (src/content/pages/<slug>/*.html.typ). Generic prose helpers live in the
 // common ancestor preamble (src/content/_preamble.typ); only definitions
 // that make sense exclusively for page bodies belong here; definitions
-// needed by a single page are defined in that page's own body file.
-
-// page-title: the main title of a static page. Typst's heading export maps
-// `=` (level 1) to <h2> — the body hierarchy starts one level below the
-// page title — so the <h1> needs an explicit element.
-// HTML export: an <h1>.
-// Paged preview: a native level-1 heading.
-let page-title = (body) => context if target() == "html" {
-  html.elem("h1", body)
-} else {
-  heading(level: 1, body)
-}
-
-// nowrap: a non-breaking inline span (e.g. the job title in the About
-// prose).
-// HTML export: a <span class="whitespace-nowrap">.
-// Paged preview: the body in a box, whose contents do not break across lines.
-let nowrap = (body) => context if target() == "html" {
-  html.elem("span", attrs: ("class": "whitespace-nowrap"), body)
-} else {
-  box(body)
-}
+// needed by a single page are defined in that page's own body file. Page
+// titles are hardcoded in the wrapping .astro files, not authored here.
 
 // anchor-h2: a section heading carrying a fragment-link id (e.g.
 // /portfolio#compilers-and-instruction-set-architectures) that other pages
@@ -54,8 +34,6 @@ let muted-rule = context if target() == "html" {
 }
 
 (
-  page-title: page-title,
-  nowrap: nowrap,
   anchor-h2: anchor-h2,
   muted-rule: muted-rule,
 )

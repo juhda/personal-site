@@ -14,7 +14,7 @@ const description = "Selected work by " + author + ", a " + cleanJobTitle + ": i
 const keywords = author + ", project portfolio, hardware-software co-design, compiler engineering, edge AI, embedded systems, technical leadership";
 const localImage = "/og/portfolio.png";
 
-// Entire textual content comes from src/content/pages/portfolio/index.html.typ
+// The page body comes from src/content/pages/portfolio/index.html.typ
 const Body = await getPageBody("portfolio");
 ---
 <BaseLayout
@@ -24,6 +24,7 @@ const Body = await getPageBody("portfolio");
   localImage={localImage}
 >
   <section class="card">
+    <h1>Project Portfolio</h1>
     <Body />
   </section>
 </BaseLayout>

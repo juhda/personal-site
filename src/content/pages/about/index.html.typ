@@ -1,12 +1,9 @@
-// About page body. Structure (profile photo, the "Next Steps" section with
-// its download/config links) stays in src/pages/about.astro; the prose
-// lives here.
-#let (page-title, nowrap) = eval(read("../_preamble.typ"), mode: "code")
+// About page body. Structure (profile photo, the hardcoded title, and the
+// CTA rows for portfolio / résumé / social links) stays in
+// src/pages/about.astro; the prose lives here.
 #let (cleanJobTitle,) = eval(read("../../../generated/site.typ"), mode: "code")
 
-#page-title[About Me]
-
-I am a #nowrap[#cleanJobTitle] specializing in the intersection of hardware and software. My work is driven by a core conviction: the most impactful technology emerges when we treat silicon and code as a #strong[unified ecosystem], not as separate domains.
+I am a #cleanJobTitle specializing in the intersection of hardware and software. My work is driven by a core conviction: the most impactful technology emerges when we treat silicon and code as a #strong[unified ecosystem], not as separate domains.
 
 = From Constraints to Platforms
 

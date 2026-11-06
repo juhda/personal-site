@@ -99,7 +99,7 @@ $ npm run dev
 ### 💡 Development Notes
 
 - **Environment Variables:** The dev server will automatically load variables from a `.env` file in the root directory if it exists.
-- **Typst preview:** the tinymist extension (VS Code; auto-installed in codespaces, recommended elsewhere) live-previews a post or page body while editing, for editorial review. That preview compiles in Typst's paged mode rather than HTML, so the preamble helpers fall back to native paged rendering (they branch on `target()`): `horizontalrule` and `muted-rule` draw a line, `blog-img` embeds the colocated `images/` file with its alt text shown as a small caption below, and the page helpers (`page-title`, `anchor-h2`, `nowrap`) fall back to plain headings and boxes. The site build is unaffected — served pages come from the HTML export.
+- **Typst preview:** the tinymist extension (VS Code; auto-installed in codespaces, recommended elsewhere) live-previews a post or page body while editing, for editorial review. That preview compiles in Typst's paged mode rather than HTML, so the preamble helpers fall back to native paged rendering (they branch on `target()`): `horizontalrule` and `muted-rule` draw a line, `blog-img` embeds the colocated `images/` file with its alt text shown as a small caption below, and the page helpers (`anchor-h2`, `muted-rule`) fall back to plain headings and lines. The site build is unaffected — served pages come from the HTML export.
 - **Typst preview fonts:** the tinymist paged preview (VS Code extension) needs an emoji font, which the system fonts don't provide. `preview-fonts/` (gitignored) holds Noto Color Emoji, registered via `"tinymist.fontPaths": ["${workspaceFolder}/preview-fonts"]` in `.vscode/settings.json`; fetch it with `npm run fetch:preview-fonts`, or let the codespace `postCreateCommand` do it. It affects only the editor preview — the served site renders emoji with the visitor's own fonts.
 - **Drafts:** Set `draft: true` in a post's `meta.yaml` to hide it from the published site (omitted, `draft` defaults to `false`). Draft posts appear in `astro dev` and Netlify branch deploy previews at `/blog/drafts/<slug>` only — never at their post URL or on published surfaces; production builds exclude them entirely.
 
@@ -233,7 +233,7 @@ src/content/
                            # coverImage?, ogImage?, draft?
       images/              # colocated images, served flat at /content/blog/<slug>/
   pages/
-    _preamble.typ          # page-specific rendering definitions (page-title, nowrap, anchor-h2, muted-rule)
+    _preamble.typ          # page-specific rendering definitions (anchor-h2, muted-rule)
     <slug>/
       *.html.typ           # page bodies (Typst); index.html.typ by default, named parts otherwise
 src/content/series/<slug>/
@@ -280,10 +280,10 @@ Static pages separate content from structure: the `.astro` files keep layout, SE
 
 | Page | `.astro` keeps | Typst supplies (`src/content/pages/<slug>/`) |
 |------|----------------|-----------------------------------------------|
-| `/` | photo, headline (config interpolations), CTA buttons | prose paragraphs |
-| `/about` | photo, CTA rows (portfolio / résumé / social links) | full prose body |
-| `/portfolio` | layout + SEO only | the entire content, including project entries |
-| `/resume-overview` | layout, download button, part arrangement, separation rule | three parts: `intro`, `highlights`, `value` |
+| `/` | photo, headline and title (config interpolations), CTA buttons | prose paragraphs |
+| `/about` | photo, hardcoded title, CTA rows (portfolio / résumé / social links) | full prose body |
+| `/portfolio` | layout, hardcoded title + SEO | the entire content, including project entries |
+| `/resume-overview` | layout, hardcoded title, download button, part arrangement, separation rule | three parts: `intro`, `highlights`, `value` |
 | `/blog/about` | author header, "How to Follow" section | main prose |
 
 `/404` and `/blog/subscribe` remain plain `.astro` pages (microcopy plus a form).
@@ -292,7 +292,7 @@ Static pages separate content from structure: the `.astro` files keep layout, SE
 
 - Bodies are `*.html.typ` files: `index.html.typ` is the whole body; pages split around structural elements use named parts, loaded with `getPageBody(slug, name)` from `src/typst/bodies.ts`.
 - SEO metadata stays in the `.astro` frontmatter, keeping the `site.ts` interpolations in titles and descriptions.
-- Page helpers live in `src/content/pages/_preamble.typ`: `page-title` (an explicit `<h1>` — Typst's `=` exports as `<h2>`), `anchor-h2` (fragment-link ids like `/portfolio#compilers-…`), `nowrap`, and `muted-rule` (a separation marker; the rehype post-processing merges it into the next element as `muted-top-rule`, since Typst cannot attach classes). Helpers used by a single page are defined in that page's own body file (e.g., portfolio's `project` entry).
+- Page helpers live in `src/content/pages/_preamble.typ`: `anchor-h2` (fragment-link ids like `/portfolio#compilers-…`) and `muted-rule` (a separation marker; the rehype post-processing merges it into the next element as `muted-top-rule`, since Typst cannot attach classes). Helpers used by a single page are defined in that page's own body file (e.g., portfolio's `project` entry).
 
 ## ✉️ Subscription Support
 

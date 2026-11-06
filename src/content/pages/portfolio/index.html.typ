@@ -1,7 +1,7 @@
-// Portfolio page body. Structure (layout, SEO frontmatter) stays in
-// src/pages/portfolio.astro; everything textual lives here. Binds the
-// page helpers from the pages preamble.
-#let (page-title, anchor-h2, muted-rule) = eval(read("../_preamble.typ"), mode: "code")
+// Portfolio page body. The (hardcoded) page title, layout, and SEO
+// frontmatter stay in src/pages/portfolio.astro; everything textual lives
+// here. Binds the page helpers from the pages preamble.
+#let (anchor-h2, muted-rule) = eval(read("../_preamble.typ"), mode: "code")
 #let (social-email, social-linkedin) = eval(read("../../../generated/site.typ"), mode: "code")
 
 // Project entry — used only by this page, so defined locally rather than in
@@ -21,8 +21,6 @@
   + v(4pt) + body
   + v(4pt) + strong[Outcome:] + [ #outcome]
 }
-
-#page-title[Project Portfolio]
 
 My work sits in the core system layers — instruction set architectures, compilers, simulators, and embedded firmware — that translate hardware constraints into reliable, high-performance platforms. I am at my best in the zero-to-one phase of a project, where silicon architecture and system software are defined together.
 
