@@ -1,7 +1,7 @@
 // Portfolio page body. The (hardcoded) page title, layout, and SEO
 // frontmatter stay in src/pages/portfolio.astro; everything textual lives
 // here. Binds the page helpers from the pages preamble.
-#let (anchor-h2, muted-rule) = eval(read("../_preamble.typ"), mode: "code")
+#let (anchor, muted-rule) = eval(read("../_preamble.typ"), mode: "code")
 #let (social-email, social-linkedin) = eval(read("../../../generated/site.typ"), mode: "code")
 
 // Project entry — used only by this page, so defined locally rather than in
@@ -26,7 +26,8 @@ My work sits in the core system layers — instruction set architectures, compil
 
 The selection below is organized by theme rather than as a project inventory. Each entry states the domain, my role, and the outcome. Because all of this work was carried out on proprietary platforms, entries describe architecture and impact rather than artifacts.
 
-#anchor-h2("edge-ai-and-hardware-software-co-design")[Edge AI and Hardware-Software Co-Design]
+#anchor("edge-ai-and-hardware-software-co-design")
+= Edge AI and Hardware-Software Co-Design
 
 The strongest thread in my recent work is taking custom AI acceleration from whiteboard to deployable platform: architecture study, quantization strategy, code generation, functional simulation, runtime, and SoC integration, with software and hardware design refining each other throughout.
 
@@ -66,7 +67,8 @@ The strongest thread in my recent work is taking custom AI acceleration from whi
   functional demonstrators, performance benchmarks, and architectural guidelines informing mission development for Earth observation, proximity operations, and autonomous docking.
 ]
 
-#anchor-h2("compilers-and-instruction-set-architectures")[Compilers and Instruction Set Architectures]
+#anchor("compilers-and-instruction-set-architectures")
+= Compilers and Instruction Set Architectures
 
 A toolchain is the contract between silicon and software. I have authored that contract from both ends: designing instruction sets aligned with modern compiler infrastructure, and building the compilers and assemblers that target them.
 
@@ -106,7 +108,8 @@ A toolchain is the contract between silicon and software. I have authored that c
   an average 25% reduction in code size across a benchmark suite of zero-knowledge proof generators, with corresponding gains in execution speed and memory footprint.
 ]
 
-#anchor-h2("simulation-validation-and-developer-tooling")[Simulation, Validation, and Developer Tooling]
+#anchor("simulation-validation-and-developer-tooling")
+= Simulation, Validation, and Developer Tooling
 
 Custom silicon is only as usable as the tools around it. I build the simulators, debuggers, validation frameworks, and editor integrations that let developers work confidently before hardware exists, and that keep quality measurable once it does.
 
@@ -157,7 +160,8 @@ Custom silicon is only as usable as the tools around it. I build the simulators,
 
 Related work in this theme includes a modernized host-side hardware debugger reverse-engineered from a proprietary debug protocol (2015) and simulation-based continuous integration for embedded software, including real hardware interfacing from CI pipelines (2020).
 
-#anchor-h2("embedded-platforms-and-firmware")[Embedded Platforms and Firmware]
+#anchor("embedded-platforms-and-firmware")
+= Embedded Platforms and Firmware
 
 Firmware is where architecture meets physics. I have owned complete bare-metal software stacks for custom processors: board bring-up, bootloaders, real-time operating system integration, communication, and the build and test infrastructure that keeps them maintainable.
 
