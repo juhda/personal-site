@@ -1,4 +1,5 @@
-#let (blog-img, callout, horizontalrule) = eval(read("../_preamble.typ"), mode: "code")
+#let (blog-img,) = eval(read("../_preamble.typ"), mode: "code")
+#let (callout, horizontalrule) = eval(read("../../_preamble.typ"), mode: "code")
 
 #emph[Missed Part 2 of the “]#link("https://davidjuhasz.dev/blog/series/containerized-embedded-dev")[#emph[Practical Embedded Development, Containerized]]#emph[” series? Read about]
 #link("https://davidjuhasz.dev/blog/containers-for-embedded-developers")[#emph[#strong[Containers for Embedded Developers]]] #emph[first.]

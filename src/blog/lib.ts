@@ -1,5 +1,4 @@
 import { getCollection, getEntry, type CollectionEntry } from "astro:content";
-import type { ComponentType } from "astro";
 
 import { blogSearchLimit } from "../config/site";
 
@@ -11,11 +10,6 @@ export interface TagInfo {
   name: string;
   count: number;
 }
-
-// Typst post bodies, compiled by astro-typst to components at build time.
-const typstModules = import.meta.glob<{ default: ComponentType }>(
-  "/src/content/blog/*/index.html.typ",
-);
 
 /** Drafts are visible in `astro dev` and in Netlify branch deploy previews. */
 export const draftContext =
@@ -121,16 +115,6 @@ export async function getTags(): Promise<TagInfo[]> {
 export async function getTaggedPosts(tagSlug: string): Promise<Post[]> {
   const posts = await getPublishedPosts();
   return posts.filter(p => p.data.tags.includes(tagSlug));
-}
-
-/** The body component of a post, compiled from index.html.typ. The body is a
- * sibling of meta.yaml, so entry.render() (single-file entries) cannot supply
- * it; the glob bridges post ids to their compiled components. */
-export async function getPostBody(slug: string): Promise<ComponentType | undefined> {
-  const loader = typstModules[`/src/content/blog/${slug}/index.html.typ`];
-  if (!loader) return undefined;
-  const mod = await loader();
-  return mod.default;
 }
 
 /** Number of published posts; used for the search feature gate. */

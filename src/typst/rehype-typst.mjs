@@ -20,6 +20,13 @@
 //    link get a GoatCounter click event — mirroring the Link component so
 //    Typst-rendered prose behaves like Link-authored markup. (Link's ⬇
 //    download variant has no analogue here: Typst content has no downloads.)
+// 5. The pages preamble's muted-rule command emits a <muted-rule> marker,
+//    since Typst cannot attach classes to elements; it is merged into the
+//    next element as class "muted-top-rule" and removed.
+// 6. The preamble's anchor command emits an <anchor id="..."> marker for
+//    the same reason; the id is merged into the next element. That element
+//    must be a heading (h1-h6) — anything else (or nothing) fails the build
+//    with the marker's id in the message.
 
 import { socialLinks, isExternalLink } from "../config/site";
 
@@ -46,6 +53,13 @@ const externalLinkIcon = () => [
     children: [{ type: "text", value: "External link opens in new tab" }],
   },
 ];
+
+const MUTED_RULE = "muted-rule";
+const ANCHOR = "anchor";
+const HEADING = /^h[1-6]$/;
+const isMarker = (node) =>
+  node?.type === "element" &&
+  (node.tagName === MUTED_RULE || node.tagName === ANCHOR);
 
 export function rehypeTypstHtml() {
   const propOf = (node, name) => {
@@ -98,7 +112,47 @@ export function rehypeTypstHtml() {
       }
     }
     if (Array.isArray(node.children)) {
-      for (const child of node.children) walk(child);
+      const children = node.children;
+      for (let i = 0; i < children.length; i++) {
+        const child = children[i];
+        if (child?.type === "element" && child.tagName === MUTED_RULE) {
+          // Merge the marker into the next content element; anything else
+          // between them (e.g. whitespace text nodes) is left as is.
+          const next = children.slice(i + 1).find((n) => n.type === "element" && !isMarker(n));
+          if (next) {
+            next.properties = next.properties ?? {};
+            const cls = next.properties.className;
+            const classes = Array.isArray(cls)
+              ? cls
+              : cls
+                ? String(cls).split(/\s+/)
+                : [];
+            if (!classes.includes("muted-top-rule")) {
+              next.properties.className = [...classes, "muted-top-rule"];
+            }
+          }
+          children.splice(i, 1);
+          i--;
+          continue;
+        }
+        if (child?.type === "element" && child.tagName === ANCHOR) {
+          const id = propOf(child, "id");
+          const next = children.slice(i + 1).find((n) => n.type === "element" && !isMarker(n));
+          if (typeof id !== "string" || !next || !HEADING.test(next.tagName)) {
+            throw new Error(
+              `[rehype-typst] <anchor> marker${typeof id === "string" && id ? ` (id="${id}")` : ""}` +
+                ` must be immediately followed by a heading, found ` +
+                `${next ? `<${next.tagName}>` : "no following element"}.`,
+            );
+          }
+          next.properties = next.properties ?? {};
+          next.properties.id = id;
+          children.splice(i, 1);
+          i--;
+          continue;
+        }
+        walk(child);
+      }
     }
   };
 

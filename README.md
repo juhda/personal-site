@@ -13,9 +13,9 @@ It serves as my digital home — a place to showcase my portfolio, share ideas, 
 - ✅ Privacy-respecting analytics via GoatCounter
   - No personal data is collected. Analytics endpoint is public and safe to embed.
 - ✅ Optional blog subscription form with redirect pages for double opt-in.
-- ✅ Integrated blog with posts authored in [Typst](https://typst.app/)
-  - Posts live in-repo under `src/content/blog/<slug>/` (body + metadata + colocated images)
-  - Rendered to HTML at build time via [astro-typst](https://github.com/OverflowCat/astro-typst); all blog routes are fully prerendered (static)
+- ✅ Blog posts and static page content authored in [Typst](https://typst.app/)
+  - Posts live in-repo under `src/content/blog/<slug>/` (body + metadata + colocated images); static page bodies live under `src/content/pages/<slug>/`
+  - Rendered to HTML at build time via [astro-typst](https://github.com/OverflowCat/astro-typst); all routes are fully prerendered (static)
   - Listings, tags, series, archives, and client-side search over post metadata
 
 ## 🧠 Goals
@@ -47,13 +47,16 @@ It serves as my digital home — a place to showcase my portfolio, share ideas, 
 │   ├── components/       # Reusable Astro/JSX components (e.g. SEO.astro)
 │   ├── config/           # Site-wide configuration (e.g., metadata)
 │   ├── content/
-│   │   ├── blog/         # Blog posts: <slug>/index.html.typ + meta.yaml + images/
+│   │   ├── _preamble.typ # Shared prose rendering definitions (callout, horizontalrule)
+│   │   ├── blog/         # Blog posts: <slug>/index.html.typ + meta.yaml + images/, plus blog-specific _preamble.typ
+│   │   ├── pages/        # Static page bodies: <slug>/*.html.typ, plus page-specific _preamble.typ
 │   │   └── series/       # Series: <slug>/meta.yaml + colocated cover.png
+│   ├── generated/        # Build inputs generated from site config (site.typ, sitemap-data.json)
 │   ├── layouts/          # Base layout with shared header and structure
 │   ├── pages/            # Astro page routes (/index, /portfolio, etc.)
 │   ├── resume/           # Résumé source: resume.typ + committed font instances (fonts/)
 │   ├── styles/           # Tailwind config, themes, and custom styles
-│   ├── typst/            # Typst pipeline helpers (hAST post-processing injected into astro-typst)
+│   ├── typst/            # Typst pipeline: hAST post-processing (injected into astro-typst) + shared body loading (bodies.ts)
 │   ├── utils/            # JavaScript/TypeScript helpers (e.g., breadcrumb generator)
 │   └── content.config.ts # Content Layer configuration (blog + series collections)
 └── astro.config.mjs      # Astro site configuration
@@ -96,7 +99,7 @@ $ npm run dev
 ### 💡 Development Notes
 
 - **Environment Variables:** The dev server will automatically load variables from a `.env` file in the root directory if it exists.
-- **Typst preview:** the tinymist extension (VS Code; auto-installed in codespaces, recommended elsewhere) live-previews a post while editing, for editorial review. That preview compiles in Typst's paged mode rather than HTML, so the preamble helpers fall back to native paged rendering (they branch on `target()`): `horizontalrule` draws a line, and `blog-img` embeds the colocated `images/` file with its alt text shown as a small caption below. The site build is unaffected — served pages come from the HTML export.
+- **Typst preview:** the tinymist extension (VS Code; auto-installed in codespaces, recommended elsewhere) live-previews a post or page body while editing, for editorial review. That preview compiles in Typst's paged mode rather than HTML, so the preamble helpers fall back to native paged rendering (they branch on `target()`): `horizontalrule` and `muted-rule` draw a line, `blog-img` embeds the colocated `images/` file with its alt text shown as a small caption below, and the `anchor` marker has no paged analogue and emits nothing. The site build is unaffected — served pages come from the HTML export.
 - **Typst preview fonts:** the tinymist paged preview (VS Code extension) needs an emoji font, which the system fonts don't provide. `preview-fonts/` (gitignored) holds Noto Color Emoji, registered via `"tinymist.fontPaths": ["${workspaceFolder}/preview-fonts"]` in `.vscode/settings.json`; fetch it with `npm run fetch:preview-fonts`, or let the codespace `postCreateCommand` do it. It affects only the editor preview — the served site renders emoji with the visitor's own fonts.
 - **Drafts:** Set `draft: true` in a post's `meta.yaml` to hide it from the published site (omitted, `draft` defaults to `false`). Draft posts appear in `astro dev` and Netlify branch deploy previews at `/blog/drafts/<slug>` only — never at their post URL or on published surfaces; production builds exclude them entirely.
 
@@ -219,18 +222,25 @@ Blog posts are authored in [Typst](https://typst.app/) and live in this reposito
 ### Content layout
 
 ```
-src/content/blog/
-  _preamble.typ            # shared rendering definitions (read+eval'd by posts)
-  <slug>/
-    index.html.typ         # post body (Typst)
-    meta.yaml              # title, subtitle, description, seoTitle?,
+src/content/
+  _preamble.typ            # shared prose rendering definitions (callout, horizontalrule)
+  blog/
+    _preamble.typ          # blog-specific rendering definitions (blog-img)
+    <slug>/
+      index.html.typ       # post body (Typst)
+      meta.yaml            # title, subtitle, description, seoTitle?,
                            # publishedAt?, updatedAt?, tags (slugs), series?,
                            # coverImage?, ogImage?, draft?
-    images/                # colocated images, served flat at /content/blog/<slug>/
+      images/              # colocated images, served flat at /content/blog/<slug>/
+  pages/
+    _preamble.typ          # page-specific rendering definitions (anchor, muted-rule)
+    <slug>/
+      *.html.typ           # page bodies (Typst); index.html.typ by default, named parts otherwise
 src/content/series/<slug>/
   meta.yaml                # series name, description, coverImage
   cover.png                # served at /content/series/<slug>/cover.png
 src/content/tags.yaml      # tag display names (slug -> name list)
+src/generated/site.typ     # identity + social constants for Typst prose (generated from site.ts)
 ```
 
 Cover and OG images are named `cover.png` / `og.png`. Inline images are referenced by their filename (`#blog-img("Foo.png")`), which must match the file in the post's `images/` directory. Prefer filenames without spaces (`My-Diagram.png`) since the name is also the served URL.
@@ -245,11 +255,14 @@ Cover and OG images are named `cover.png` / `og.png`. Inline images are referenc
 ### Rendering pipeline
 
 - `index.html.typ` is compiled by astro-typst (typst.ts WASM compiler) to semantic HTML; the post pages wrap it in `<article>` so the `article`-scoped styles apply.
-- Shared rendering definitions live in `src/content/blog/_preamble.typ` (`blog-img`, `horizontalrule`, `callout`); the file's inline comments document each helper, the per-mode behaviour, and why it is bound with `read`+`eval` instead of `#import`. One consequence of that binding to be aware of: errors raised inside the preamble are reported at the post's `eval(read(...))` line, and the language server cannot see through `eval` — so a compile error pointing at the eval line usually means the problem is in the preamble. Each post binds the helpers with:
+- Preambles are tiered by what makes sense where: shared prose definitions (`callout`, `horizontalrule`) in `src/content/_preamble.typ`, blog-specific image embedding (`blog-img`) in `src/content/blog/_preamble.typ`, page-specific definitions in `src/content/pages/_preamble.typ`; single-page helpers are defined in the using page's own body file. Each file's inline comments document every helper, the per-mode behaviour, and why they are bound with `read`+`eval` instead of `#import`. One consequence of that binding to be aware of: errors raised inside a preamble are reported at the caller's `eval(read(...))` line, and the language server cannot see through `eval` — so a compile error pointing at the eval line usually means the problem is in a preamble. Posts bind (a single-name binding needs the trailing comma to form a destructuring pattern):
   ```
-  #let (blog-img, horizontalrule, callout) = eval(read("../_preamble.typ"), mode: "code")
+  #let (blog-img,) = eval(read("../_preamble.typ"), mode: "code")
+  #let (callout, horizontalrule) = eval(read("../../_preamble.typ"), mode: "code")
   ```
-- `src/typst/rehype-typst.mjs` post-processes the emitted hAST inside astro-typst's compile pipeline (injected by the `typstBridged` wrapper in `astro.config.mjs`).
+- Identity constants (`author`, `jobTitle`, `cleanJobTitle`) and social links (`social-email`, `social-linkedin`, …, one `social-<name>` per entry) are generated from `src/config/site.ts` by `npm run generate:typst-config` into `src/generated/site.typ` (runs with `generate:all` and `dev`) and bound the same way, keeping `site.ts` the single source of truth.
+- `src/typst/rehype-typst.mjs` post-processes the emitted hAST inside astro-typst's compile pipeline (injected by the `typstBridged` wrapper in `astro.config.mjs`). Besides code-class and token-class rewrites it mirrors the site's `Link` component for Typst-emitted links — external links get `target="_blank"`, `rel="noopener noreferrer"`, and the ↗ indicator with an sr-only announcement, and hrefs matching a configured social link get the matching GoatCounter click event — and it merges the page preamble's `<muted-rule>` marker into the next element as the `muted-top-rule` class.
+- `src/typst/bodies.ts` loads the compiled body components for both kinds of Typst content (`getTypstBody("blog"|"pages", slug, name?)`, wrapped by `getPostBody`/`getPageBody`).
 - `src/blog/images.mjs` is a vite plugin handling colocated images end to end: its `load` hook expands bare image filenames in the `.typ` source (`#blog-img("Foo.png")` becomes the served URL `/content/blog/<slug>/Foo.png`) before astro-typst compiles the post, its dev middleware serves the images from the source tree, and at build it copies them into `dist/content/`.
 - Code blocks are syntax-highlighted by Typst at build time.
 
@@ -260,6 +273,26 @@ Cover and OG images are named `cover.png` / `og.png`. Inline images are referenc
 - The **Search page** is linked in blog pages only if the number of posts meets or exceeds the configured `blogSearchLimit` in the global config (`/src/config/site.ts`); the page includes all posts and performs client-side filtering.
 - The **Subscribe page** is linked only if `blogSubscribeAction` is defined in the global config.
 - **Drafts**: posts with `draft: true` in `meta.yaml` are excluded from production builds entirely; they appear in `astro dev` and Netlify branch deploy previews at `/blog/drafts`.
+
+## 📄 Static Page Content
+
+Static pages separate content from structure: the `.astro` files keep layout, SEO frontmatter, and structural elements (profile photos, CTA buttons, forms, the résumé download link), while the textual content is authored in Typst and compiled through the same pipeline as blog posts.
+
+| Page | `.astro` keeps | Typst supplies (`src/content/pages/<slug>/`) |
+|------|----------------|-----------------------------------------------|
+| `/` | photo, headline and title (config interpolations), CTA buttons | prose paragraphs |
+| `/about` | photo, hardcoded title, CTA rows (portfolio / résumé / social links) | full prose body |
+| `/portfolio` | layout, hardcoded title + SEO | the entire content, including project entries |
+| `/resume-overview` | layout, hardcoded title, download button, part arrangement, separation rule | three parts: `intro`, `highlights`, `value` |
+| `/blog/about` | author header, "How to Follow" section | main prose |
+
+`/404` and `/blog/subscribe` remain plain `.astro` pages (microcopy plus a form).
+
+### How it works
+
+- Bodies are `*.html.typ` files: `index.html.typ` is the whole body; pages split around structural elements use named parts, loaded with `getPageBody(slug, name)` from `src/typst/bodies.ts`.
+- SEO metadata stays in the `.astro` frontmatter, keeping the `site.ts` interpolations in titles and descriptions.
+- Page helpers live in `src/content/pages/_preamble.typ`: `anchor` (a marker that adds a fragment-link id like `/portfolio#compilers-…` to the next heading) and `muted-rule` (a separation marker; the rehype post-processing merges markers into the following element — since Typst cannot attach classes or ids — and an `anchor` not followed by a heading fails the build). Helpers used by a single page are defined in that page's own body file (e.g., portfolio's `project` entry).
 
 ## ✉️ Subscription Support
 
@@ -295,8 +328,9 @@ This site enhances the appearance and functionality of code blocks within blog p
 
 ## 📌 Customization Tips
 
-- Adjust site config at `src/config/site.ts` and content in pages in `src/pages`
-- Add new pages in `src/pages/`
+- Adjust site config at `src/config/site.ts`
+- Structure changes happen in the page files under `src/pages/`; page prose lives in `src/content/pages/<slug>/`, post content in `src/content/blog/<slug>/`
+- Add new pages in `src/pages/` (and, once they carry prose, a `src/content/pages/<slug>/index.html.typ` body with a matching `getPageBody` call)
 - Modify `BaseLayout.astro` to change site-wide structure and metadata defaults
 - Update Tailwind config to match your personal color palette
 - Update `SEO.astro` and `getBreadcrumbList()` for structured data enhancements
@@ -311,7 +345,7 @@ This site enhances the appearance and functionality of code blocks within blog p
 ## 🔗 License
 
 - 🧩 **Code** — the site implementation: components, layouts, scripts, and configuration — is licensed under the [MIT License](./LICENSE).
-- ✍️ **Content** — text, articles, written works, and images, including the blog posts in `src/content/` and the resume source in `src/resume/resume.typ` — is © Dávid Juhász and available under the [Creative Commons Attribution-NonCommercial 4.0 License (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/), unless otherwise noted.
+- ✍️ **Content** — text, articles, written works, and images, including the Typst content in `src/content/` and the resume source in `src/resume/resume.typ` — is © Dávid Juhász and available under the [Creative Commons Attribution-NonCommercial 4.0 License (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/), unless otherwise noted.
 - 🔤 **Third-party assets** are excluded from the above: the resume fonts in `src/resume/fonts/` are under the SIL Open Font License 1.1, see `src/resume/fonts/OFL.txt`.
 
 Feel free to fork, adapt, and build upon the code for personal or commercial use.

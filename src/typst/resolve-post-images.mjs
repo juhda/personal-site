@@ -1,8 +1,11 @@
-// Post-transform for astro-typst compiled post modules. Posts reference
-// inline images by bare filename (#blog-img("Foo.png") in index.html.typ);
-// the site expands them to the served URL (post images are organized in an
-// images/ subdirectory in the source but served flat next to the post):
+// Post-transform for astro-typst compiled Typst modules (blog posts and
+// static page bodies). Content references inline images by bare filename
+// (#blog-img("Foo.png")); the site expands them to the served URL (images
+// are organized in an images/ subdirectory in the source but served flat
+// next to the content):
 //   src/content/blog/<slug>/images/<name>  ->  /content/blog/<slug>/<name>
+// The same resolution applies to page bodies under src/content/pages/
+// (which currently colocate no images, so the pattern is future-proofing).
 //
 // The slug cannot be recovered inside rehypeTypstHtml (astro-typst passes
 // the hast to the rehype pipeline without the source file), but a vite
@@ -14,7 +17,7 @@
 // "src: \"...\"" fragments inside string literals (alt text, code blocks)
 // from matching.
 
-const POST_TYP_ID = /[/\\]src[/\\]content[/\\]blog[/\\]([^/\\]+)[/\\]index\.html\.typ(?:\?.*)?$/;
+const TYP_ID = /[/\\]src[/\\]content[/\\](blog|pages)[/\\]([^/\\]+)[/\\]index\.html\.typ(?:\?.*)?$/;
 const BARE_IMG_SRC = /(?<!\\)src: "([^"/\\:?*]+)"/g;
 
 export function resolvePostImages() {
@@ -22,12 +25,12 @@ export function resolvePostImages() {
     name: "resolve-post-images",
     enforce: "post",
     transform(code, id) {
-      const m = POST_TYP_ID.exec(id);
+      const m = TYP_ID.exec(id);
       if (!m) return;
-      const slug = m[1];
+      const [, kind, slug] = m;
       const resolved = code.replace(
         BARE_IMG_SRC,
-        (_m, name) => `src: "/content/blog/${slug}/${name}"`,
+        (_m, name) => `src: "/content/${kind}/${slug}/${name}"`,
       );
       if (resolved === code) return;
       return { code: resolved, map: null };

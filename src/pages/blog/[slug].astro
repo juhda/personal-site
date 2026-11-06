@@ -4,7 +4,8 @@ import PostMetaBox from '../../components/PostMetaBox.astro';
 import CodeblockEnhancer from '../../components/CodeblockEnhancer.astro';
 import Link from '../../components/Link';
 
-import { getPost, getPostBody, getSeriesBySlug, getSeriesPosts, getSearchEnabled, getTagNames } from '../../blog/lib';
+import { getPost, getSeriesBySlug, getSeriesPosts, getSearchEnabled, getTagNames } from '../../blog/lib';
+import { getPostBody } from '../../typst/bodies';
 
 import { author, blogOGImage, blogSubscribeAction, socialLinks } from '../../config/site';
 import { getStaticPaths_blog } from '../../utils/getStaticPaths';

@@ -1,4 +1,5 @@
-#let (blog-img, callout, horizontalrule) = eval(read("../_preamble.typ"), mode: "code")
+#let (blog-img,) = eval(read("../_preamble.typ"), mode: "code")
+#let (callout, horizontalrule) = eval(read("../../_preamble.typ"), mode: "code")
 
 In
 #link("https://davidjuhasz.dev/blog/navigating-tech-maze-strong-opinions-constructive-discontent-part1")[#strong[Part 1]], we established that navigating a software engineering career requires a robust

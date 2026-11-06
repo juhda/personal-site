@@ -216,7 +216,7 @@
   }
 
   .cta-buttons {
-    @apply flex flex-col sm:flex-row justify-center sm:justify-start gap-4 mt-8;
+    @apply flex flex-col sm:flex-row flex-wrap justify-center sm:justify-start gap-4 mt-8;
   }
 
   .card,
