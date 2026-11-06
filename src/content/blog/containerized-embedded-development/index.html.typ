@@ -1,4 +1,5 @@
-#let (blog-img, callout, horizontalrule) = eval(read("../_preamble.typ"), mode: "code")
+#let (blog-img,) = eval(read("../_preamble.typ"), mode: "code")
+#let (callout, horizontalrule) = eval(read("../../_preamble.typ"), mode: "code")
 
 Every embedded development team has one: the laptop where everything still works. It has
 the correct SDK, the toolchain is in precisely the right location, and firmware builds

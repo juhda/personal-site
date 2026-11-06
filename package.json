@@ -9,10 +9,11 @@
     "generate:sitemap": "tsx scripts/generate-sitemap-data.ts",
     "generate:indexnow": "tsx scripts/generate-indexnow-key-file.ts",
     "generate:resume": "node scripts/generate-resume.mjs",
-    "generate:all": "npm run generate:sitemap && npm run generate:indexnow && npm run generate:resume",
+    "generate:typst-config": "tsx scripts/generate-typst-config.ts",
+    "generate:all": "npm run generate:sitemap && npm run generate:indexnow && npm run generate:resume && npm run generate:typst-config",
     "fetch:preview-fonts": "node scripts/fetch-preview-fonts.mjs",
     "submit:indexnow": "node scripts/submit-indexnow.mjs",
-    "dev": "npm run generate:sitemap && npm run generate:resume && astro dev",
+    "dev": "npm run generate:sitemap && npm run generate:resume && npm run generate:typst-config && astro dev",
     "build": "npm run generate:all && astro build && npm run submit:indexnow",
     "preview": "astro preview",
     "astro": "astro"

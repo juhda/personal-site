@@ -3,7 +3,8 @@ import BlogLayout from '../../../layouts/BlogLayout.astro';
 import PostMetaBox from '../../../components/PostMetaBox.astro';
 import CodeblockEnhancer from '../../../components/CodeblockEnhancer.astro';
 
-import { getPost, getPostBody } from '../../../blog/lib';
+import { getPost } from '../../../blog/lib';
+import { getPostBody } from '../../../typst/bodies';
 
 import { getStaticPaths_blog_drafts } from '../../../utils/getStaticPaths';
 import { postCoverUrl } from '../../../blog/urls';

@@ -1,5 +1,6 @@
 // Template post body. The preamble binding (read+eval) is required.
-#let (blog-img, callout, horizontalrule) = eval(read("../_preamble.typ"), mode: "code")
+#let (blog-img,) = eval(read("../_preamble.typ"), mode: "code")
+#let (callout, horizontalrule) = eval(read("../../_preamble.typ"), mode: "code")
 
 #strong[Lead paragraph:] the opener shown before the fold. Use #emph[emphasis] sparingly,
 #link("https://davidjuhasz.dev/blog")[links] where they add value, an em-dash like

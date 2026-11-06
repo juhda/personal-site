@@ -20,6 +20,9 @@
 //    link get a GoatCounter click event — mirroring the Link component so
 //    Typst-rendered prose behaves like Link-authored markup. (Link's ⬇
 //    download variant has no analogue here: Typst content has no downloads.)
+// 5. The pages preamble's muted-rule command emits a <muted-rule> marker,
+//    since Typst cannot attach classes to elements; it is merged into the
+//    next sibling as class "muted-top-rule" and removed.
 
 import { socialLinks, isExternalLink } from "../config/site";
 
@@ -46,6 +49,8 @@ const externalLinkIcon = () => [
     children: [{ type: "text", value: "External link opens in new tab" }],
   },
 ];
+
+const MUTED_RULE = "muted-rule";
 
 export function rehypeTypstHtml() {
   const propOf = (node, name) => {
@@ -98,7 +103,31 @@ export function rehypeTypstHtml() {
       }
     }
     if (Array.isArray(node.children)) {
-      for (const child of node.children) walk(child);
+      const children = node.children;
+      for (let i = 0; i < children.length; i++) {
+        const child = children[i];
+        if (child?.type === "element" && child.tagName === MUTED_RULE) {
+          // Merge the marker into the next element; anything else between
+          // them (e.g. whitespace text nodes) is left as is.
+          const next = children.slice(i + 1).find((n) => n.type === "element");
+          if (next) {
+            next.properties = next.properties ?? {};
+            const cls = next.properties.className;
+            const classes = Array.isArray(cls)
+              ? cls
+              : cls
+                ? String(cls).split(/\s+/)
+                : [];
+            if (!classes.includes("muted-top-rule")) {
+              next.properties.className = [...classes, "muted-top-rule"];
+            }
+          }
+          children.splice(i, 1);
+          i--;
+          continue;
+        }
+        walk(child);
+      }
     }
   };
 
