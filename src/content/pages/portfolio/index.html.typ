@@ -17,9 +17,9 @@
   ]
 } else {
   heading(level: 3, title)
-  + v(2pt) + align(center, text(size: 9pt, fill: luma(120))[#meta])
-  + v(4pt) + body
-  + v(4pt) + strong[Outcome:] + [ #outcome]
+  v(2pt) + text(size: 9pt, fill: luma(120))[#meta]
+  v(4pt) + body
+  v(4pt) + strong[Outcome:] + [ #outcome]
 }
 
 My work sits in the core system layers — instruction set architectures, compilers, simulators, and embedded firmware — that translate hardware constraints into reliable, high-performance platforms. I am at my best in the zero-to-one phase of a project, where silicon architecture and system software are defined together.
