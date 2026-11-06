@@ -1,6 +1,6 @@
 import type { ComponentProps } from 'preact';
 
-import { socialLinks } from '../config/site';
+import { socialLinks, isExternalLink } from '../config/site';
 
 interface Props extends ComponentProps<"a"> {
   href: string;
@@ -9,8 +9,7 @@ interface Props extends ComponentProps<"a"> {
 }
 
 export default function Link({ href, download = false, visited = false, children, ...props }: Props) {
-  const isExternal = /^https?:\/\//.test(href) &&
-    !(import.meta.env.SITE && href.startsWith(import.meta.env.SITE))
+  const isExternal = isExternalLink(href);
   const isDownload = download;
   const isVisited = visited;
   const isNewTab = isExternal;

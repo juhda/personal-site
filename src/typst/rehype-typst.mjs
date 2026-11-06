@@ -14,6 +14,38 @@
 // 3. Highlighted token spans carry inline style="color:#XXXXXX" -> convert to
 //    class "tk-XXXXXX" so light/dark palettes can be defined in CSS instead of
 //    hard-coded inline colors.
+// 4. Typst's #link emits bare <a href>. External links get target="_blank" +
+//    rel="noopener noreferrer" and the Link component's trailing indicator
+//    (↗ plus an sr-only announcement), and hrefs matching a configured social
+//    link get a GoatCounter click event — mirroring the Link component so
+//    Typst-rendered prose behaves like Link-authored markup. (Link's ⬇
+//    download variant has no analogue here: Typst content has no downloads.)
+
+import { socialLinks, isExternalLink } from "../config/site";
+
+// GoatCounter auto-event names for the configured social links (e.g. an
+// href equal to socialLinks.linkedin becomes "linkedin-click").
+const SOCIAL_EVENTS = new Map(
+  Object.entries(socialLinks).map(([key, href]) => [href, `${key}-click`]),
+);
+
+// hast nodes for Link's external-link indicator, appended after the link
+// text. ariaHidden/className are the canonical hast property names the
+// serializer emits as aria-hidden/class.
+const externalLinkIcon = () => [
+  {
+    type: "element",
+    tagName: "span",
+    properties: { ariaHidden: "true" },
+    children: [{ type: "text", value: "↗" }],
+  },
+  {
+    type: "element",
+    tagName: "span",
+    properties: { className: ["sr-only"] },
+    children: [{ type: "text", value: "External link opens in new tab" }],
+  },
+];
 
 export function rehypeTypstHtml() {
   const propOf = (node, name) => {
@@ -41,6 +73,27 @@ export function rehypeTypstHtml() {
         if (m) {
           setClass(node, [`tk-${m[1].slice(1).toLowerCase()}`]);
           delete node.properties.style;
+        }
+      }
+      if (node.tagName === "a") {
+        const href = propOf(node, "href");
+        if (typeof href === "string") {
+          const isExternal = isExternalLink(href);
+          const socialEvent = SOCIAL_EVENTS.get(href);
+          if (isExternal || socialEvent) {
+            node.properties = node.properties ?? {};
+            if (isExternal) {
+              node.properties.target = "_blank";
+              node.properties.rel = "noopener noreferrer";
+              node.children = [
+                ...(node.children ?? []),
+                ...externalLinkIcon(),
+              ];
+            }
+            if (socialEvent) {
+              node.properties["data-goatcounter-click"] = socialEvent;
+            }
+          }
         }
       }
     }
