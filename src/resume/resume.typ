@@ -130,6 +130,7 @@
   dates: [June 2025 -- ongoing],
   bullets: (
     [Enabled neuromorphic edge AI on space-grade RISC-V platforms via Akida runtime integration and benchmarking.],
+    [Explored SNNs and hybrid DNN+SNN architectures with event-based sensors for efficient real-time perception.],
     [Contributed to FPGA verification and RTL reviews for custom SoC designs, aligning hardware and software teams.],
   ),
 ))
