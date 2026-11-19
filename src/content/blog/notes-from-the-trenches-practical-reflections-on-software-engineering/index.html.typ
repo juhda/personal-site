@@ -492,6 +492,43 @@ There is an excellent phrase for this that I borrow from Kevlin Henney: #emph["t
 
 \#TechnicalDebt \#SoftwareDevelopment \#CodeQuality \#EngineeringCulture \#Pragmatism
 
+= Code Reviews
+#strong[🔍 Code reviews: Are we just going through the motions?]
+
+I've seen everything from #emph[\"LGTM\"] drive-bys to endless nitpicks. The truth is, #strong[most code reviews are a waste of time.]
+
+Not because reviews are bad, but because we confuse #emph[process] with #emph[progress].
+
+#strong[What #emph[actually] works:]
+
+1️⃣ #strong[For shared ownership:]
+
+✅ #emph[Use reviews as async updates.] \"Here's what I built --- context for when you touch this later.\"
+
+✅ #emph[Skip the theater.] If the team trusts each other, a quick 👍 is enough.
+
+2️⃣ #strong[For catching bugs?]
+
+❌ #emph[Async reviews are weak.] Preoccupied reviewers miss subtle issues.
+
+✅ #emph[Better:] Pair on complex changes #emph[or] rely on #strong[tests as the first line of defense.]
+
+3️⃣ #strong[For tricky problems?]
+
+✅ #emph[Review meetings over endless comment threads.] Real-time discussion beats async back-and-forth.
+
+✅ #emph[The best option:] #strong[Pair programming].
+
+#strong[Rule of thumb:]
+
+If the change is small/tested → #strong[merge fast.]
+
+If it's complex → #strong[talk it through live.]
+
+#emph[Agree? Disagree? Hit 👍 or drop your perspective below. 👇]
+
+\#CodeReview \#SoftwareEngineering \#PairProgramming \#DeveloperProductivity \#EngineeringCulture
+
 #horizontalrule
 
 = First-Line Support as R&D Engineer
@@ -522,42 +559,5 @@ Support teams excel at #emph[how] to use the product. Engineers understand #emph
 - Too little → missed insights.
 
 ✅ #strong[My rule:] #emph[Enough contact to stay grounded, not so much that it derails development.]
-
-#emph[Agree? Disagree? Hit 👍 or drop your perspective below. 👇]
-
-= Code Reviews
-#strong[🔍 Code reviews: Are we just going through the motions?]
-
-I've seen it all---from #emph[\"LGTM\"] drive-bys to endless nitpicks. Here's the reality:
-
-#strong[Most code reviews waste time.]
-
-Not because reviews are bad, but because we confuse #emph[process] with #emph[progress].
-
-#strong[What #emph[actually] works:]
-
-1️⃣ #strong[For shared ownership:]
-
-✅ #emph[Use reviews as async updates.] \"Here's what I built---context for when you touch this later.\"
-
-✅ #emph[Skip the theater.] If the team trusts each other, a quick 👍 is enough.
-
-2️⃣ #strong[For catching bugs?]
-
-❌ #emph[Async reviews are weak.] Preoccupied reviewers miss subtle issues.
-
-✅ #emph[Better:] Pair on complex changes #emph[or] rely on #strong[tests as the first line of defense.]
-
-3️⃣ #strong[For tricky problems?]
-
-✅ #emph[Review meetings over Git comments.] Real-time discussion beats async back-and-forth.
-
-✅ #emph[Best option:] #strong[Pair programming] (yes, the research backs this).
-
-#strong[The rule:]
-
-If the change is small/tested → #strong[merge fast.]
-
-If it's complex → #strong[talk it through live.]
 
 #emph[Agree? Disagree? Hit 👍 or drop your perspective below. 👇]
